@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useDebugContext } from "./DebugContext";
+import { log, LogLevel } from "./logService";
 
-function App() {
+const App = () => {
+  const { debug, toggleDebug, setLogLevel } = useDebugContext();
+
+  useEffect(() => {
+    window.toggleDebug = toggleDebug;
+    window.setLogLevel = setLogLevel;
+  }, []);
+
+  useEffect(() => {
+    log(`debug is ${debug ? "on" : "off"}`);
+  }, [debug]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className={"main" + (debug ? " debug" : "")}>
+      <p>
+        <button
+          onClick={() => {
+            log("Test of the LogLevel.DEBUG", LogLevel.DEBUG);
+            log("Test of the LogLevel.INFO", LogLevel.INFO);
+            log("Test of the LogLevel.WARNING", LogLevel.WARNING);
+            log("Test of the LogLevel.ERROR", LogLevel.ERROR);
+            log("Test of message");
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          Test LogLevel
+        </button>
+      </p>
     </div>
   );
-}
+};
 
 export default App;
