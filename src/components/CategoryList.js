@@ -1,4 +1,5 @@
 import Category from "./Category";
+import PropTypes from "prop-types";
 
 const CategoryList = ({ categories, onSelection, onDeletion, onUpdate, selectedCategory }) => {
   return (
@@ -15,6 +16,21 @@ const CategoryList = ({ categories, onSelection, onDeletion, onUpdate, selectedC
       ))}
     </ul>
   );
+};
+
+CategoryList.propTypes = {
+  categories: PropTypes.array.isRequired,
+  onSelection: PropTypes.func,
+  onDeletion: PropTypes.func,
+  onUpdate: PropTypes.func,
+  selectedCategory: PropTypes.func,
+};
+
+Category.defaultProps = {
+  onSelection: () => {},
+  onDeletion: () => {},
+  onUpdate: () => {},
+  selectedCategory: null,
 };
 
 export default CategoryList;

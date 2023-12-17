@@ -1,70 +1,11 @@
 import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import { format } from "date-fns";
+import PropTypes from "prop-types";
+import { styleTable } from "./ExpensesPdfDocumentStyles";
 
 // Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    padding: 30,
-  },
-  title: {
-    fontSize: 18,
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#333333",
-  },
-  header: {
-    fontSize: 12,
-    marginBottom: 10,
-    textAlign: "center",
-    color: "grey",
-  },
-  table: {
-    display: "table",
-    width: "auto",
-    borderStyle: "solid",
-    borderColor: "#b6b6b6",
-    borderWidth: 1,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
-  },
-  tableRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  tableColHeader: {
-    width: "25%",
-    borderStyle: "solid",
-    borderColor: "#b6b6b6",
-    borderBottomColor: "#000",
-    borderWidth: 1,
-    backgroundColor: "#f3f3f3",
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 1,
-    textAlign: "left",
-    padding: 5,
-  },
-  tableCol: {
-    width: "25%",
-    borderStyle: "solid",
-    borderColor: "#b6b6b6",
-    borderWidth: 1,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-    textAlign: "left",
-    padding: 5,
-  },
-  tableCellHeader: {
-    fontSize: 12,
-  },
-  tableCell: {
-    fontSize: 10,
-    color: "#555555",
-  },
-});
+const styles = StyleSheet.create(styleTable);
 
 // Create a component for the PDF content
 const ExpensesPdfDocument = ({ expenses }) => (
@@ -88,8 +29,8 @@ const ExpensesPdfDocument = ({ expenses }) => (
           </View>
         </View>
         {/* Table Rows */}
-        {expenses.map((expense, index) => (
-          <View key={index} style={styles.tableRow}>
+        {expenses.map((expense) => (
+          <View key={expense.id} style={styles.tableRow}>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>{format(expense.date, "dd-MM-yyyy")}</Text>
             </View>
@@ -108,5 +49,9 @@ const ExpensesPdfDocument = ({ expenses }) => (
     </Page>
   </Document>
 );
+
+ExpensesPdfDocument.propTypes = {
+  expenses: PropTypes.array.isRequired,
+};
 
 export default ExpensesPdfDocument;

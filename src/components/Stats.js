@@ -4,6 +4,7 @@ import { LogLevel, setLogLevel } from "../services/LogService";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Button from "./Button";
 import ExpensesPdfDocument from "./ExpensesPdfDocument";
+import PropTypes from "prop-types";
 
 const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
   const { debug, toggleDebug } = useDebugContext();
@@ -37,6 +38,18 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
       <Button onClick={clearCategories}>clear categories</Button>
     </footer>
   );
+};
+
+Stats.propTypes = {
+  categories: PropTypes.array.isRequired,
+  clearExpenses: PropTypes.func,
+  clearCategories: PropTypes.func,
+  expenses: PropTypes.array.isRequired,
+};
+
+Stats.defaultProps = {
+  clearExpenses: () => {},
+  clearCategories: () => {},
 };
 
 export default Stats;

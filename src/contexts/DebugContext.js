@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { setLogLevel as setLogServiceLogLevel, setLogOn } from "../services/LogService";
+import PropTypes from "prop-types";
 
 // Create a context with initial value false for 'debug'
 const DebugContext = createContext({
@@ -24,6 +25,10 @@ const DebugContextProvider = ({ children }) => {
   };
 
   return <DebugContext.Provider value={{ debug, toggleDebug, setLogLevel }}>{children}</DebugContext.Provider>;
+};
+
+DebugContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 // Custom hook to consume the DebugContext

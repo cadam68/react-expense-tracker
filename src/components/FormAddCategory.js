@@ -4,13 +4,14 @@ import { useDebugContext } from "../contexts/DebugContext";
 import { log, LogLevel } from "../services/LogService";
 import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Helper";
 import S from "string";
+import PropTypes from "prop-types";
 
 const FormAddCategory = ({ onAdd, categories, category }) => {
   const { debug } = useDebugContext();
   const previousCategory = useRef(null); // persist
 
   const FormikValuesWatcher = () => {
-    const { values, setFieldValue, resetForm } = useFormikContext();
+    const { resetForm } = useFormikContext();
 
     useEffect(() => {
       if (category && previousCategory && previousCategory.current !== category.name) {
@@ -100,6 +101,17 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
       )}
     </Formik>
   );
+};
+
+FormAddCategory.propTypes = {
+  onAdd: PropTypes.func,
+  categories: PropTypes.array,
+  category: PropTypes.shape,
+};
+
+FormAddCategory.defaultProps = {
+  onAdd: () => {},
+  categories: [],
 };
 
 export default FormAddCategory;

@@ -1,6 +1,8 @@
 import { useDebugContext } from "../contexts/DebugContext";
 import { format } from "date-fns";
 import Button from "./Button";
+import PropTypes from "prop-types";
+import Category from "./Category";
 
 const Expense = ({ expense, onDelete }) => {
   const { debug } = useDebugContext();
@@ -16,6 +18,15 @@ const Expense = ({ expense, onDelete }) => {
       </div>
     </li>
   );
+};
+
+Expense.propTypes = {
+  expense: PropTypes.node.isRequired,
+  onDelete: PropTypes.func,
+};
+
+Category.defaultProps = {
+  onDelete: () => {},
 };
 
 export default Expense;

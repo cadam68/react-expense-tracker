@@ -1,5 +1,6 @@
 import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import PropTypes from "prop-types";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -19,12 +20,16 @@ const ExpensesPdf = ({ expenses }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        {expenses.map((expense, index) => (
-          <Text key={index}>{`${expense.date} - ${expense.category} - ${expense.description} - ${expense.amount}`}</Text>
+        {expenses.map((expense) => (
+          <Text key={expense.id}>{`${expense.date} - ${expense.category} - ${expense.description} - ${expense.amount}`}</Text>
         ))}
       </View>
     </Page>
   </Document>
 );
+
+ExpensesPdf.propTypes = {
+  expenses: PropTypes.array.isRequired,
+};
 
 export default ExpensesPdf;

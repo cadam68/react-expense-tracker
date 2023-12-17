@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import "./uiFeedback.css";
+import "./common.css";
 import App from "./App";
 import { DebugContextProvider } from "./contexts/DebugContext";
 

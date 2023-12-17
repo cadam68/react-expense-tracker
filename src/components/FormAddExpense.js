@@ -5,6 +5,7 @@ import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Help
 import FieldDatePicker from "./FieldDatePicker";
 import S from "string";
 import { useRef } from "react";
+import PropTypes from "prop-types";
 
 const FormAddExpense = ({ onAdd, categories }) => {
   const { debug } = useDebugContext();
@@ -107,6 +108,16 @@ const FormAddExpense = ({ onAdd, categories }) => {
       )}
     </Formik>
   );
+};
+
+FormAddExpense.propTypes = {
+  onAdd: PropTypes.func,
+  categories: PropTypes.array,
+};
+
+FormAddExpense.defaultProps = {
+  onAdd: () => {},
+  categories: [],
 };
 
 export default FormAddExpense;

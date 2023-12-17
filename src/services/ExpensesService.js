@@ -51,12 +51,12 @@ const sortExpensesBy = (expenses, orderBy) => {
   if (orderBy === "description")
     return expenses.slice().sort((a, b) => {
       if (a.description.localeCompare(b.description) !== 0) return a.description.localeCompare(b.description);
-      return a.date < b.date;
+      return a.date < b.date ? 1 : -1;
     });
   if (orderBy === "amount")
     return expenses.slice().sort((a, b) => {
       if (a.amount !== b.amount) return b.amount - a.amount;
-      return a.date < b.date;
+      return a.date < b.date ? 1 : -1;
     });
   if (orderBy === "date")
     return expenses.slice().sort((a, b) => {
