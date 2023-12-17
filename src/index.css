@@ -1,3 +1,5 @@
+
+/* Root Variables */
 :root {
   --color-lightest: #fff4e6;
   --color-light: #ffe8cc;
@@ -5,6 +7,7 @@
   --color-dark: #ff922b;
 }
 
+/* Global Styles */
 * {
   margin: 0;
   padding: 0;
@@ -23,8 +26,9 @@ body {
   justify-content: center;
 }
 
+/* Container */
 .container {
-  min-width: 800px;
+  min-width: 900px;
 }
 
 .container::before {
@@ -32,7 +36,6 @@ body {
   background-image: url("../public/expenses.jpg");
   background-size: cover;
   position: absolute;
-
   top: 0;
   right: 0;
   bottom: 0;
@@ -41,6 +44,7 @@ body {
   z-index: -1;
 }
 
+/* Header */
 .header {
   color: var(--color-dark);
   text-align: center;
@@ -56,8 +60,8 @@ body {
   font-weight: 400;
 }
 
+/* Buttons */
 .button,
-a.button > button,
 .button-outline {
   background-color: var(--color-medium);
   color: #343a40;
@@ -67,25 +71,17 @@ a.button > button,
   cursor: pointer;
   transition: 0.3s;
   margin-right: 7px;
-}
-
-a.button > button  {
-  background-color: transparent;
-  border: none;
-}
-
-.button {
   padding: 0.8rem 1.2rem;
 }
 
-.button-outline {
-  border: 1px solid var(--color-medium);
-  background-color: #fff4e6;
-  padding: 0.8rem 4rem;
+a.button > button {
+  background-color: transparent;
+  border: none;
+  color: #343a40;
 }
 
 .button-small {
-  padding: 0.6rem 3rem !important;
+  padding: 0.6rem 3rem;
   font-size: 1.1rem;
 }
 
@@ -94,7 +90,13 @@ a.button-small > button {
   padding: 0;
 }
 
-.button:hover {
+.button-outline {
+  border: 1px solid var(--color-medium);
+  background-color: var(--color-lightest);
+}
+
+.button:hover,
+.button-outline:hover {
   background-color: var(--color-dark);
 }
 
@@ -102,17 +104,69 @@ a.button-small > button {
   background-color: #ffebce;
 }
 
+button > span {
+  font-size: 10px;
+}
+
+/* Footer */
 .footer {
   font-family: Epilogue, sans-serif;
   color: #706f6f;
-
   text-align: center;
-  margin: 3rem 0;
+  margin-top: 3rem;
   font-size: 1.2rem;
   font-weight: 500;
 }
 
-
+/* Paragraphs and Sections */
 p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+section:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+/* Form Styles */
+.form-expense-add {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.2rem 2rem;
+  border-radius: 7px;
+  transition: 0.5s;
+  background-color: var(--color-lightest);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Input and Select */
+input,
+select {
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.2rem;
+  padding: 0.7rem;
+  text-align: center;
+  border: 1px solid var(--color-light);
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border: 1px solid var(--color-dark);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  background-position: calc(100% - 12px) center !important;
+  background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23000000' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>") no-repeat;
+  padding: 8px 32px 8px 16px;
+}
+
+

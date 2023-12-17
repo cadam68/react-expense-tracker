@@ -25,7 +25,7 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
       <p>{text}</p>
       <p>
         <PDFDownloadLink className={"button button-small"} document={<ExpensesPdfDocument expenses={expenses} />} fileName="expenses.pdf">
-          {({ blob, url, loading, error }) => (loading ? "Loading document..." : <button> Download</button>)}
+          {({ blob, url, loading, error }) => (loading ? "Loading document..." : <button>Download Sheet</button>)}
         </PDFDownloadLink>
         <Button
           className={"button-outline button-small"}

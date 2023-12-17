@@ -19,7 +19,7 @@ const Category = ({ category, onSelection, onDeletion, onUpdate, selectedCategor
       {category.totalExpenses ? <Button onClick={() => onSelection(category)}>{isSelected ? "Close" : "Select"}</Button> : null}
       <Button onClick={() => onUpdate(category)}>Update</Button>
       <Button className={"button-outline"} onClick={() => onDeletion(category)}>
-        Delete
+        <span>🗑</span>️ Delete
       </Button>
     </li>
   );

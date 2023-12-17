@@ -44,70 +44,72 @@ const FormAddExpense = ({ onAdd, categories }) => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={validate}
-      onSubmit={handleSubmit}
-      validateOnChange={false} // Disable validation on field change
-      validateOnBlur={false} // Disable validation on blur
-    >
-      {(formikProps) => (
-        <Form className={"add-form" + (debug ? " debug" : "")}>
-          <span>New expense : </span>
-          <FieldDatePicker fieldName="date" fieldRefs />
-          <span>
-            <Field
-              as="select"
-              name={"category"}
-              className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
-              onChange={handleFormikFieldChange.bind(this, formikProps, null)}
-              innerRef={(el) => (fieldRefs.current["category"] = el)}
-            >
-              <option value="" disabled hidden>
-                Choose an option...
-              </option>
-              {categories
-                .slice()
-                .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
-                .map(({ name, id }) => (
-                  <option value={name} key={id}>
-                    {S(name).capitalize().s}
-                  </option>
-                ))}
-            </Field>
-            <ErrorMessage name="category" component="span" className={"errorMessage"} />
-          </span>
-          <span>
-            <Field
-              type={"text"}
-              name={"description"}
-              placeholder={"Expense..."}
-              className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
-              onChange={handleFormikFieldChange.bind(this, formikProps, "alphaValue")}
-              onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
-                formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
-              })}
-              innerRef={(el) => (fieldRefs.current["description"] = el)}
-            />
-            <ErrorMessage name="description" component="span" className={"errorMessage"} />
-          </span>
-          <span>
-            <Field
-              type={"number"}
-              name={"amount"}
-              className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
-              onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
-              onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
-                formikProps.setFieldValue(e.target.name, Number(e.target.value).toFixed(2), false);
-              })}
-              innerRef={(el) => (fieldRefs.current["amount"] = el)}
-            />
-            <ErrorMessage name="amount" component="span" className={"errorMessage"} />
-          </span>
-          <Button type={"submit"}>Add Expense</Button>
-        </Form>
-      )}
-    </Formik>
+    <section>
+      <p>New Expense</p>
+      <Formik
+        initialValues={initialValues}
+        validate={validate}
+        onSubmit={handleSubmit}
+        validateOnChange={false} // Disable validation on field change
+        validateOnBlur={false} // Disable validation on blur
+      >
+        {(formikProps) => (
+          <Form className={"form-expense-add" + (debug ? " debug" : "")}>
+            <FieldDatePicker className={"input-small "} fieldName="date" fieldRefs />
+            <span>
+              <Field
+                as="select"
+                name={"category"}
+                className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
+                onChange={handleFormikFieldChange.bind(this, formikProps, null)}
+                innerRef={(el) => (fieldRefs.current["category"] = el)}
+              >
+                <option value="" disabled hidden>
+                  Choose an option
+                </option>
+                {categories
+                  .slice()
+                  .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
+                  .map(({ name, id }) => (
+                    <option value={name} key={id}>
+                      {S(name).capitalize().s}
+                    </option>
+                  ))}
+              </Field>
+              <ErrorMessage name="category" component="span" className={"errorMessage"} />
+            </span>
+            <span className={"input-big"}>
+              <Field
+                type={"text"}
+                name={"description"}
+                placeholder={"Description"}
+                className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
+                onChange={handleFormikFieldChange.bind(this, formikProps, "alphaValue")}
+                onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
+                  formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
+                })}
+                innerRef={(el) => (fieldRefs.current["description"] = el)}
+              />
+              <ErrorMessage name="description" component="span" className={"errorMessage"} />
+            </span>
+            <span>
+              <Field
+                type={"number"}
+                name={"amount"}
+                className={"input-small " + (formikProps.errors.hasOwnProperty("category") ? "error" : "")}
+                onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
+                onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
+                  formikProps.setFieldValue(e.target.name, Number(e.target.value).toFixed(2), false);
+                })}
+                innerRef={(el) => (fieldRefs.current["amount"] = el)}
+              />
+              <ErrorMessage name="amount" component="span" className={"errorMessage"} />
+            </span>
+            <Button type={"submit"}>Add Expense</Button>
+          </Form>
+        )}
+      </Formik>
+    </section>
   );
 };
 

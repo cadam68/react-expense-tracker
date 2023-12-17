@@ -8,17 +8,23 @@
     position: absolute;
     bottom: -14px;
     left: 10px;
+    width: 20rem;
 }
 
-/*
-input[type="number"] {
+div.react-datepicker-wrapper input,
+input[type="number"].input-small {
+    width: 10rem;
+}
+
+span.input-big {
+    flex-grow: 1;
+}
+span.input-big > input {
     width: 100%;
 }
-*/
 
 span:has(> span.errorMessage) {
     position: relative;
-    width: fit-content;
 }
 
 input.error, select.error {
