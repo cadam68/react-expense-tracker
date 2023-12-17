@@ -91,7 +91,7 @@ const App = () => {
 
   return (
     <div className={"container" + (debug ? " debug" : "")}>
-      <Logo />;
+      <Logo />
       <FormAddExpense onAdd={addExpense} categories={categories} />
       <div className={"main" + (debug ? " debug" : "")}>
         <div className={"sidebar" + (debug ? " debug" : "")}>
