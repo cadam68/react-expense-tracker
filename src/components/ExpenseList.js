@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import Expense from "./Expense";
 import { useEffect, useState } from "react";
 import { sortExpensesBy } from "../services/ExpensesService";
+import Button from "./Button";
 
 const ExpenseList = ({ expenses, onDelete }) => {
   const [expenseList, setExpenseList] = useState(expenses);
@@ -20,9 +21,9 @@ const ExpenseList = ({ expenses, onDelete }) => {
       <h3>Expenses List</h3>
       <ul>
         <li>
-          <button onClick={() => setOrderBy("date")}>Date</button>
-          <button onClick={() => setOrderBy("description")}>Description</button>
-          <button onClick={() => setOrderBy("amount")}>Amount</button>
+          <Button onClick={() => setOrderBy("date")}>Date</Button>
+          <Button onClick={() => setOrderBy("description")}>Description</Button>
+          <Button onClick={() => setOrderBy("amount")}>Amount</Button>
         </li>
         {expenseList.map((expense) => (
           <Expense expense={expense} onDelete={onDelete} key={expense.id} />

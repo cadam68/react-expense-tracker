@@ -5,6 +5,7 @@ import { log, LogLevel } from "../services/LogService";
 import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Helper";
 import S from "string";
 import PropTypes from "prop-types";
+import Button from "./Button";
 
 const FormAddCategory = ({ onAdd, categories, category }) => {
   const { debug } = useDebugContext();
@@ -95,7 +96,7 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
             />
             <ErrorMessage name="budget" component="span" className={"errorMessage"} />
           </span>
-          <button type={"submit"}>{category ? "Update" : "Add"}</button>
+          <Button type={"submit"}>{category ? "Update" : "Add"} Category</Button>
           <FormikValuesWatcher />
         </Form>
       )}

@@ -36,7 +36,7 @@ const CategoriesService = (useState) => {
   };
 
   const clearCategories = () => {
-    setCategories(initialCategories);
+    setCategories([]);
   };
 
   const sortBy = (orderBy) => {

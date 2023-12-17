@@ -21,21 +21,28 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
   );
 
   return (
-    <footer className={"stats" + (debug ? " debug" : "")}>
-      <span>{text}</span>
-      <PDFDownloadLink document={<ExpensesPdfDocument expenses={expenses} />} fileName="expenses.pdf">
-        {({ blob, url, loading, error }) => (loading ? "Loading document..." : <button> Download</button>)}
-      </PDFDownloadLink>
-      <Button
-        onClick={() => {
-          toggleDebug();
-          setLogLevel(LogLevel.DEBUG);
-        }}
-      >
-        set debug {debug ? "off" : "on"}{" "}
-      </Button>
-      <Button onClick={clearExpenses}>clear expenses</Button>
-      <Button onClick={clearCategories}>clear categories</Button>
+    <footer className={"footer" + (debug ? " debug" : "")}>
+      <p>{text}</p>
+      <p>
+        <PDFDownloadLink className={"button button-small"} document={<ExpensesPdfDocument expenses={expenses} />} fileName="expenses.pdf">
+          {({ blob, url, loading, error }) => (loading ? "Loading document..." : <button> Download</button>)}
+        </PDFDownloadLink>
+        <Button
+          className={"button-outline button-small"}
+          onClick={() => {
+            toggleDebug();
+            setLogLevel(LogLevel.DEBUG);
+          }}
+        >
+          Set debug {debug ? "OFF" : "ON"}{" "}
+        </Button>
+        <Button className={"button-outline button-small"} onClick={clearExpenses}>
+          Clear Expenses
+        </Button>
+        <Button className={"button-outline button-small"} onClick={clearCategories}>
+          Clear Categories
+        </Button>
+      </p>
     </footer>
   );
 };

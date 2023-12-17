@@ -1,3 +1,10 @@
+:root {
+  --color-lightest: #fff4e6;
+  --color-light: #ffe8cc;
+  --color-medium: #ffa94d;
+  --color-dark: #ff922b;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,23 +13,108 @@
 
 html {
   font-size: 62.5%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 body {
-  font-size: 1.6rem;
-  font-family: sans-serif;
-  color: #5a3e2b;
-  font-family: "Quicksand";
-}
-
-.main {
-  width: 800px;
-  margin: 20px auto;
+  height: 100vh;
+  color: #495057;
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  justify-content: center;
 }
 
-.debug {
-  border: 1px dashed red;
+.container {
+  min-width: 800px;
+}
+
+.container::before {
+  content: "";
+  background-image: url("../public/expenses.jpg");
+  background-size: cover;
+  position: absolute;
+
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+.header {
+  color: var(--color-dark);
+  text-align: center;
+  font-size: 3.6rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.header h6 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: 400;
+}
+
+.button,
+a.button > button,
+.button-outline {
+  background-color: var(--color-medium);
+  color: #343a40;
+  border: none;
+  border-radius: 7px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 7px;
+}
+
+a.button > button  {
+  background-color: transparent;
+  border: none;
+}
+
+.button {
+  padding: 0.8rem 1.2rem;
+}
+
+.button-outline {
+  border: 1px solid var(--color-medium);
+  background-color: #fff4e6;
+  padding: 0.8rem 4rem;
+}
+
+.button-small {
+  padding: 0.6rem 3rem !important;
+  font-size: 1.1rem;
+}
+
+a.button-small > button {
+  font-size: 1.1rem;
+  padding: 0;
+}
+
+.button:hover {
+  background-color: var(--color-dark);
+}
+
+.button-outline:hover {
+  background-color: #ffebce;
+}
+
+.footer {
+  font-family: Epilogue, sans-serif;
+  color: #b8b8b8;
+  color: var(--color-dark);
+  color: #706f6f;
+
+  text-align: center;
+  margin: 3rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+
+p:not(:last-child) {
+  margin-bottom: 8px;
 }

@@ -89,7 +89,7 @@ const App = () => {
   };
 
   return (
-    <div className={"app" + (debug ? " debug" : "")}>
+    <div className={"container" + (debug ? " debug" : "")}>
       <Logo />;
       <FormAddExpense onAdd={addExpense} categories={categories} />
       <div className={"main" + (debug ? " debug" : "")}>
@@ -102,7 +102,7 @@ const App = () => {
             selectedCategory={selectedCategory}
           />
           {showAddCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}
-          <Button onClick={handleShowAddCategory}>{showAddCategory ? "Close" : "Add Category"}</Button>
+          <Button onClick={handleShowAddCategory}>{showAddCategory ? "Close" : "Add"} Category</Button>
         </div>
         {selectedCategory && (
           <ExpenseList expenses={expenses.filter((expense) => expense.category === selectedCategory.name)} onDelete={handleDeleteExpense} />

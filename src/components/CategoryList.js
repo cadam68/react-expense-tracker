@@ -26,7 +26,7 @@ CategoryList.propTypes = {
   selectedCategory: PropTypes.func,
 };
 
-Category.defaultProps = {
+CategoryList.defaultProps = {
   onSelection: () => {},
   onDeletion: () => {},
   onUpdate: () => {},

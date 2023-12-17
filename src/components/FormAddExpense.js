@@ -6,6 +6,7 @@ import FieldDatePicker from "./FieldDatePicker";
 import S from "string";
 import { useRef } from "react";
 import PropTypes from "prop-types";
+import Button from "./Button";
 
 const FormAddExpense = ({ onAdd, categories }) => {
   const { debug } = useDebugContext();
@@ -103,7 +104,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
             />
             <ErrorMessage name="amount" component="span" className={"errorMessage"} />
           </span>
-          <button type={"submit"}>Add</button>
+          <Button type={"submit"}>Add Expense</Button>
         </Form>
       )}
     </Formik>

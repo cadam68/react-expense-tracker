@@ -18,13 +18,15 @@ const Category = ({ category, onSelection, onDeletion, onUpdate, selectedCategor
       </div>
       {category.totalExpenses ? <Button onClick={() => onSelection(category)}>{isSelected ? "Close" : "Select"}</Button> : null}
       <Button onClick={() => onUpdate(category)}>Update</Button>
-      <Button onClick={() => onDeletion(category)}>Delete</Button>
+      <Button className={"button-outline"} onClick={() => onDeletion(category)}>
+        Delete
+      </Button>
     </li>
   );
 };
 
 Category.propTypes = {
-  category: PropTypes.node.isRequired,
+  category: PropTypes.shape().isRequired,
   onSelection: PropTypes.func,
   onDeletion: PropTypes.func,
   onUpdate: PropTypes.func,
