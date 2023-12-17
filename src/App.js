@@ -15,8 +15,9 @@ import FormAddCategory from "./components/FormAddCategory";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
-  const { expenses, addExpense, updateExpensesByCategory, removeExpense, removeExpensesByCategory, clearExpenses, sortBy } =
-    ExpensesService(UseLocalStorageState("expense-tracker-expenses", initialExpenses));
+  const { expenses, addExpense, updateExpensesByCategory, removeExpense, removeExpensesByCategory, clearExpenses } = ExpensesService(
+    UseLocalStorageState("expense-tracker-expenses", initialExpenses)
+  );
   const { categories, setCategories, addCategory, updateCategory, removeCategory, clearCategories } = CategoriesService(
     UseLocalStorageState("expense-tracker-categories", initialCategories)
   );
@@ -47,7 +48,7 @@ const App = () => {
     // categories.forEach((category, i) => console.log(`category[${i}]` + JSON.stringify(category)));
   }, [categories]);
 
-  const handleShowAddCategory = (e) => {
+  const handleShowAddCategory = () => {
     if (selectedCategory && !showAddCategory) setSelectedCategory(null); // close the selection form
     setShowAddCategory((showAddCategory) => !showAddCategory);
     setUpdatedCategory(null);

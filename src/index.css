@@ -104,8 +104,6 @@ a.button-small > button {
 
 .footer {
   font-family: Epilogue, sans-serif;
-  color: #b8b8b8;
-  color: var(--color-dark);
   color: #706f6f;
 
   text-align: center;
