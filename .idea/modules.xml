@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../section8-eat-n-split.iml" filepath="$PROJECT_DIR$/../section8-eat-n-split.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../section9-expense-tracker.iml" filepath="$PROJECT_DIR$/../section9-expense-tracker.iml" />
     </modules>
   </component>
 </project>

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { setLogLevel as setLogServiceLogLevel, setLogOn } from "./logService";
+import { setLogLevel as setLogServiceLogLevel, setLogOn } from "../services/LogService";
 
 // Create a context with initial value false for 'debug'
 const DebugContext = createContext({
@@ -23,20 +23,14 @@ const DebugContextProvider = ({ children }) => {
     setLogServiceLogLevel(level);
   };
 
-  return (
-    <DebugContext.Provider value={{ debug, toggleDebug, setLogLevel }}>
-      {children}
-    </DebugContext.Provider>
-  );
+  return <DebugContext.Provider value={{ debug, toggleDebug, setLogLevel }}>{children}</DebugContext.Provider>;
 };
 
 // Custom hook to consume the DebugContext
 const useDebugContext = () => {
   const context = useContext(DebugContext);
   if (!context) {
-    throw new Error(
-      "useDebugContext must be used within a DebugContextProvider"
-    );
+    throw new Error("useDebugContext must be used within a DebugContextProvider");
   }
   return context;
 };

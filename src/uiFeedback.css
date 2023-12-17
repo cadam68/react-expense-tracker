@@ -1,0 +1,32 @@
+.debug {
+    border: 1px red dashed;
+}
+
+.errorMessage {
+    font-style: italic;
+    font-size: 10px;
+    position: absolute;
+    bottom: -14px;
+    left: 10px;
+}
+
+/*
+input[type="number"] {
+    width: 100%;
+}
+*/
+
+span:has(> span.errorMessage) {
+    position: relative;
+    width: fit-content;
+}
+
+input.error, select.error {
+    border: 1px solid red;
+}
+
+div.react-datepicker__tab-loop {
+    display: inline-block;
+}
+
+
