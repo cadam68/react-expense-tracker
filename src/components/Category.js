@@ -1,6 +1,5 @@
 import { useDebugContext } from "../contexts/DebugContext";
 import Button from "./Button";
-import { useState } from "react";
 
 const Category = ({ category, onSelection, onDeletion, onUpdate, selectedCategory }) => {
   const { debug } = useDebugContext();

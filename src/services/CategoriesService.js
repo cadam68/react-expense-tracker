@@ -41,7 +41,7 @@ const CategoriesService = (useState) => {
 
   const sortBy = (orderBy) => {
     log(`sort categories by ${orderBy}`, LogLevel.DEBUG);
-    const updatedCategories = [...categories].sort(a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+    const updatedCategories = [...categories].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
     setCategories(() => updatedCategories);
   };
 

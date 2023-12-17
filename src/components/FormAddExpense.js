@@ -4,7 +4,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Helper";
 import FieldDatePicker from "./FieldDatePicker";
 import S from "string";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const FormAddExpense = ({ onAdd, categories }) => {
   const { debug } = useDebugContext();

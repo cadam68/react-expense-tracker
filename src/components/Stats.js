@@ -1,6 +1,6 @@
 import { sprintf } from "sprintf-js";
 import { useDebugContext } from "../contexts/DebugContext";
-import { log, LogLevel, setLogLevel } from "../services/LogService";
+import { LogLevel, setLogLevel } from "../services/LogService";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Button from "./Button";
 import ExpensesPdfDocument from "./ExpensesPdfDocument";
@@ -16,7 +16,7 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
     totalExpenses,
     (totalExpenses * 100) / totalBudget,
     expenses.length,
-    expenses.length == 0 ? "" : "s"
+    expenses.length === 0 ? "" : "s"
   );
 
   return (
