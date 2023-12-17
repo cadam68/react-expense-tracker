@@ -1,5 +1,4 @@
 import { log, LogLevel } from "./LogService";
-import category from "../components/Category";
 
 const initialCategories = [
   { id: crypto.randomUUID(), name: "food", budget: 300, totalExpenses: 0 },
@@ -42,7 +41,7 @@ const CategoriesService = (useState) => {
 
   const sortBy = (orderBy) => {
     log(`sort categories by ${orderBy}`, LogLevel.DEBUG);
-    const updatedCategories = [...categories].sort((a, b) => 1);
+    const updatedCategories = [...categories].sort(a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
     setCategories(() => updatedCategories);
   };
 

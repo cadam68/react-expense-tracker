@@ -1,4 +1,3 @@
-import { useDebugContext } from "../contexts/DebugContext";
 import Category from "./Category";
 
 const CategoryList = ({ categories, onSelection, onDeletion, onUpdate, selectedCategory }) => {
