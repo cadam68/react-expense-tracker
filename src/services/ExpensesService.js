@@ -8,6 +8,21 @@ const initialExpenses = [
   { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 1), category: "food", description: "other", amount: 30 },
   { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "divers", description: "udemy", amount: 10 },
   { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 2), category: "divers", description: "udemy", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
+  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "food", description: "mac donald", amount: 20 },
 ];
 
 const ExpensesService = (useState) => {
@@ -64,7 +79,7 @@ const sortExpensesBy = (expenses, orderBy) => {
       if (a.date < b.date) return 1;
       return a.description.localeCompare(b.description);
     });
-  return expenses;
+  return expenses.slice().sort((a, b) => a.id.localeCompare(b.id));
 };
 
 export { initialExpenses, ExpensesService, sortExpensesBy };
