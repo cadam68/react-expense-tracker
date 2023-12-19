@@ -3,15 +3,43 @@ import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { styleTable } from "./ExpensesPdfDocumentStyles";
+import S from "string";
+import { sprintf } from "sprintf-js";
 
 // Create styles
 const styles = StyleSheet.create(styleTable);
 
 // Create a component for the PDF content
-const ExpensesPdfDocument = ({ expenses }) => (
+const ExpensesPdfDocument = ({ categories, expenses }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>Expense Report</Text>
+      <View
+        style={{
+          display: "table",
+          width: "auto",
+          borderStyle: "solid",
+          borderColor: "#b6b6b6",
+          borderWidth: 1,
+          marginBottom: 20,
+          padding: 5,
+        }}
+      >
+        {categories
+          .slice()
+          .sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()))
+          .map((category) => (
+            <Text
+              style={{
+                fontSize: 10,
+                color: category.budget && category.totalExpenses > category.budget ? "red" : "#555555",
+                marginLeft: 12,
+              }}
+            >
+              - {S(category.name).capitalize().s} : {category.totalExpenses} {category.budget ? `/ ${category.budget}` : ""} €
+            </Text>
+          ))}
+      </View>
       <View style={styles.table}>
         {/* Table Header */}
         <View style={styles.tableRow}>
@@ -35,13 +63,13 @@ const ExpensesPdfDocument = ({ expenses }) => (
               <Text style={styles.tableCell}>{format(expense.date, "dd-MM-yyyy")}</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{expense.category}</Text>
+              <Text style={styles.tableCell}>{S(expense.category).capitalize().s}</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{expense.description}</Text>
+              <Text style={styles.tableCell}>{S(expense.description).capitalize().s}</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{expense.amount}</Text>
+              <Text style={{ ...styles.tableCell, textAlign: "right" }}>{sprintf("%02.2f", expense.amount)} €</Text>
             </View>
           </View>
         ))}
@@ -52,6 +80,7 @@ const ExpensesPdfDocument = ({ expenses }) => (
 
 ExpensesPdfDocument.propTypes = {
   expenses: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default ExpensesPdfDocument;

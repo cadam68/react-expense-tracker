@@ -79,6 +79,13 @@ const sortExpensesBy = (expenses, orderBy) => {
       if (a.date < b.date) return 1;
       return a.description.localeCompare(b.description);
     });
+  if (orderBy === "date-category")
+    return expenses.slice().sort((a, b) => {
+      if (a.date > b.date) return -1;
+      if (a.date < b.date) return 1;
+      if (a.category.localeCompare(b.category) !== 0) return a.category.localeCompare(b.category);
+      return a.description.localeCompare(b.description);
+    });
   return expenses.slice().sort((a, b) => a.id.localeCompare(b.id));
 };
 

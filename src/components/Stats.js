@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import Hover from "./Hover";
 import { useBasicDataContext } from "../contexts/BasicDataContext";
+import { sortExpensesBy } from "../services/ExpensesService";
 
 const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory }) => {
   const { debug, toggleDebug } = useDebugContext();
@@ -59,7 +60,11 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelect
       </p>
       <p>
         <Hover caption={"Generate a pdf report of all expenses"}>
-          <PDFDownloadLink className={"button button-small"} document={<ExpensesPdfDocument expenses={expenses} />} fileName="expenses.pdf">
+          <PDFDownloadLink
+            className={"button button-small"}
+            document={<ExpensesPdfDocument categories={categories} expenses={sortExpensesBy(expenses, "date-category")} />}
+            fileName="expenses.pdf"
+          >
             {({ blob, url, loading, error }) => (loading ? "Loading document..." : <Button className={"button-small"}>Print</Button>)}
           </PDFDownloadLink>
         </Hover>
