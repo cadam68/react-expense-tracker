@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import Hover from "./Hover";
 import { useBasicDataContext } from "../contexts/BasicDataContext";
 import { sortExpensesBy } from "../services/ExpensesService";
+import { format } from "date-fns";
 
 const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory }) => {
   const { debug, toggleDebug } = useDebugContext();
@@ -63,7 +64,7 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelect
           <PDFDownloadLink
             className={"button button-small"}
             document={<ExpensesPdfDocument categories={categories} expenses={sortExpensesBy(expenses, "date-category")} />}
-            fileName="expenses.pdf"
+            fileName={`expenses-${format(new Date(), "yyyymmdd")}.pdf`}
           >
             {({ blob, url, loading, error }) => (loading ? "Loading document..." : <Button className={"button-small"}>Print</Button>)}
           </PDFDownloadLink>

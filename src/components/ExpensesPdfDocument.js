@@ -13,7 +13,7 @@ const styles = StyleSheet.create(styleTable);
 const ExpensesPdfDocument = ({ categories, expenses }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>Expense Report</Text>
+      <Text style={styles.title}>Expense Report {format(new Date(), "MMM yyyy")}</Text>
       <View
         style={{
           display: "table",
