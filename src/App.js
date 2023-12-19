@@ -12,6 +12,7 @@ import CategoryList from "./components/CategoryList";
 import Button from "./components/Button";
 import ExpenseList from "./components/ExpenseList";
 import FormAddCategory from "./components/FormAddCategory";
+import Footer from "./components/Footer";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
@@ -92,6 +93,7 @@ const App = () => {
   return (
     <div className={"container" + (debug ? " debug" : "")}>
       <Logo />
+      <Stats categories={categories} expenses={expenses} clearExpenses={clearExpenses} clearCategories={clearCategories} />
       <FormAddExpense onAdd={addExpense} categories={categories} />
       <section className={"main" + (debug ? " debug" : "")}>
         <div className={"sidebar" + (debug ? " debug" : "")}>
@@ -106,10 +108,14 @@ const App = () => {
           <Button onClick={handleShowAddCategory}>{showAddCategory ? "Close" : "Add"} Category</Button>
         </div>
         {selectedCategory && (
-          <ExpenseList expenses={expenses.filter((expense) => expense.category === selectedCategory.name)} onDelete={handleDeleteExpense} />
+          <ExpenseList
+            category={selectedCategory.name}
+            expenses={expenses.filter((expense) => expense.category === selectedCategory.name)}
+            onDelete={handleDeleteExpense}
+          />
         )}
       </section>
-      <Stats categories={categories} expenses={expenses} clearExpenses={clearExpenses} clearCategories={clearCategories} />
+      <Footer />
     </div>
   );
 };

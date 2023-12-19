@@ -19,7 +19,7 @@ input[type="number"].input-small {
 span.input-big {
     flex-grow: 1;
 }
-span.input-big > input {
+span.input-big input {
     width: 100%;
 }
 

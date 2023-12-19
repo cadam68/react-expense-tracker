@@ -7,6 +7,7 @@ import S from "string";
 import { useRef } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
+import Hover from "./Hover";
 
 const FormAddExpense = ({ onAdd, categories }) => {
   const { debug } = useDebugContext();
@@ -55,57 +56,67 @@ const FormAddExpense = ({ onAdd, categories }) => {
       >
         {(formikProps) => (
           <Form className={"form-expense-add" + (debug ? " debug" : "")}>
-            <FieldDatePicker className={"input-small "} fieldName="date" fieldRefs />
+            <Hover caption={"Select the date of the expense"}>
+              <FieldDatePicker className={"input-small "} fieldName="date" fieldRefs />
+            </Hover>
             <span>
-              <Field
-                as="select"
-                name={"category"}
-                className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
-                onChange={handleFormikFieldChange.bind(this, formikProps, null)}
-                innerRef={(el) => (fieldRefs.current["category"] = el)}
-              >
-                <option value="" disabled hidden>
-                  Choose an option
-                </option>
-                {categories
-                  .slice()
-                  .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
-                  .map(({ name, id }) => (
-                    <option value={name} key={id}>
-                      {S(name).capitalize().s}
-                    </option>
-                  ))}
-              </Field>
+              <Hover caption={"Select a category for the expense"}>
+                <Field
+                  as="select"
+                  name={"category"}
+                  className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
+                  onChange={handleFormikFieldChange.bind(this, formikProps, null)}
+                  innerRef={(el) => (fieldRefs.current["category"] = el)}
+                >
+                  <option value="" disabled hidden>
+                    Choose an option
+                  </option>
+                  {categories
+                    .slice()
+                    .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
+                    .map(({ name, id }) => (
+                      <option value={name} key={id}>
+                        {S(name).capitalize().s}
+                      </option>
+                    ))}
+                </Field>
+              </Hover>
               <ErrorMessage name="category" component="span" className={"errorMessage"} />
             </span>
             <span className={"input-big"}>
-              <Field
-                type={"text"}
-                name={"description"}
-                placeholder={"Description"}
-                className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
-                onChange={handleFormikFieldChange.bind(this, formikProps, "alphaValue")}
-                onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
-                  formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
-                })}
-                innerRef={(el) => (fieldRefs.current["description"] = el)}
-              />
-              <ErrorMessage name="description" component="span" className={"errorMessage"} />
+              <Hover caption={"Enter the description of the expense"}>
+                <Field
+                  type={"text"}
+                  name={"description"}
+                  placeholder={"Description"}
+                  className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
+                  onChange={handleFormikFieldChange.bind(this, formikProps, "alphaValue")}
+                  onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
+                    formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
+                  })}
+                  innerRef={(el) => (fieldRefs.current["description"] = el)}
+                />
+                <ErrorMessage name="description" component="span" className={"errorMessage"} />
+              </Hover>
             </span>
             <span>
-              <Field
-                type={"number"}
-                name={"amount"}
-                className={"input-small " + (formikProps.errors.hasOwnProperty("category") ? "error" : "")}
-                onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
-                onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
-                  formikProps.setFieldValue(e.target.name, Number(e.target.value).toFixed(2), false);
-                })}
-                innerRef={(el) => (fieldRefs.current["amount"] = el)}
-              />
-              <ErrorMessage name="amount" component="span" className={"errorMessage"} />
+              <Hover caption={"Enter the amount of the expense"}>
+                <Field
+                  type={"number"}
+                  name={"amount"}
+                  className={"input-small " + (formikProps.errors.hasOwnProperty("category") ? "error" : "")}
+                  onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
+                  onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
+                    formikProps.setFieldValue(e.target.name, Number(e.target.value).toFixed(2), false);
+                  })}
+                  innerRef={(el) => (fieldRefs.current["amount"] = el)}
+                />
+                <ErrorMessage name="amount" component="span" className={"errorMessage"} />
+              </Hover>
             </span>
-            <Button type={"submit"}>Add Expense</Button>
+            <Hover caption={"Add a new expense"}>
+              <Button type={"submit"}>Add Expense</Button>
+            </Hover>
           </Form>
         )}
       </Formik>

@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { sortExpensesBy } from "../services/ExpensesService";
 import Button from "./Button";
 import expense from "./Expense";
+import S from "string";
 
-const ExpenseList = ({ expenses, onDelete }) => {
+const ExpenseList = ({ category, expenses, onDelete }) => {
   const [expenseList, setExpenseList] = useState(expenses);
   const [orderBy, setOrderBy] = useState("date");
   const [searchBy, setSearchBy] = useState("");
@@ -33,7 +34,7 @@ const ExpenseList = ({ expenses, onDelete }) => {
 
   return (
     <div className={"expense-list"}>
-      <p>Expenses List</p>
+      <p>{S(category).capitalize().s} Expenses List</p>
       <p className={"card expense-list-searchbar"}>
         <span className="input-big">
           <input value={searchBy} type="text" placeholder="Search... " onChange={handleSearchBy} />
@@ -58,6 +59,7 @@ const ExpenseList = ({ expenses, onDelete }) => {
 ExpenseList.propTypes = {
   expenses: PropTypes.array.isRequired,
   onDelete: PropTypes.func,
+  category: PropTypes.string,
 };
 
 ExpenseList.defaultProps = {
