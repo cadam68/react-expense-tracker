@@ -6,14 +6,12 @@ import { useBasicDataContext } from "../contexts/BasicDataContext";
 const Hover = ({ caption, children }) => {
   const { firstTime } = useBasicDataContext();
 
-  if (!firstTime) return children;
+  // if (!firstTime) return children;    // iici - to uncomment -
 
   return (
-    <span className="hover-container" style={{ display: "inline-block" }}>
+    <span className="hover-container">
       {children}
-      <span className="caption" style={{ display: "inline-block" }}>
-        {caption}
-      </span>
+      <span className="caption">{caption}</span>
     </span>
   );
 };

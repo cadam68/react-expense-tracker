@@ -56,11 +56,11 @@ const FormAddExpense = ({ onAdd, categories }) => {
       >
         {(formikProps) => (
           <Form className={"form-expense-add" + (debug ? " debug" : "")}>
-            <Hover caption={"Select the date of the expense"}>
+            <Hover caption={"When did you spend the money ?"}>
               <FieldDatePicker className={"input-small "} fieldName="date" fieldRefs />
             </Hover>
             <span>
-              <Hover caption={"Select a category for the expense"}>
+              <Hover caption={"What is it related to ?"}>
                 <Field
                   as="select"
                   name={"category"}
@@ -84,7 +84,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
               <ErrorMessage name="category" component="span" className={"errorMessage"} />
             </span>
             <span className={"input-big"}>
-              <Hover caption={"Enter the description of the expense"}>
+              <Hover caption={"Enter the name of the shop, location ..."}>
                 <Field
                   type={"text"}
                   name={"description"}
@@ -100,7 +100,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
               </Hover>
             </span>
             <span>
-              <Hover caption={"Enter the amount of the expense"}>
+              <Hover caption={"How much is it ?"}>
                 <Field
                   type={"number"}
                   name={"amount"}
@@ -114,7 +114,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
                 <ErrorMessage name="amount" component="span" className={"errorMessage"} />
               </Hover>
             </span>
-            <Hover caption={"Add a new expense"}>
+            <Hover caption={"Record the expense :)"}>
               <Button type={"submit"}>Add Expense</Button>
             </Hover>
           </Form>

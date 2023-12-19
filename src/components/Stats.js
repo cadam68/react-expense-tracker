@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import Hover from "./Hover";
 import { useBasicDataContext } from "../contexts/BasicDataContext";
 
-const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
+const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory }) => {
   const { debug, toggleDebug } = useDebugContext();
   const { resetBasicData } = useBasicDataContext();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -44,8 +44,19 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
   };
 
   return (
-    <footer className={"footer" + (debug ? " debug" : "")}>
-      <p>{text}</p>
+    <nav className={"nav" + (debug ? " debug" : "")}>
+      <p>
+        <Hover caption={"List all expenses"}>
+          <Button
+            onClick={() => {
+              setSelectedCategory({ name: "*" });
+            }}
+            className="button-shadow"
+          >
+            {text}
+          </Button>
+        </Hover>
+      </p>
       <p>
         <Hover caption={"Generate a pdf report of all expenses"}>
           <PDFDownloadLink className={"button button-small"} document={<ExpensesPdfDocument expenses={expenses} />} fileName="expenses.pdf">
@@ -72,13 +83,13 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses }) => {
             Clear Categories
           </Button>
         </Hover>
-        <Hover caption={"Play music"}>
+        <Hover caption={"Would you like to listen some music ?"}>
           <Button className={"button-outline button-small" + (isPlaying ? " line-through" : "")} onClick={playAudio}>
             <span>🎵</span>
           </Button>
         </Hover>
       </p>
-    </footer>
+    </nav>
   );
 };
 
@@ -86,12 +97,14 @@ Stats.propTypes = {
   categories: PropTypes.array.isRequired,
   clearExpenses: PropTypes.func,
   clearCategories: PropTypes.func,
+  setSelectedCategory: PropTypes.func,
   expenses: PropTypes.array.isRequired,
 };
 
 Stats.defaultProps = {
   clearExpenses: () => {},
   clearCategories: () => {},
+  setSelectedCategory: () => {},
 };
 
 export default Stats;

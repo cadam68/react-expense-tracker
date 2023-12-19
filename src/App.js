@@ -93,7 +93,13 @@ const App = () => {
   return (
     <div className={"container" + (debug ? " debug" : "")}>
       <Logo />
-      <Stats categories={categories} expenses={expenses} clearExpenses={clearExpenses} clearCategories={clearCategories} />
+      <Stats
+        categories={categories}
+        expenses={expenses}
+        clearExpenses={clearExpenses}
+        clearCategories={clearCategories}
+        setSelectedCategory={setSelectedCategory}
+      />
       <FormAddExpense onAdd={addExpense} categories={categories} />
       <section className={"main" + (debug ? " debug" : "")}>
         <div className={"sidebar" + (debug ? " debug" : "")}>
@@ -110,7 +116,7 @@ const App = () => {
         {selectedCategory && (
           <ExpenseList
             category={selectedCategory.name}
-            expenses={expenses.filter((expense) => expense.category === selectedCategory.name)}
+            expenses={expenses.filter((expense) => selectedCategory.name === "*" || expense.category === selectedCategory.name)}
             onDelete={handleDeleteExpense}
           />
         )}

@@ -68,6 +68,10 @@ body {
 }
 
 /* Buttons */
+button {
+  color: inherit;
+}
+
 .button,
 .button-outline {
   background-color: var(--color-medium);
@@ -145,8 +149,8 @@ button.line-through {
   cursor: default;
 }
 
-/* Footer */
-.footer {
+/* Nav */
+.nav, .footer {
   font-family: Epilogue, sans-serif;
   color: #706f6f;
   text-align: center;
