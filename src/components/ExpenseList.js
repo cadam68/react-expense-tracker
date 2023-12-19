@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import Expense from "./Expense";
 import { useEffect, useState } from "react";
 import { sortExpensesBy } from "../services/ExpensesService";
-import Button from "./Button";
-import expense from "./Expense";
 import S from "string";
 
 const ExpenseList = ({ category, expenses, onDelete }) => {
