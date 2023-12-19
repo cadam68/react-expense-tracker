@@ -9,10 +9,12 @@ const Hover = ({ caption, children }) => {
   if (!firstTime) return children;
 
   return (
-    <div className="hover-container">
+    <span className="hover-container" style={{ display: "inline-block" }}>
       {children}
-      <div className="caption">{caption}</div>
-    </div>
+      <span className="caption" style={{ display: "inline-block" }}>
+        {caption}
+      </span>
+    </span>
   );
 };
 

@@ -3,7 +3,7 @@
     display: inline-block;
 }
 
-.input-big > div.hover-container {
+.input-big > span.hover-container {
     width: 100%;
 }
 
