@@ -1,19 +1,22 @@
 import Category from "./Category";
 import PropTypes from "prop-types";
 
-const CategoryList = ({ categories, onSelection, onDeletion, onUpdate, selectedCategory }) => {
+const CategoryList = ({ categories, onSelection, onDelete, onUpdate, selectedCategory }) => {
   return (
     <ul>
-      {categories.map((category) => (
-        <Category
-          category={category}
-          key={category.id}
-          onSelection={onSelection}
-          onUpdate={onUpdate}
-          onDeletion={onDeletion}
-          selectedCategory={selectedCategory}
-        />
-      ))}
+      {categories
+        .slice()
+        .sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()))
+        .map((category) => (
+          <Category
+            category={category}
+            key={category.id}
+            onSelection={onSelection}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+            selectedCategory={selectedCategory}
+          />
+        ))}
     </ul>
   );
 };
@@ -21,14 +24,14 @@ const CategoryList = ({ categories, onSelection, onDeletion, onUpdate, selectedC
 CategoryList.propTypes = {
   categories: PropTypes.array.isRequired,
   onSelection: PropTypes.func,
-  onDeletion: PropTypes.func,
+  onDelete: PropTypes.func,
   onUpdate: PropTypes.func,
   selectedCategory: PropTypes.func,
 };
 
 CategoryList.defaultProps = {
   onSelection: () => {},
-  onDeletion: () => {},
+  onDelete: () => {},
   onUpdate: () => {},
   selectedCategory: null,
 };

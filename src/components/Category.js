@@ -1,26 +1,32 @@
 import { useDebugContext } from "../contexts/DebugContext";
 import Button from "./Button";
 import PropTypes from "prop-types";
+import S from "string";
+import { sprintf } from "sprintf-js";
 
-const Category = ({ category, onSelection, onDeletion, onUpdate, selectedCategory }) => {
+const Category = ({ category, onSelection, onDelete, onUpdate, selectedCategory }) => {
   const { debug } = useDebugContext();
   const isSelected = selectedCategory?.id === category.id;
 
   return (
-    <li className={(isSelected ? "selected" : "") + (debug ? " debug" : "")}>
-      <div>
-        <h3>{category.name}</h3>
-        {category.budget && <p>budget: {category.budget}</p>}
-        <p>
-          <span>totalExpenses:</span>
-          <span className={category.totalExpenses > category.budget ? "red" : "green"}>{category.totalExpenses}</span>
-        </p>
+    <li>
+      <div
+        className={"category" + (isSelected ? " selected" : "") + (category.totalExpenses ? " enable" : "")}
+        onClick={() => onSelection(category)}
+      >
+        <span>{S(category.name).capitalize().s}</span>
+        <span className={"expense-amount " + (category.budget && category.totalExpenses > category.budget ? "amount-high" : "")}>
+          {sprintf("%.2f €", category.totalExpenses)} {category.budget ? sprintf("/ %.2f €", category.budget) : ""}
+        </span>
+        <span>
+          <Button className="button-shadow" onClick={() => onUpdate(category)}>
+            <span>✏️</span>Update
+          </Button>
+          <Button className="button-shadow" onClick={() => onDelete(category)}>
+            <span>🗑</span>
+          </Button>
+        </span>
       </div>
-      {category.totalExpenses ? <Button onClick={() => onSelection(category)}>{isSelected ? "Close" : "Select"}</Button> : null}
-      <Button onClick={() => onUpdate(category)}>Update</Button>
-      <Button className={"button-outline"} onClick={() => onDeletion(category)}>
-        <span>🗑</span>️ Delete
-      </Button>
     </li>
   );
 };
@@ -28,14 +34,14 @@ const Category = ({ category, onSelection, onDeletion, onUpdate, selectedCategor
 Category.propTypes = {
   category: PropTypes.shape().isRequired,
   onSelection: PropTypes.func,
-  onDeletion: PropTypes.func,
+  onDelete: PropTypes.func,
   onUpdate: PropTypes.func,
   selectedCategory: PropTypes.func,
 };
 
 Category.defaultProps = {
   onSelection: () => {},
-  onDeletion: () => {},
+  onDelete: () => {},
   onUpdate: () => {},
   selectedCategory: null,
 };

@@ -13,6 +13,7 @@ import Button from "./components/Button";
 import ExpenseList from "./components/ExpenseList";
 import FormAddCategory from "./components/FormAddCategory";
 import Footer from "./components/Footer";
+import S from "string";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
@@ -68,6 +69,7 @@ const App = () => {
   };
 
   const handleSelectCategory = (category) => {
+    alert("select cat");
     log(JSON.stringify(category) + " is selected", LogLevel.DEBUG);
     setSelectedCategory((selectedCategory) => (selectedCategory?.id === category.id ? null : category));
     setShowAddCategory(false); // close the add friend form
@@ -81,6 +83,7 @@ const App = () => {
   };
 
   const handleUpdateCategory = (category) => {
+    alert("update cat");
     setUpdatedCategory(category);
     setShowAddCategory(true);
   };
@@ -102,16 +105,19 @@ const App = () => {
       />
       <FormAddExpense onAdd={addExpense} categories={categories} />
       <section className={"main" + (debug ? " debug" : "")}>
-        <div className={"sidebar" + (debug ? " debug" : "")}>
+        <div className={"category-list" + (debug ? " debug" : "")}>
+          <p>Categories</p>
           <CategoryList
             categories={categories}
             onSelection={handleSelectCategory}
             onUpdate={handleUpdateCategory}
-            onDeletion={handleDeleteCategory}
+            onDelete={handleDeleteCategory}
             selectedCategory={selectedCategory}
           />
-          {showAddCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}
-          <Button onClick={handleShowAddCategory}>{showAddCategory ? "Close" : "Add"} Category</Button>
+          <div>
+            {showAddCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}
+            <Button onClick={handleShowAddCategory}>{showAddCategory ? "Close" : "Add"} Category</Button>
+          </div>
         </div>
         {selectedCategory && (
           <ExpenseList
