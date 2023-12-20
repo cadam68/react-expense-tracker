@@ -109,7 +109,7 @@ const App = () => {
             <span>Categories</span>
             <Hover caption={`Add up to ${settings.maxCategories} categories`}>
               <Button
-                className={"button button-small" + (categories.size > settings.maxCategories ? " diseabled" : "")}
+                className={"button button-small" + (showAddCategory || categories.size > settings.maxCategories ? " diseabled" : "")}
                 onClick={handleShowAddCategory}
               >
                 Add Category

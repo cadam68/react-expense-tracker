@@ -96,7 +96,7 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
             />
             <ErrorMessage name="budget" component="span" className={"errorMessage"} />
           </span>
-          <Button type={"submit"}>{category ? "Update" : "Add"} Category</Button>
+          <Button type={"submit"}>{category ? "Update" : "Save"} Category</Button>
           <FormikValuesWatcher />
         </Form>
       )}
