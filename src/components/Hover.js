@@ -7,7 +7,7 @@ const Hover = ({ caption, enable, children }) => {
   const { firstTime } = useBasicDataContext();
 
   // if (!firstTime) return children; // iici - to uncomment -
-  if (enable != undefined && !enable) return children;
+  if (enable !== undefined && !enable) return children;
 
   return (
     <span className="hover-container">

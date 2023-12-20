@@ -5,7 +5,6 @@ import S from "string";
 import { sprintf } from "sprintf-js";
 
 const Category = ({ category, onSelection, onDelete, onUpdate, selectedCategory }) => {
-  const { debug } = useDebugContext();
   const isSelected = selectedCategory?.id === category.id;
 
   return (
