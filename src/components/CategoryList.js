@@ -7,8 +7,9 @@ const CategoryList = ({ categories, onSelection, onDelete, onUpdate, selectedCat
       {categories
         .slice()
         .sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()))
-        .map((category) => (
+        .map((category, i) => (
           <Category
+            num={i + 1}
             category={category}
             key={category.id}
             onSelection={onSelection}

@@ -2,8 +2,9 @@ import Button from "./Button";
 import PropTypes from "prop-types";
 import S from "string";
 import { sprintf } from "sprintf-js";
+import Hover from "./Hover";
 
-const Category = ({ category, onSelection, onDelete, onUpdate, selectedCategory }) => {
+const Category = ({ num, category, onSelection, onDelete, onUpdate, selectedCategory }) => {
   const isSelected = selectedCategory?.id === category.id;
 
   return (
@@ -14,29 +15,36 @@ const Category = ({ category, onSelection, onDelete, onUpdate, selectedCategory 
           if (category.totalExpenses) onSelection(category);
         }}
       >
-        <span>{S(category.name).capitalize().s}</span>
-        <span className={"expense-amount " + (category.budget && category.totalExpenses > category.budget ? "amount-high" : "")}>
-          {sprintf("%.2f €", category.totalExpenses)} {category.budget ? sprintf("/ %.2f €", category.budget) : ""}
-        </span>
+        <div>
+          <p>{S(category.name).capitalize().s}</p>
+          <p className={"expense-amount " + (category.budget && category.totalExpenses > category.budget ? "amount-high" : "")}>
+            Spent {sprintf("%.2f €", category.totalExpenses)} {category.budget ? sprintf("/ %.2f €", category.budget) : ""}
+          </p>
+        </div>
         <span>
-          <Button
-            className="button-shadow"
-            onClick={(e) => {
-              e.stopPropagation();
-              onUpdate(category);
-            }}
-          >
-            <span>✏️</span>
-          </Button>
-          <Button
-            className="button-shadow"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(category);
-            }}
-          >
-            <span>🗑</span>
-          </Button>
+          <Hover enable={num === 1} caption={"Update"}>
+            <Button
+              className="button-shadow"
+              onClick={(e) => {
+                e.stopPropagation();
+                onUpdate(category);
+              }}
+            >
+              <span>✏️</span>
+            </Button>
+          </Hover>
+          &nbsp;
+          <Hover enable={num === 1} caption={"Delete"}>
+            <Button
+              className="button-shadow"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(category);
+              }}
+            >
+              <span>🗑</span>
+            </Button>
+          </Hover>
         </span>
       </div>
     </li>
@@ -49,6 +57,7 @@ Category.propTypes = {
   onDelete: PropTypes.func,
   onUpdate: PropTypes.func,
   selectedCategory: PropTypes.func,
+  num: PropTypes.number,
 };
 
 Category.defaultProps = {
@@ -56,6 +65,7 @@ Category.defaultProps = {
   onDelete: () => {},
   onUpdate: () => {},
   selectedCategory: null,
+  num: null,
 };
 
 export default Category;
