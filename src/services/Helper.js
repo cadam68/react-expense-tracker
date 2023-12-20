@@ -46,7 +46,7 @@ export const handleFormikFieldBlur = ({ handleBlur }, callback, e) => {
 const changeBeforeFilter = (filterValue) => {
   // Check if the style element already exists
   const styleId = "custom-filter-style";
-  const style = document.getElementById(styleId);
+  let style = document.getElementById(styleId);
 
   // If it doesn't exist, create a new style tag
   if (!style) {
