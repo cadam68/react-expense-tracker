@@ -107,7 +107,7 @@ const App = () => {
         <div className={"category-list" + (debug ? " debug" : "")}>
           <p className={"space-between"}>
             <span>Categories</span>
-            <Hover caption={"asdasd"}>
+            <Hover caption={`Add up to ${settings.maxCategories} categories`}>
               <Button
                 className={"button button-small" + (categories.size > settings.maxCategories ? " diseabled" : "")}
                 onClick={handleShowAddCategory}
