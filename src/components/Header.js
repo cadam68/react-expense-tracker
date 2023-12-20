@@ -14,7 +14,7 @@ import { changeTheme, themes } from "../services/Helper";
 import S from "string";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 
-const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory }) => {
+const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory }) => {
   const { debug, toggleDebug } = useDebugContext();
   const { resetBasicData } = useBasicDataContext();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -115,7 +115,7 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelect
   );
 };
 
-Stats.propTypes = {
+Header.propTypes = {
   categories: PropTypes.array.isRequired,
   clearExpenses: PropTypes.func,
   clearCategories: PropTypes.func,
@@ -123,10 +123,10 @@ Stats.propTypes = {
   expenses: PropTypes.array.isRequired,
 };
 
-Stats.defaultProps = {
+Header.defaultProps = {
   clearExpenses: () => {},
   clearCategories: () => {},
   setSelectedCategory: () => {},
 };
 
-export default Stats;
+export default Header;

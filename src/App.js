@@ -7,7 +7,7 @@ import { initialCategories, CategoriesService } from "./services/CategoriesServi
 import Logo from "./components/Logo";
 import FormAddExpense from "./components/FormAddExpense";
 import UseLocalStorageState from "./hooks/UseLocalStorageState";
-import Stats from "./components/Stats";
+import Header from "./components/Header";
 import CategoryList from "./components/CategoryList";
 import Button from "./components/Button";
 import ExpenseList from "./components/ExpenseList";
@@ -93,7 +93,7 @@ const App = () => {
   return (
     <div className={"container" + (debug ? " debug" : "")}>
       <Logo />
-      <Stats
+      <Header
         categories={categories}
         expenses={expenses}
         clearExpenses={clearExpenses}
