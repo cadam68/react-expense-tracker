@@ -26,6 +26,12 @@ body {
   justify-content: center;
 }
 
+/* Effects */
+.selected {
+  outline: 1px solid var(--color-medium);
+  outline-offset: -1px;
+}
+
 /* Containers */
 .container {
   min-width: 900px;
@@ -34,6 +40,7 @@ body {
 .container::before {
   content: "";
   background-image: url("../public/expenses.jpg");
+  /* filter: hue-rotate(180deg) saturate(1.5); */
   background-size: cover;
   position: absolute;
   top: 0;
@@ -130,7 +137,7 @@ a.button-small button {
 }
 
 .button-outline:hover {
-  background-color: #ffebce;
+  background-color: var(--color-light);
 }
 
 button > span {
@@ -278,16 +285,16 @@ ul {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #ffe8cc;
+  background-color: var(--color-light);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #ffa94d;
+  background-color: var(--color-medium);
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #ff922b;
+  background-color: var(--color-dark);
 }
 
 

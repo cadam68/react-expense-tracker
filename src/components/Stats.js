@@ -8,8 +8,11 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import Hover from "./Hover";
 import { useBasicDataContext } from "../contexts/BasicDataContext";
-import { sortExpensesBy } from "../services/ExpensesService";
+import { initialExpenses, sortExpensesBy } from "../services/ExpensesService";
 import { format } from "date-fns";
+import { changeTheme, themes } from "../services/Helper";
+import S from "string";
+import UseLocalStorageState from "../hooks/UseLocalStorageState";
 
 const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory }) => {
   const { debug, toggleDebug } = useDebugContext();
@@ -20,6 +23,7 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelect
     new Audio("/sounds/CountingCrowsMrJones.mp3"),
     new Audio("/sounds/4NonBlondesWhatsUp.mp3"),
   ]);
+  const [themeId, setThemeId] = UseLocalStorageState("expense-tracker-theme", 0);
 
   const totalExpenses = categories.reduce((acc, el) => acc + el.totalExpenses, 0);
   const totalBudget = categories.reduce((acc, el) => acc + (el.budget ? el.budget : el.totalExpenses), 0);
@@ -43,6 +47,12 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelect
         .play()
         .catch((error) => console.error("Audio playback failed", error));
     }
+  };
+
+  const handleChangeTheme = () => {
+    const nextThemeId = (themeId + 1) % Object.keys(themes).length;
+    changeTheme(themes[Object.keys(themes)[nextThemeId]]);
+    setThemeId(nextThemeId);
   };
 
   return (
@@ -87,6 +97,11 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelect
         <Hover caption={"Delete all categories"}>
           <Button className={"button-outline button-small"} onClick={clearCategories}>
             Clear Categories
+          </Button>
+        </Hover>
+        <Hover caption={`Change theme to ${S(Object.keys(themes)[(themeId + 1) % Object.keys(themes).length]).capitalize().s}`}>
+          <Button className={"button-outline button-small"} onClick={handleChangeTheme}>
+            {S(Object.keys(themes)[themeId]).capitalize().s}
           </Button>
         </Hover>
         <Hover caption={"Would you like to listen some music ?"}>

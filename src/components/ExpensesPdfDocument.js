@@ -30,6 +30,7 @@ const ExpensesPdfDocument = ({ categories, expenses }) => (
           .sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()))
           .map((category) => (
             <Text
+              key={category.id}
               style={{
                 fontSize: 10,
                 color: category.budget && category.totalExpenses > category.budget ? "red" : "#555555",
