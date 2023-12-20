@@ -39,6 +39,25 @@ export const handleFormikFieldBlur = ({ handleBlur }, callback, e) => {
   callback(e);
 };
 
+// Function to change the filter property of the ::before pseudo-element
+// Usage : changeBeforeFilter('hue-rotate(180deg) saturate(1.5)');
+const changeBeforeFilter = (filterValue) => {
+  // Check if the style element already exists
+  const styleId = "custom-filter-style";
+  const style = document.getElementById(styleId);
+
+  // If it doesn't exist, create a new style tag
+  if (!style) {
+    style = document.createElement("style");
+    style.type = "text/css";
+    style.id = styleId;
+    document.head.appendChild(style);
+  }
+
+  // Add the CSS for the .container::before selector with the new filter value
+  style.innerHTML = `.container::before { filter: ${filterValue}; }`;
+};
+
 export const changeTheme = (newTheme) => {
   // Access the root element
   const root = document.documentElement;
