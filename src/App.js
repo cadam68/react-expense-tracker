@@ -69,7 +69,6 @@ const App = () => {
   };
 
   const handleSelectCategory = (category) => {
-    alert("select cat");
     log(JSON.stringify(category) + " is selected", LogLevel.DEBUG);
     setSelectedCategory((selectedCategory) => (selectedCategory?.id === category.id ? null : category));
     setShowAddCategory(false); // close the add friend form
@@ -83,7 +82,6 @@ const App = () => {
   };
 
   const handleUpdateCategory = (category) => {
-    alert("update cat");
     setUpdatedCategory(category);
     setShowAddCategory(true);
   };

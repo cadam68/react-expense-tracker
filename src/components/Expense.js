@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import Category from "./Category";
 import { sprintf } from "sprintf-js";
 import S from "string";
-import Hover from "./Hover";
 
 const Expense = ({ expense, onDelete, num }) => {
   const { debug } = useDebugContext();

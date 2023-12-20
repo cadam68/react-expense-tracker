@@ -12,17 +12,31 @@ const Category = ({ category, onSelection, onDelete, onUpdate, selectedCategory 
     <li>
       <div
         className={"category" + (isSelected ? " selected" : "") + (category.totalExpenses ? " enable" : "")}
-        onClick={() => onSelection(category)}
+        onClick={() => {
+          if (category.totalExpenses) onSelection(category);
+        }}
       >
         <span>{S(category.name).capitalize().s}</span>
         <span className={"expense-amount " + (category.budget && category.totalExpenses > category.budget ? "amount-high" : "")}>
           {sprintf("%.2f €", category.totalExpenses)} {category.budget ? sprintf("/ %.2f €", category.budget) : ""}
         </span>
         <span>
-          <Button className="button-shadow" onClick={() => onUpdate(category)}>
-            <span>✏️</span>Update
+          <Button
+            className="button-shadow"
+            onClick={(e) => {
+              e.stopPropagation();
+              onUpdate(category);
+            }}
+          >
+            <span>✏️</span>
           </Button>
-          <Button className="button-shadow" onClick={() => onDelete(category)}>
+          <Button
+            className="button-shadow"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(category);
+            }}
+          >
             <span>🗑</span>
           </Button>
         </span>
