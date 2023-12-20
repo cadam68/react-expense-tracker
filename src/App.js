@@ -24,7 +24,7 @@ const App = () => {
   const { categories, setCategories, addCategory, updateCategory, removeCategory, clearCategories } = CategoriesService(
     UseLocalStorageState("expense-tracker-categories", initialCategories)
   );
-  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [openFormCategory, setOpenFormCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [updatedCategory, setUpdatedCategory] = useState(null);
 
@@ -51,9 +51,9 @@ const App = () => {
     // categories.forEach((category, i) => console.log(`category[${i}]` + JSON.stringify(category)));
   }, [categories]);
 
-  const handleShowAddCategory = () => {
-    if (selectedCategory && !showAddCategory) setSelectedCategory(null); // close the selection form
-    setShowAddCategory((showAddCategory) => !showAddCategory);
+  const handleOpenFormCategory = () => {
+    if (selectedCategory && !openFormCategory) setSelectedCategory(null); // close the selection form
+    setOpenFormCategory((showAddCategory) => !showAddCategory);
     setUpdatedCategory(null);
   };
 
@@ -66,13 +66,13 @@ const App = () => {
         if (selectedCategory) setSelectedCategory(res);
       }
     }
-    setShowAddCategory(false);
+    setOpenFormCategory(false);
   };
 
   const handleSelectCategory = (category) => {
     log(JSON.stringify(category) + " is selected", LogLevel.DEBUG);
     setSelectedCategory((selectedCategory) => (selectedCategory?.id === category.id ? null : category));
-    setShowAddCategory(false); // close the add friend form
+    setOpenFormCategory(false); // close the add friend form
   };
 
   const handleDeleteCategory = (category) => {
@@ -84,7 +84,7 @@ const App = () => {
 
   const handleUpdateCategory = (category) => {
     setUpdatedCategory(category);
-    setShowAddCategory(true);
+    setOpenFormCategory(true);
   };
 
   const handleDeleteExpense = (expense) => {
@@ -109,8 +109,8 @@ const App = () => {
             <span>Categories</span>
             <Hover caption={`Add up to ${settings.maxCategories} categories`}>
               <Button
-                className={"button button-small" + (showAddCategory || categories.size > settings.maxCategories ? " diseabled" : "")}
-                onClick={handleShowAddCategory}
+                className={"button button-small" + (openFormCategory || categories.size > settings.maxCategories ? " diseabled" : "")}
+                onClick={handleOpenFormCategory}
               >
                 Add Category
               </Button>
@@ -123,7 +123,7 @@ const App = () => {
             onDelete={handleDeleteCategory}
             selectedCategory={selectedCategory}
           />
-          <div>{showAddCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}</div>
+          <div>{openFormCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}</div>
         </div>
         {selectedCategory && (
           <ExpenseList

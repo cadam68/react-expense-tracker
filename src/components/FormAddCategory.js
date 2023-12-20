@@ -65,38 +65,45 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
   return (
     <Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit} validateOnChange={false} validateOnBlur={false}>
       {(formikProps) => (
-        <Form className={"add-form" + (debug ? " debug" : "")}>
-          <label htmlFor="name">Name</label>
-          <span>
-            <Field
-              type={"text"}
-              name={"name"}
-              onChange={handleFormikFieldChange.bind(this, formikProps, "alpha[30]")}
-              onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
-                formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
-              })}
-              innerRef={(el) => (fieldRefs.current["name"] = el)}
-              placeholder={"Name..."}
-            />
-            <ErrorMessage name="name" component="span" className={"errorMessage"} />
-          </span>
-
-          <label htmlFor="budget">Budget</label>
-          <span>
-            <Field
-              type={"number"}
-              name={"budget"}
-              className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
-              onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
-              onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
-                if (e.target.value === "") return;
-                formikProps.setFieldValue(e.target.name, Number(e.target.value).toFixed(2), false);
-              })}
-              innerRef={(el) => (fieldRefs.current["budget"] = el)}
-            />
-            <ErrorMessage name="budget" component="span" className={"errorMessage"} />
-          </span>
-          <Button type={"submit"}>{category ? "Update" : "Save"} Category</Button>
+        <Form className={"add-form debug" + (debug ? " debug" : "")}>
+          <p>{category ? "Update" : "New"} Category</p>
+          <p>
+            <label htmlFor="name">Name</label>
+            <span>
+              <Field
+                type={"text"}
+                name={"name"}
+                onChange={handleFormikFieldChange.bind(this, formikProps, "alpha[30]")}
+                onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
+                  formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
+                })}
+                innerRef={(el) => (fieldRefs.current["name"] = el)}
+                placeholder={"Name..."}
+              />
+              <ErrorMessage name="name" component="span" className={"errorMessage"} />
+            </span>
+          </p>
+          <p>
+            <label htmlFor="budget">Budget</label>
+            <span>
+              <Field
+                type={"number"}
+                name={"budget"}
+                className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
+                onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
+                onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
+                  if (e.target.value === "") return;
+                  formikProps.setFieldValue(e.target.name, Number(e.target.value).toFixed(2), false);
+                })}
+                innerRef={(el) => (fieldRefs.current["budget"] = el)}
+              />
+              <ErrorMessage name="budget" component="span" className={"errorMessage"} />
+            </span>
+          </p>
+          <p>
+            <Button type={"submit"}>{category ? "Update" : "Save"} Category</Button>
+            <Button>Cancel</Button>
+          </p>
           <FormikValuesWatcher />
         </Form>
       )}
