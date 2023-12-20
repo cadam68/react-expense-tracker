@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import Hover from "./Hover";
 import { useBasicDataContext } from "../contexts/BasicDataContext";
-import { initialExpenses, sortExpensesBy } from "../services/ExpensesService";
+import { sortExpensesBy } from "../services/ExpensesService";
 import { format } from "date-fns";
 import { changeTheme, themes } from "../services/Helper";
 import S from "string";
