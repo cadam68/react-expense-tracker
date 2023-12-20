@@ -61,7 +61,7 @@ const Stats = ({ categories, clearExpenses, clearCategories, expenses, setSelect
         <Hover caption={"List all expenses"}>
           <Button
             onClick={() => {
-              setSelectedCategory({ name: "*" });
+              setSelectedCategory((selectedCategory) => (selectedCategory?.name === "*" ? null : { name: "*" }));
             }}
             className="button-shadow"
           >
