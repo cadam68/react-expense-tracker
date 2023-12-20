@@ -13,7 +13,6 @@ import Button from "./components/Button";
 import ExpenseList from "./components/ExpenseList";
 import FormAddCategory from "./components/FormAddCategory";
 import Footer from "./components/Footer";
-import S from "string";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
