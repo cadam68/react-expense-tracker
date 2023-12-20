@@ -71,7 +71,7 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
             <Field
               type={"text"}
               name={"name"}
-              onChange={handleFormikFieldChange.bind(this, formikProps, "alphaValue")}
+              onChange={handleFormikFieldChange.bind(this, formikProps, "alpha[30]")}
               onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
                 formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
               })}

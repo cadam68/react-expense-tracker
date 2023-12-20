@@ -19,7 +19,10 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
   }, [orderBy]);
 
   const handleSearchBy = (e) => {
-    const searchByValue = e.target.value.toUpperCase().replace(/[^A-Za-z ]/g, "");
+    const searchByValue = e.target.value
+      .toUpperCase()
+      .replace(/[^A-Za-z ]/g, "")
+      .substring(0, 10);
     setSearchBy(searchByValue);
     setExpenseList(
       sortExpensesBy(

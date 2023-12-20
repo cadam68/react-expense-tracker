@@ -1,7 +1,8 @@
 import { log, LogLevel } from "./LogService";
 
 export const handleFormikFieldChange = (formikProps, format, e) => {
-  const numberRegex = /number\[(\d+)-(\d+)\]/;
+  const numberRegex = /number\[(\d+)-(\d+)]/;
+  const alphaRegex = /alpha\[(\d+)]/;
 
   const clearError = (errorName) => {
     if (formikProps.errors.hasOwnProperty(errorName)) {
@@ -15,8 +16,9 @@ export const handleFormikFieldChange = (formikProps, format, e) => {
   let value = e.target.value;
 
   if (e.target.localName === "input") {
-    if (format === "alphaValue") {
-      value = e.target.value.replace(/[^A-Za-z ]/g, "");
+    if (format.match(alphaRegex)) {
+      const [, maxLength] = format.match(alphaRegex);
+      value = e.target.value.replace(/[^A-Za-z ]/g, "").substring(0, maxLength);
       formikProps.setFieldValue(e.target.name, value, false);
       clearError(e.target.name);
     } else if (format.match(numberRegex)) {
