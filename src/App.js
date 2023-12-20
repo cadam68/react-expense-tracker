@@ -59,12 +59,10 @@ const App = () => {
 
   const handleAddCategory = (id, name, budget) => {
     if (id == null) addCategory(name, budget);
-    else {
-      if (updatedCategory.name !== name || updatedCategory.budget !== budget) {
-        updateExpensesByCategory(updatedCategory.name, name);
-        const res = updateCategory(updatedCategory.id, name, budget);
-        if (selectedCategory) setSelectedCategory(res);
-      }
+    else if (updatedCategory.name !== name || updatedCategory.budget !== budget) {
+      updateExpensesByCategory(updatedCategory.name, name);
+      const res = updateCategory(updatedCategory.id, name, budget);
+      if (selectedCategory) setSelectedCategory(res);
     }
     setOpenFormCategory(false);
   };
