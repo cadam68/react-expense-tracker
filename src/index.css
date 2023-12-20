@@ -156,6 +156,11 @@ button.line-through {
   cursor: default;
 }
 
+button.diseabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 /* Nav */
 .nav, .footer {
   font-family: Epilogue, sans-serif;

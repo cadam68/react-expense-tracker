@@ -36,7 +36,7 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
 
   return (
     <div className={"expense-list"}>
-      <p>
+      <p style={{ marginBottom: "2rem" }}>
         {
           S(category)
             .replace(/[^A-Za-z ]/g, "")

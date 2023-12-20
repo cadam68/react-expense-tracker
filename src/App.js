@@ -13,6 +13,8 @@ import Button from "./components/Button";
 import ExpenseList from "./components/ExpenseList";
 import FormAddCategory from "./components/FormAddCategory";
 import Footer from "./components/Footer";
+import Hover from "./components/Hover";
+import { settings } from "./Settings";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
@@ -103,7 +105,17 @@ const App = () => {
       <FormAddExpense onAdd={addExpense} categories={categories} />
       <section className={"main" + (debug ? " debug" : "")}>
         <div className={"category-list" + (debug ? " debug" : "")}>
-          <p>Categories</p>
+          <p className={"space-between"}>
+            <span>Categories</span>
+            <Hover caption={"asdasd"}>
+              <Button
+                className={"button button-small" + (categories.size > settings.maxCategories ? " diseabled" : "")}
+                onClick={handleShowAddCategory}
+              >
+                Add Category
+              </Button>
+            </Hover>
+          </p>
           <CategoryList
             categories={categories}
             onSelection={handleSelectCategory}
@@ -111,10 +123,7 @@ const App = () => {
             onDelete={handleDeleteCategory}
             selectedCategory={selectedCategory}
           />
-          <div>
-            {showAddCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}
-            <Button onClick={handleShowAddCategory}>{showAddCategory ? "Close" : "Add"} Category</Button>
-          </div>
+          <div>{showAddCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}</div>
         </div>
         {selectedCategory && (
           <ExpenseList
