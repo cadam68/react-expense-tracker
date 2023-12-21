@@ -69,7 +69,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
                   innerRef={(el) => (fieldRefs.current["category"] = el)}
                 >
                   <option value="" disabled hidden>
-                    Choose an option
+                    Choose an Category
                   </option>
                   {categories
                     .slice()

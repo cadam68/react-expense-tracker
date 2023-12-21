@@ -107,7 +107,7 @@ const App = () => {
             <span>Categories</span>
             <Hover caption={`Add up to ${settings.maxCategories} categories`}>
               <Button
-                className={"button button-small" + (openFormCategory || categories.size > settings.maxCategories ? " diseabled" : "")}
+                className={"button button-small" + (openFormCategory || categories.length >= settings.maxCategories ? " diseabled" : "")}
                 onClick={handleOpenFormCategory}
               >
                 Add Category
@@ -121,7 +121,14 @@ const App = () => {
             onDelete={handleDeleteCategory}
             selectedCategory={selectedCategory}
           />
-          <div>{openFormCategory && <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />}</div>
+          <div>
+            {openFormCategory && (
+              <>
+                <p>{updatedCategory ? "Update" : "New"} Category</p>
+                <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />
+              </>
+            )}
+          </div>
         </div>
         {selectedCategory && (
           <ExpenseList

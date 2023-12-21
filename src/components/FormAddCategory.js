@@ -6,6 +6,7 @@ import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Help
 import S from "string";
 import PropTypes from "prop-types";
 import Button from "./Button";
+import Hover from "./Hover";
 
 const FormAddCategory = ({ onAdd, categories, category }) => {
   const { debug } = useDebugContext();
@@ -65,31 +66,29 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
   return (
     <Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit} validateOnChange={false} validateOnBlur={false}>
       {(formikProps) => (
-        <Form className={"add-form debug" + (debug ? " debug" : "")}>
-          <p>{category ? "Update" : "New"} Category</p>
-          <p>
-            <label htmlFor="name">Name</label>
-            <span>
+        <Form className={"form-category-add" + (debug ? " debug" : "")}>
+          <label htmlFor="name">Name</label>
+          <span>
+            <Hover caption={"Enter the name of the Category"}>
               <Field
                 type={"text"}
                 name={"name"}
-                onChange={handleFormikFieldChange.bind(this, formikProps, "alpha[30]")}
+                onChange={handleFormikFieldChange.bind(this, formikProps, "alpha[25]")}
                 onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
                   formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
                 })}
                 innerRef={(el) => (fieldRefs.current["name"] = el)}
-                placeholder={"Name..."}
               />
-              <ErrorMessage name="name" component="span" className={"errorMessage"} />
-            </span>
-          </p>
-          <p>
-            <label htmlFor="budget">Budget</label>
-            <span>
+            </Hover>
+            <ErrorMessage name="name" component="span" className={"errorMessage"} />
+          </span>
+          <label htmlFor="budget">Budget</label>
+          <span>
+            <Hover caption={"What is the budget allocated ? (leave empty if undefined)"}>
               <Field
                 type={"number"}
                 name={"budget"}
-                className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
+                className={"input-small " + (formikProps.errors.hasOwnProperty("category") ? "error" : "")}
                 onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
                 onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
                   if (e.target.value === "") return;
@@ -97,13 +96,15 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
                 })}
                 innerRef={(el) => (fieldRefs.current["budget"] = el)}
               />
-              <ErrorMessage name="budget" component="span" className={"errorMessage"} />
-            </span>
-          </p>
-          <p>
-            <Button type={"submit"}>{category ? "Update" : "Save"} Category</Button>
-            <Button>Cancel</Button>
-          </p>
+            </Hover>
+            <ErrorMessage name="budget" component="span" className={"errorMessage"} />
+          </span>
+          <span>
+            <Button className={"button button-small"} type={"submit"}>
+              Save
+            </Button>
+            <Button className={"button-outline button-small"}>Close</Button>
+          </span>
           <FormikValuesWatcher />
         </Form>
       )}

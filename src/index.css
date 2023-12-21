@@ -219,10 +219,41 @@ div.category p.expense-amount {
 .category.enable {
   cursor: pointer;
 }
+
 .category.selected,
 .category.enable:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
 }
+
+.form-category-add {
+  padding: 1rem;
+  border-radius: 7px;
+  background-color: var(--color-lightest);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  display: grid;
+  row-gap: 1.8rem;
+  column-gap: 1rem;
+  grid-template-columns: 4rem 1fr;
+  align-items: center;
+}
+
+.form-category-add > *:nth-child(5) { /* Target the first item of the third row */
+  grid-column: 1 / span 2; /* This will make it span from the first line to the end of the second line, effectively covering both columns */
+  justify-self: center;
+}
+
+.form-category-add > label {
+  font-size: 1.2rem;
+}
+
+.form-category-add span.hover-container,
+.form-category-add input {
+  width: 100%;
+  text-align: start;
+}
+
+
 
 /* Expenses */
 .expense-list {
