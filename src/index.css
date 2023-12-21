@@ -156,7 +156,7 @@ button.line-through {
   cursor: default;
 }
 
-button.diseabled {
+button.disabled {
   pointer-events: none;
   opacity: 0.5;
 }
@@ -252,8 +252,6 @@ div.category p.expense-amount {
   width: 100%;
   text-align: start;
 }
-
-
 
 /* Expenses */
 .expense-list {

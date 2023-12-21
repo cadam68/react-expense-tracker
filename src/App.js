@@ -107,7 +107,7 @@ const App = () => {
             <span>Categories</span>
             <Hover caption={`Add up to ${settings.maxCategories} categories`}>
               <Button
-                className={"button button-small" + (openFormCategory || categories.length >= settings.maxCategories ? " diseabled" : "")}
+                className={"button button-small" + (openFormCategory || categories.length >= settings.maxCategories ? " disabled" : "")}
                 onClick={handleOpenFormCategory}
               >
                 Add Category
