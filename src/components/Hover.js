@@ -19,7 +19,7 @@ const Hover = ({ caption, enable, children }) => {
 
 Hover.propTypes = {
   caption: PropTypes.string.isRequired,
-  enable: PropTypes,
+  enable: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
 
