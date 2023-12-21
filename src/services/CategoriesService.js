@@ -1,10 +1,10 @@
 import { log, LogLevel } from "./LogService";
 
 const initialCategories = [
-  { id: crypto.randomUUID(), name: "food", budget: 300, totalExpenses: 0 },
-  { id: crypto.randomUUID(), name: "shopping", budget: 200, totalExpenses: 0 },
-  { id: crypto.randomUUID(), name: "car", budget: 200, totalExpenses: 0 },
-  { id: crypto.randomUUID(), name: "divers", budget: null, totalExpenses: 0 },
+  { id: crypto.randomUUID(), name: "Food", budget: 300, totalExpenses: 0 },
+  { id: crypto.randomUUID(), name: "Shopping", budget: 200, totalExpenses: 0 },
+  { id: crypto.randomUUID(), name: "Car", budget: 200, totalExpenses: 0 },
+  { id: crypto.randomUUID(), name: "Divers", budget: null, totalExpenses: 0 },
 ];
 
 const CategoriesService = (useState) => {

@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import Button from "./Button";
 import Hover from "./Hover";
 
-const FormAddCategory = ({ onAdd, categories, category }) => {
+const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
   const { debug } = useDebugContext();
   const previousCategory = useRef(null); // persist
 
@@ -103,7 +103,9 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
             <Button className={"button button-small"} type={"submit"}>
               Save
             </Button>
-            <Button className={"button-outline button-small"}>Close</Button>
+            <Button className={"button-outline button-small"} onClick={onClose}>
+              Close
+            </Button>
           </span>
           <FormikValuesWatcher />
         </Form>
@@ -114,12 +116,14 @@ const FormAddCategory = ({ onAdd, categories, category }) => {
 
 FormAddCategory.propTypes = {
   onAdd: PropTypes.func,
+  onClose: PropTypes.func,
   categories: PropTypes.array,
   category: PropTypes.shape,
 };
 
 FormAddCategory.defaultProps = {
   onAdd: () => {},
+  onClose: () => {},
   categories: [],
 };
 

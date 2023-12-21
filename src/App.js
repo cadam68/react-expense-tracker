@@ -83,11 +83,16 @@ const App = () => {
   const handleUpdateCategory = (category) => {
     setUpdatedCategory(category);
     setOpenFormCategory(true);
+    setSelectedCategory(null); /* optional */
   };
 
   const handleDeleteExpense = (expense) => {
     console.log(expense);
     removeExpense(expense);
+  };
+
+  const handleCloseCategory = () => {
+    setOpenFormCategory(false);
   };
 
   return (
@@ -124,8 +129,13 @@ const App = () => {
           <div>
             {openFormCategory && (
               <>
-                <p>{updatedCategory ? "Update" : "New"} Category</p>
-                <FormAddCategory onAdd={handleAddCategory} categories={categories} category={updatedCategory} />
+                <p>{updatedCategory ? `Update Category ${updatedCategory.name}` : "New Category"}</p>
+                <FormAddCategory
+                  onAdd={handleAddCategory}
+                  categories={categories}
+                  onClose={handleCloseCategory}
+                  category={updatedCategory}
+                />
               </>
             )}
           </div>
