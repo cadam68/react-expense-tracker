@@ -25,7 +25,7 @@ const Expense = ({ expense, onDelete, num }) => {
 };
 
 Expense.propTypes = {
-  expense: PropTypes.node.isRequired,
+  expense: PropTypes.shape({}).isRequired,
   onDelete: PropTypes.func,
   num: PropTypes.number,
 };

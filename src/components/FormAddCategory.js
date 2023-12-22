@@ -118,7 +118,7 @@ FormAddCategory.propTypes = {
   onAdd: PropTypes.func,
   onClose: PropTypes.func,
   categories: PropTypes.array,
-  category: PropTypes.shape,
+  category: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({})]),
 };
 
 FormAddCategory.defaultProps = {

@@ -21,8 +21,9 @@ const proverbs = [
   "My wallet and I are in a long-term committed relationship – it takes all my money!",
 ];
 
+const proverdId = Math.floor(Math.random() * proverbs.length);
 const Footer = () => {
-  return <footer className={"footer"}>2023 Ⓒopyright Ⓒyril | {`"${proverbs[Math.floor(Math.random() * proverbs.length)]}"`}</footer>;
+  return <footer className={"footer"}>2023 Ⓒopyright Ⓒyril | {`"${proverbs[proverdId]}"`}</footer>;
 };
 
 export default Footer;

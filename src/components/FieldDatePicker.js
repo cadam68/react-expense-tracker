@@ -23,9 +23,12 @@ const FieldDatePicker = ({ fieldName, fieldRefs }) => {
 
 FieldDatePicker.propTypes = {
   fieldName: PropTypes.string.isRequired,
-  fieldRefs: PropTypes.shape({
-    current: PropTypes.any, // since useRef can be a reference to any kind of element
-  }),
+  fieldRefs: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      current: PropTypes.any, // since useRef can be a reference to any kind of element
+    }),
+  ]),
 };
 
 export default FieldDatePicker;

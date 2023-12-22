@@ -58,13 +58,13 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
           </select>
         </Hover>
       </p>
-      <p className={"card expense-list-items"}>
+      <div className={"card expense-list-items"}>
         <ul>
           {expenseList.map((expense, i) => (
             <Expense expense={expense} num={i + 1} onDelete={onDelete} key={expense.id} />
           ))}
         </ul>
-      </p>
+      </div>
     </div>
   );
 };

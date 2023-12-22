@@ -87,7 +87,6 @@ const App = () => {
   };
 
   const handleDeleteExpense = (expense) => {
-    console.log(expense);
     removeExpense(expense);
   };
 
