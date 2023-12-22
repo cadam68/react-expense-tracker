@@ -33,9 +33,11 @@ const App = () => {
     window.setLogLevel = setLogLevel;
   }, []);
 
+  /*
   useEffect(() => {
     log(`debug is ${debug ? "on" : "off"}`);
   }, [debug]);
+   */
 
   useEffect(() => {
     // expenses.forEach((expense, i) => console.log(`expense[${i}]` + JSON.stringify(expense)));

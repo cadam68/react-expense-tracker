@@ -26,7 +26,7 @@ const setLogLevel = (level) => {
 
 const setLogOn = (status) => {
   isLogOn = status;
-  log(`logLevel is ${isLogOn ? `enabled on ${getLogLevelText(currentLogLevel)} level` : "disabled"}`);
+  // log(`logLevel is ${isLogOn ? `enabled on ${getLogLevelText(currentLogLevel)} level` : "disabled"}`);
 };
 
 const log = (message, level = -1) => {

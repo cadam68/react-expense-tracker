@@ -31,6 +31,7 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
 
   useEffect(() => {
     [...Array(audioRef.current.length).keys()].forEach((i) => (audioRef.current[i].onended = () => setIsPlaying(false)));
+    if (themeId !== 0) changeTheme(themes[Object.keys(themes)[themeId]]);
   }, []);
 
   const text = sprintf(

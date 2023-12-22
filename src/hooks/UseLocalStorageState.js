@@ -3,9 +3,24 @@ import { log, LogLevel } from "../services/LogService";
 
 const loadData = (key, initialValue) => () => {
   if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to remove to persist all values -
+
+  let parsedObj;
   let storedValue = localStorage.getItem(key);
   log(`load ${key} from localStorage : ${storedValue}`, LogLevel.DEBUG);
-  return storedValue ? JSON.parse(storedValue) : initialValue;
+
+  //!\ dates are converted to strings because JSON doesn't have a native date type. //!\
+  if (storedValue) {
+    parsedObj = JSON.parse(storedValue);
+    switch (key) {
+      case "expense-tracker-expenses":
+        parsedObj.forEach((item) => {
+          if (item.date && !isNaN(Date.parse(item.date))) item.date = new Date(item.date);
+        });
+        break;
+    }
+  }
+
+  return storedValue ? parsedObj : initialValue;
 };
 
 const UseLocalStorageState = (key, initialValue) => {
