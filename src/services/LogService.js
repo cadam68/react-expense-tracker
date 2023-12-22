@@ -12,11 +12,10 @@ let currentLogLevel = LogLevel.INFO; // Default log level
 let isLogOn = false;
 
 const getLogLevelText = (levelValue) => {
-  const foundLevel = Object.keys(LogLevel).reduce((found, key) => {
+  return Object.keys(LogLevel).reduce((found, key) => {
     if (LogLevel[key] === levelValue) return key;
     return found;
   }, null);
-  return foundLevel;
 };
 
 const setLogLevel = (level) => {

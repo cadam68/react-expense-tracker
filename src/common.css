@@ -35,6 +35,11 @@ div.react-datepicker__tab-loop {
     display: inline-block;
 }
 
+.center {
+    display: flex;
+    justify-content: center;
+}
+
 p.space-between {
     display: flex;
     flex-direction: row;

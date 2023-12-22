@@ -15,6 +15,8 @@ import FormAddCategory from "./components/FormAddCategory";
 import Footer from "./components/Footer";
 import Hover from "./components/Hover";
 import { settings } from "./Settings";
+import Modal from "./components/Modal";
+import { useBasicDataContext } from "./contexts/BasicDataContext";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
@@ -27,10 +29,13 @@ const App = () => {
   const [openFormCategory, setOpenFormCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [updatedCategory, setUpdatedCategory] = useState(null);
+  const [showModal, setShowModal] = useState(true);
+  const { firstTime } = useBasicDataContext();
 
   useEffect(() => {
     window.toggleDebug = toggleDebug;
     window.setLogLevel = setLogLevel;
+    console.log("Thanks for using my webapp :)\n\nLooking for a Full Stack Developer ?\nFell free to contact me!\n\ncyril.adam@yahoo.fr");
   }, []);
 
   /*
@@ -98,6 +103,10 @@ const App = () => {
 
   return (
     <div className={"container" + (debug ? " debug" : "")}>
+      <Modal show={firstTime && showModal} onClose={() => setShowModal(false)}>
+        <h2>Welcome to ExpensesTracker!</h2>
+        <p>This is your first visit. Enjoy exploring...</p>
+      </Modal>
       <Logo />
       <Header
         categories={categories}

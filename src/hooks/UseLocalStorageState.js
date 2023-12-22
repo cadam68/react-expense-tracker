@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { log, LogLevel } from "../services/LogService";
 
 const loadData = (key, initialValue) => () => {
-  if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to remove to persist all values -
+  // if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to remove to persist all values -
 
   let parsedObj;
   let storedValue = localStorage.getItem(key);

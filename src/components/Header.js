@@ -81,16 +81,18 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
             {({ blob, url, loading, error }) => (loading ? "Loading document..." : <Button className={"button-small"}>Print</Button>)}
           </PDFDownloadLink>
         </Hover>
-        <Button
-          className={"button-outline button-small"}
-          onClick={() => {
-            resetBasicData();
-            toggleDebug();
-            setLogLevel(LogLevel.DEBUG);
-          }}
-        >
-          Debug {debug ? "OFF" : "ON"}{" "}
-        </Button>
+        {debug && (
+          <Button
+            className={"button-outline button-small"}
+            onClick={() => {
+              resetBasicData();
+              toggleDebug();
+              setLogLevel(LogLevel.DEBUG);
+            }}
+          >
+            Debug {debug ? "OFF" : "ON"}{" "}
+          </Button>
+        )}
         <Hover caption={"Delete all expenses"}>
           <Button className={"button-outline button-small"} onClick={clearExpenses}>
             Clear Expenses
