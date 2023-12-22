@@ -106,7 +106,7 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
           </Button>
         </Hover>
         <Hover caption={"Would you like to listen some music ?"}>
-          <Button className={"button-outline button-small" + (isPlaying ? " diseabled" : "")} onClick={playAudio}>
+          <Button className={"button-outline button-small" + (isPlaying ? " disabled" : "")} onClick={playAudio}>
             <span>🎵</span>
           </Button>
         </Hover>
