@@ -18,7 +18,7 @@ export const handleFormikFieldChange = (formikProps, format, e) => {
   if (e.target.localName === "input") {
     if (format.match(alphaRegex)) {
       const [, maxLength] = format.match(alphaRegex);
-      value = e.target.value.replace(/[^A-Za-z ]/g, "").substring(0, maxLength);
+      value = e.target.value.replace(/[^A-Za-z., ]/g, "").substring(0, maxLength);
       formikProps.setFieldValue(e.target.name, value, false);
       clearError(e.target.name);
     } else if (format.match(numberRegex)) {
@@ -108,4 +108,9 @@ export const themes = {
     colorDark: "#2ab7ca",
   },
   random: null,
+};
+
+export const capitalizeAfterPeriod = (inputString) => {
+  inputString = inputString.trim().replace(/\s+/g, " ").replace(/\s\./g, ".");
+  return inputString.charAt(0).toUpperCase() + inputString.slice(1).replace(/\.\s[a-z]/g, (match) => match.toUpperCase());
 };

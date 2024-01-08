@@ -1,7 +1,7 @@
 import { useDebugContext } from "../contexts/DebugContext";
 import { log, LogLevel } from "../services/LogService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Helper";
+import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod } from "../services/Helper";
 import FieldDatePicker from "./FieldDatePicker";
 import S from "string";
 import { useRef } from "react";
@@ -92,7 +92,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
                   className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
                   onChange={handleFormikFieldChange.bind(this, formikProps, "alpha[45]")}
                   onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
-                    formikProps.setFieldValue(e.target.name, S(e.target.value).capitalize().trim().s, false);
+                    formikProps.setFieldValue(e.target.name, capitalizeAfterPeriod(e.target.value).trim(), false);
                   })}
                   innerRef={(el) => (fieldRefs.current["description"] = el)}
                 />
