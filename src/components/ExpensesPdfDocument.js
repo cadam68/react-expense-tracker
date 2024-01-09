@@ -37,7 +37,8 @@ const ExpensesPdfDocument = ({ categories, expenses }) => (
                 marginLeft: 12,
               }}
             >
-              - {S(category.name).capitalize().s} : {category.totalExpenses} {category.budget ? `/ ${category.budget}` : ""} €
+              - {S(category.name).capitalize().s} : {sprintf("%.2f", category.totalExpenses)}{" "}
+              {category.budget ? `/ ${sprintf("%.2f", category.budget)}` : ""} €
             </Text>
           ))}
       </View>
