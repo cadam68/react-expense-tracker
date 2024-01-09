@@ -90,7 +90,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
                   name={"description"}
                   placeholder={"Description"}
                   className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
-                  onChange={handleFormikFieldChange.bind(this, formikProps, "alpha[45]")}
+                  onChange={handleFormikFieldChange.bind(this, formikProps, "alphaNum[45]")}
                   onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
                     formikProps.setFieldValue(e.target.name, capitalizeAfterPeriod(e.target.value).trim(), false);
                   })}

@@ -3,6 +3,7 @@ import { log, LogLevel } from "./LogService";
 export const handleFormikFieldChange = (formikProps, format, e) => {
   const numberRegex = /number\[(\d+)-(\d+)]/;
   const alphaRegex = /alpha\[(\d+)]/;
+  const alphaNumRegex = /alphaNum\[(\d+)]/;
 
   const clearError = (errorName) => {
     if (formikProps.errors.hasOwnProperty(errorName)) {
@@ -19,6 +20,11 @@ export const handleFormikFieldChange = (formikProps, format, e) => {
     if (format.match(alphaRegex)) {
       const [, maxLength] = format.match(alphaRegex);
       value = e.target.value.replace(/[^A-Za-z., ]/g, "").substring(0, maxLength);
+      formikProps.setFieldValue(e.target.name, value, false);
+      clearError(e.target.name);
+    } else if (format.match(alphaNumRegex)) {
+      const [, maxLength] = format.match(alphaNumRegex);
+      value = e.target.value.replace(/[^A-Za-z0-9., ]/g, "").substring(0, maxLength);
       formikProps.setFieldValue(e.target.name, value, false);
       clearError(e.target.name);
     } else if (format.match(numberRegex)) {
