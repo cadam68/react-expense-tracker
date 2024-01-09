@@ -6,6 +6,10 @@ import Hover from "./Hover";
 
 const Category = ({ num, category, onSelection, onDelete, onUpdate, selectedCategory }) => {
   const isSelected = selectedCategory?.id === category.id;
+  const currentDate = new Date();
+  const budgetPeriod = Math.round(
+    (category.budget / new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()) * currentDate.getDate()
+  );
 
   return (
     <li>
@@ -19,6 +23,7 @@ const Category = ({ num, category, onSelection, onDelete, onUpdate, selectedCate
           <p>{S(category.name).capitalize().s}</p>
           <p className={"expense-amount " + (category.budget && category.totalExpenses > category.budget ? "amount-high" : "")}>
             Spent {sprintf("%.2f €", category.totalExpenses)} {category.budget ? sprintf("/ %.2f €", category.budget) : ""}
+            <span className="expense-amount amount-high">{category.budget && category.totalExpenses > budgetPeriod ? " ⚠️" : ""}</span>
           </p>
         </div>
         <span>

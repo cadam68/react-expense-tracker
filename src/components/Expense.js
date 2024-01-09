@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Category from "./Category";
 import { sprintf } from "sprintf-js";
 import S from "string";
+import { settings } from "../Settings";
 
 const Expense = ({ expense, onDelete, num }) => {
   const { debug } = useDebugContext();
@@ -15,7 +16,9 @@ const Expense = ({ expense, onDelete, num }) => {
         <span className={"running-number"}>{num ? sprintf("%02d", num) : ""}</span>
         <span>{format(expense.date, "dd MMM")}</span>
         <span>{S(expense.description).capitalize().s}</span>
-        <span className={"expense-amount " + (expense.amount >= 30 ? "amount-high" : "")}>{sprintf("%02.2f", expense.amount)} €</span>
+        <span className={"expense-amount " + (expense.amount >= settings.amountHigh ? "amount-high" : "")}>
+          {sprintf("%02.2f", expense.amount)} €
+        </span>
         <Button className="button-shadow" onClick={() => onDelete(expense)}>
           <span>🗑</span>
         </Button>
