@@ -374,5 +374,16 @@ ul {
   background-color: var(--color-dark);
 }
 
+/* DragNDrop */
+.dragging:hover {
+  cursor: grab;
+}
 
+.isDragging {
+  opacity: 0.3;
+}
+
+.isDroppable {
+  background-color: var(--color-light);
+}
 

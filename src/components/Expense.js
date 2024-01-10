@@ -6,14 +6,23 @@ import Category from "./Category";
 import { sprintf } from "sprintf-js";
 import S from "string";
 import { settings } from "../Settings";
+import { useDrag } from "react-dnd";
 
 const Expense = ({ expense, onDelete, num }) => {
   const { debug } = useDebugContext();
 
+  const [{ isDragging }, dragRef] = useDrag({
+    type: "expense",
+    item: { id: expense.id, category: expense.category },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
   return (
     <li className={debug ? " debug" : ""}>
-      <div className={"expense"}>
-        <span className={"running-number"}>{num ? sprintf("%02d", num) : ""}</span>
+      <div className={"expense dragging" + (isDragging ? " isDragging" : "")} ref={dragRef}>
+        <span className={"running-number dragging"}>{num ? sprintf("%02d", num) : ""}</span>
         <span>{format(expense.date, "dd MMM")}</span>
         <span>{S(expense.description).capitalize().s}</span>
         <span className={"expense-amount " + (expense.amount >= settings.amountHigh ? "amount-high" : "")}>

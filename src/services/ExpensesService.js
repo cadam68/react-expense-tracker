@@ -30,6 +30,11 @@ const ExpensesService = (useState) => {
     setExpenses(updatedExpenses);
   };
 
+  const assignExpenseCategory = (expenseId, newCategoryName) => {
+    const updatedExpenses = expenses.map((expense) => (expense.id === expenseId ? { ...expense, category: newCategoryName } : expense));
+    setExpenses(updatedExpenses);
+  };
+
   const removeExpense = ({ id }) => {
     const updatedExpenses = [...expenses].filter((expense) => expense.id !== id);
     setExpenses(updatedExpenses);
@@ -44,7 +49,15 @@ const ExpensesService = (useState) => {
     setExpenses([]);
   };
 
-  return { expenses: expenses, addExpense, updateExpensesByCategory, removeExpense, removeExpensesByCategory, clearExpenses };
+  return {
+    expenses: expenses,
+    addExpense,
+    updateExpensesByCategory,
+    removeExpense,
+    removeExpensesByCategory,
+    clearExpenses,
+    assignExpenseCategory,
+  };
 };
 
 const sortExpensesBy = (expenses, orderBy) => {

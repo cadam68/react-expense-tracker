@@ -20,9 +20,8 @@ import { useBasicDataContext } from "./contexts/BasicDataContext";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
-  const { expenses, addExpense, updateExpensesByCategory, removeExpense, removeExpensesByCategory, clearExpenses } = ExpensesService(
-    UseLocalStorageState("expense-tracker-expenses", initialExpenses)
-  );
+  const { expenses, addExpense, updateExpensesByCategory, removeExpense, removeExpensesByCategory, clearExpenses, assignExpenseCategory } =
+    ExpensesService(UseLocalStorageState("expense-tracker-expenses", initialExpenses));
   const { categories, setCategories, addCategory, updateCategory, removeCategory, clearCategories } = CategoriesService(
     UseLocalStorageState("expense-tracker-categories", initialCategories)
   );
@@ -101,6 +100,10 @@ const App = () => {
     setOpenFormCategory(false);
   };
 
+  const handleExpenseDrop = (expenseId, categoryName) => {
+    assignExpenseCategory(expenseId, categoryName);
+  };
+
   return (
     <div className={"container" + (debug ? " debug" : "")}>
       <Modal show={firstTime && showModal} onClose={() => setShowModal(false)}>
@@ -134,6 +137,7 @@ const App = () => {
             onSelection={handleSelectCategory}
             onUpdate={handleUpdateCategory}
             onDelete={handleDeleteCategory}
+            onExpenseDrop={handleExpenseDrop}
             selectedCategory={selectedCategory}
           />
           <div>

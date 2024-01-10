@@ -1,7 +1,7 @@
 import Category from "./Category";
 import PropTypes from "prop-types";
 
-const CategoryList = ({ categories, onSelection, onDelete, onUpdate, selectedCategory }) => {
+const CategoryList = ({ categories, onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
   return (
     <ul>
       {categories
@@ -15,6 +15,7 @@ const CategoryList = ({ categories, onSelection, onDelete, onUpdate, selectedCat
             onSelection={onSelection}
             onUpdate={onUpdate}
             onDelete={onDelete}
+            onExpenseDrop={onExpenseDrop}
             selectedCategory={selectedCategory}
           />
         ))}
@@ -27,6 +28,7 @@ CategoryList.propTypes = {
   onSelection: PropTypes.func,
   onDelete: PropTypes.func,
   onUpdate: PropTypes.func,
+  onExpenseDrop: PropTypes.func,
   selectedCategory: PropTypes.shape({}),
 };
 
@@ -34,6 +36,7 @@ CategoryList.defaultProps = {
   onSelection: () => {},
   onDelete: () => {},
   onUpdate: () => {},
+  onExpenseDrop: () => {},
   selectedCategory: null,
 };
 

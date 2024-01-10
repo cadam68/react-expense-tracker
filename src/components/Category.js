@@ -3,21 +3,42 @@ import PropTypes from "prop-types";
 import S from "string";
 import { sprintf } from "sprintf-js";
 import Hover from "./Hover";
+import { useDrop } from "react-dnd";
 
-const Category = ({ num, category, onSelection, onDelete, onUpdate, selectedCategory }) => {
+const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
   const isSelected = selectedCategory?.id === category.id;
   const currentDate = new Date();
   const budgetPeriod = Math.round(
     (category.budget / new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()) * currentDate.getDate()
   );
 
+  const [{ isOver, canDrop }, dropRef] = useDrop({
+    accept: "expense",
+    drop: (item, monitor) => {
+      onExpenseDrop(item.id, category.name);
+    },
+    canDrop: (item, monitor) => {
+      return item.category !== category.name;
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
+    }),
+  });
+
   return (
     <li>
       <div
-        className={"category" + (isSelected ? " selected" : "") + (category.totalExpenses ? " enable" : "")}
+        className={
+          "category" +
+          (isSelected ? " selected" : "") +
+          (category.totalExpenses ? " enable" : "") +
+          (isOver && canDrop ? " isDroppable" : "")
+        }
         onClick={() => {
           if (category.totalExpenses) onSelection(category);
         }}
+        ref={dropRef}
       >
         <div>
           <p>{S(category.name).capitalize().s}</p>
@@ -61,6 +82,7 @@ Category.propTypes = {
   onSelection: PropTypes.func,
   onDelete: PropTypes.func,
   onUpdate: PropTypes.func,
+  onExpenseDrop: PropTypes.func,
   selectedCategory: PropTypes.shape({}),
   num: PropTypes.number,
 };
@@ -69,6 +91,7 @@ Category.defaultProps = {
   onSelection: () => {},
   onDelete: () => {},
   onUpdate: () => {},
+  onExpenseDrop: () => {},
   selectedCategory: null,
   num: null,
 };
