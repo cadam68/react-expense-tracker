@@ -10,8 +10,9 @@ import Hover from "./Hover";
 
 const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
   const { debug } = useDebugContext();
-  const previousCategory = useRef(null); // persist
+  // const previousCategory = useRef(null); // persist during renders
 
+  /*
   const FormikValuesWatcher = () => {
     const { resetForm } = useFormikContext();
 
@@ -29,8 +30,10 @@ const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
         previousCategory.current = category.name;
       }
     }, [category]);
+
     return null; // or render any UI components if needed
   };
+   */
 
   const fieldRefs = useRef({});
 
@@ -107,7 +110,7 @@ const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
               Close
             </Button>
           </span>
-          <FormikValuesWatcher />
+          {/* <FormikValuesWatcher /> */}
         </Form>
       )}
     </Formik>

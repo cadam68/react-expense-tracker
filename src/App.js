@@ -145,6 +145,7 @@ const App = () => {
               <>
                 <p>{updatedCategory ? `Update Category ${updatedCategory.name}` : "New Category"}</p>
                 <FormAddCategory
+                  key={updatedCategory?.id} // <-----/!\ force reset state for every new key value
                   onAdd={handleAddCategory}
                   categories={categories}
                   onClose={handleCloseCategory}

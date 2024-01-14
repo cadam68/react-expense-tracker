@@ -291,7 +291,7 @@ div.category p.expense-amount {
 }
 
 .expense-amount {
-  text-align: right;
+  text-align: left;
   color: dodgerblue;
   font-size: 1.2rem;
 }
