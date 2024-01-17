@@ -22,7 +22,7 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
     new Audio("/sounds/AlanisMorissetteKingofPain.mp3"),
     new Audio("/sounds/CountingCrowsMrJones.mp3"),
     new Audio("/sounds/4NonBlondesWhatsUp.mp3"),
-    new Audio("/sounds/CalviSaveTonight.mp3"),
+    // new Audio("/sounds/CalviSaveTonight.mp3"),
   ]);
   const [themeId, setThemeId] = UseLocalStorageState("expense-tracker-theme", 0);
 
