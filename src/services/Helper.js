@@ -78,11 +78,13 @@ export const changeTheme = (newTheme) => {
   root.style.setProperty("--color-dark", newTheme ? newTheme.colorDark : randomPalette[3]);
 };
 
-const generateColorPalette = () => {
+export const generateColorPalette = (nbColors = 4) => {
   let palette = [];
-  for (let i = 0; i < 4; i++) {
+  const step = 360 / nbColors;
+  const base = Math.floor(360 * Math.random());
+  for (let i = 0; i < nbColors; i++) {
     // Generate a hue value (i * 90 ensures even distribution across the color wheel)
-    let hue = (i * 90 + Math.floor(360 * Math.random())) % 360; // This will give us 4 colors spread evenly across the color wheel
+    let hue = (i * step + base) % 360; // This will give us 4 colors spread evenly across the color wheel
     // Set saturation and lightness values
     let saturation = 80; // Saturation at 70%
     let lightness = 80; // Lightness at 50%
@@ -92,6 +94,15 @@ const generateColorPalette = () => {
     palette.push(color);
   }
   return palette;
+};
+
+export const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 };
 
 export const themes = {
@@ -119,4 +130,30 @@ export const themes = {
 export const capitalizeAfterPeriod = (inputString) => {
   inputString = inputString.trim().replace(/\s+/g, " ").replace(/\s\./g, ".");
   return inputString.charAt(0).toUpperCase() + inputString.slice(1).replace(/\.\s[a-z]/g, (match) => match.toUpperCase());
+};
+
+// const rgbaColor = hslToRgba(210, 100, 50, 0.5); // Converts HSL(210, 100%, 50%) to RGBA
+const hslToRgba = (h, s, l, a = 1) => {
+  s /= 100;
+  l /= 100;
+
+  const k = (n) => (n + h / 30) % 12;
+  const a2 = s * Math.min(l, 1 - l);
+  const f = (n) => l - a2 * Math.max(Math.min(k(n) - 3, 9 - k(n), 1), -1);
+
+  const r = Math.round(255 * f(0));
+  const g = Math.round(255 * f(8));
+  const b = Math.round(255 * f(4));
+
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+};
+
+export const hsl2Rgba = (hslString, a = 1) => {
+  const regex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
+  const match = hslString.match(regex);
+  if (match) {
+    const [, h, s, l] = match;
+    return hslToRgba(parseInt(h, 10), parseInt(s, 10), parseInt(l, 10), a);
+  }
+  return null;
 };

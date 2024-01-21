@@ -18,6 +18,7 @@ const BasicDataContextProvider = ({ children }) => {
   const resetBasicData = () => {
     localStorage.removeItem("expense-tracker-firstTime");
     localStorage.removeItem("expense-tracker-theme");
+    localStorage.removeItem("expense-tracker-view");
   };
 
   return <BasicDataContext.Provider value={{ firstTime: firstTimeRef.current, resetBasicData }}>{children}</BasicDataContext.Provider>;

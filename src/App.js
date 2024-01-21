@@ -17,6 +17,7 @@ import Hover from "./components/Hover";
 import { settings } from "./Settings";
 import Modal from "./components/Modal";
 import { useBasicDataContext } from "./contexts/BasicDataContext";
+import ExpensesChart from "./components/ExpensesChart";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
@@ -29,6 +30,7 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [updatedCategory, setUpdatedCategory] = useState(null);
   const [showModal, setShowModal] = useState(true);
+  const [showCharts, setShowCharts] = UseLocalStorageState("expense-tracker-view", false);
   const { firstTime } = useBasicDataContext();
 
   useEffect(() => {
@@ -104,6 +106,10 @@ const App = () => {
     assignExpenseCategory(expenseId, categoryName);
   };
 
+  const toogleShowCharts = () => {
+    setShowCharts((value) => !value);
+  };
+
   return (
     <div className={"container" + (debug ? " debug" : "")}>
       <Modal show={firstTime && showModal} onClose={() => setShowModal(false)}>
@@ -117,52 +123,60 @@ const App = () => {
         clearExpenses={clearExpenses}
         clearCategories={clearCategories}
         setSelectedCategory={setSelectedCategory}
+        toogleShowCharts={toogleShowCharts}
+        showCharts={showCharts}
       />
       <FormAddExpense onAdd={addExpense} categories={categories} />
-      <section className={"main" + (debug ? " debug" : "")}>
-        <div className={"category-list" + (debug ? " debug" : "")}>
-          <p className={"space-between"}>
-            <span>Categories</span>
-            <Hover caption={`Add up to ${settings.maxCategories} categories`}>
-              <Button
-                className={"button button-small" + (openFormCategory || categories.length >= settings.maxCategories ? " disabled" : "")}
-                onClick={handleOpenFormCategory}
-              >
-                Add Category
-              </Button>
-            </Hover>
-          </p>
-          <CategoryList
-            categories={categories}
-            onSelection={handleSelectCategory}
-            onUpdate={handleUpdateCategory}
-            onDelete={handleDeleteCategory}
-            onExpenseDrop={handleExpenseDrop}
-            selectedCategory={selectedCategory}
-          />
-          <div>
-            {openFormCategory && (
-              <>
-                <p>{updatedCategory ? `Update Category ${updatedCategory.name}` : "New Category"}</p>
-                <FormAddCategory
-                  key={updatedCategory?.id} // <-----/!\ force reset state for every new key value
-                  onAdd={handleAddCategory}
-                  categories={categories}
-                  onClose={handleCloseCategory}
-                  category={updatedCategory}
-                />
-              </>
-            )}
+      {showCharts ? (
+        <section className={"main-box" + (debug ? " debug" : "")}>
+          <ExpensesChart expenses={expenses} categories={categories} />
+        </section>
+      ) : (
+        <section className={"main" + (debug ? " debug" : "")}>
+          <div className={"category-list" + (debug ? " debug" : "")}>
+            <p className={"space-between"}>
+              <span>Categories</span>
+              <Hover caption={`Add up to ${settings.maxCategories} categories`}>
+                <Button
+                  className={"button button-small" + (openFormCategory || categories.length >= settings.maxCategories ? " disabled" : "")}
+                  onClick={handleOpenFormCategory}
+                >
+                  Add Category
+                </Button>
+              </Hover>
+            </p>
+            <CategoryList
+              categories={categories}
+              onSelection={handleSelectCategory}
+              onUpdate={handleUpdateCategory}
+              onDelete={handleDeleteCategory}
+              onExpenseDrop={handleExpenseDrop}
+              selectedCategory={selectedCategory}
+            />
+            <div>
+              {openFormCategory && (
+                <>
+                  <p>{updatedCategory ? `Update Category ${updatedCategory.name}` : "New Category"}</p>
+                  <FormAddCategory
+                    key={updatedCategory?.id} // <-----/!\ force reset state for every new key value
+                    onAdd={handleAddCategory}
+                    categories={categories}
+                    onClose={handleCloseCategory}
+                    category={updatedCategory}
+                  />
+                </>
+              )}
+            </div>
           </div>
-        </div>
-        {selectedCategory && (
-          <ExpenseList
-            category={selectedCategory.name}
-            expenses={expenses.filter((expense) => selectedCategory.name === "*" || expense.category === selectedCategory.name)}
-            onDelete={handleDeleteExpense}
-          />
-        )}
-      </section>
+          {selectedCategory && (
+            <ExpenseList
+              category={selectedCategory.name}
+              expenses={expenses.filter((expense) => selectedCategory.name === "*" || expense.category === selectedCategory.name)}
+              onDelete={handleDeleteExpense}
+            />
+          )}
+        </section>
+      )}
       <Footer />
     </div>
   );

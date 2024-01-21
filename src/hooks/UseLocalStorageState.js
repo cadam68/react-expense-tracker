@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { log, LogLevel } from "../services/LogService";
+import { settings } from "../Settings";
 
 const loadData = (key, initialValue) => () => {
-  // if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to remove to persist all values -
+  if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to remove to persist all values -
 
   let parsedObj;
   let storedValue = localStorage.getItem(key);
@@ -16,6 +17,15 @@ const loadData = (key, initialValue) => () => {
         parsedObj.forEach((item) => {
           if (item.date && !isNaN(Date.parse(item.date))) item.date = new Date(item.date);
         });
+        break;
+
+      case "expense-tracker-categories":
+        const missingColors = parsedObj.some((item) => !item.color);
+        if (missingColors) {
+          parsedObj.forEach((item, i) => {
+            if (!item.color) item.color = settings.palette[i];
+          });
+        }
         break;
     }
   }

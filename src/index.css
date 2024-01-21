@@ -77,6 +77,7 @@ body {
 /* Buttons */
 button {
   color: inherit;
+  font-size: 1.3rem;
 }
 
 .button,
@@ -182,6 +183,11 @@ button.disabled {
   gap: 1rem;
 }
 
+.main-box {
+  height: 60vh;
+  width: 100%;
+}
+
 /* Category */
 .category-list {
   display: grid;
@@ -220,6 +226,7 @@ div.category p.expense-amount {
   cursor: pointer;
 }
 
+button.selected,
 .category.selected,
 .category.enable:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
@@ -385,5 +392,12 @@ ul {
 
 .isDroppable {
   background-color: var(--color-light);
+}
+
+/* Divers */
+span.text-middle {
+  display: inline-block;
+  padding: 5px;
+  font-size: 1.3rem;
 }
 

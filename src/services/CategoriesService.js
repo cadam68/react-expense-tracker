@@ -1,17 +1,18 @@
 import { log, LogLevel } from "./LogService";
+import { settings } from "../Settings";
 
 const initialCategories = [
-  { id: crypto.randomUUID(), name: "Food", budget: 300, totalExpenses: 0 },
-  { id: crypto.randomUUID(), name: "Shopping", budget: 200, totalExpenses: 0 },
-  { id: crypto.randomUUID(), name: "Car", budget: 200, totalExpenses: 0 },
-  { id: crypto.randomUUID(), name: "Divers", budget: null, totalExpenses: 0 },
+  { id: crypto.randomUUID(), name: "Food", budget: 300, totalExpenses: 0, color: settings.palette[0] },
+  { id: crypto.randomUUID(), name: "Shopping", budget: 200, totalExpenses: 0, color: settings.palette[1] },
+  { id: crypto.randomUUID(), name: "Car", budget: 200, totalExpenses: 0, color: settings.palette[2] },
+  { id: crypto.randomUUID(), name: "Divers", budget: null, totalExpenses: 0, color: settings.palette[3] },
 ];
 
 const CategoriesService = (useState) => {
   const [categories, setCategories] = useState;
 
   const createCategory = (name, budget, id = crypto.randomUUID()) => {
-    return { id, name, budget, totalExpenses: 0 };
+    return { id, name, budget, totalExpenses: 0, color: settings.palette[categories?.length - 1] };
   };
 
   const addCategory = (name, budget) => {

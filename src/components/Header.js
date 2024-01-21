@@ -14,7 +14,7 @@ import { changeTheme, themes } from "../services/Helper";
 import S from "string";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 
-const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory }) => {
+const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory, toogleShowCharts, showCharts }) => {
   const { debug, toggleDebug } = useDebugContext();
   const { resetBasicData } = useBasicDataContext();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -60,16 +60,20 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
   return (
     <nav className={"nav" + (debug ? " debug" : "")}>
       <p>
-        <Hover caption={"List all expenses"}>
-          <Button
-            onClick={() => {
-              setSelectedCategory((selectedCategory) => (selectedCategory?.name === "*" ? null : { name: "*" }));
-            }}
-            className="button-shadow"
-          >
-            {text}
-          </Button>
-        </Hover>
+        {showCharts ? (
+          <span className={"text-middle"}>{text}</span>
+        ) : (
+          <Hover caption={"List all expenses"}>
+            <Button
+              onClick={() => {
+                setSelectedCategory((selectedCategory) => (selectedCategory?.name === "*" ? null : { name: "*" }));
+              }}
+              className="button-shadow"
+            >
+              {text}
+            </Button>
+          </Hover>
+        )}
       </p>
       <p>
         <Hover caption={"Generate a pdf report of all expenses"}>
@@ -80,6 +84,11 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
           >
             {({ blob, url, loading, error }) => (loading ? "Loading document..." : <Button className={"button-small"}>Print</Button>)}
           </PDFDownloadLink>
+        </Hover>
+        <Hover caption={showCharts ? "Expenses List view" : "Expenses charts view"}>
+          <Button className={"button-outline button-small" + (showCharts ? " selected" : "")} onClick={toogleShowCharts}>
+            Charts
+          </Button>
         </Hover>
         {debug && (
           <Button
@@ -123,6 +132,8 @@ Header.propTypes = {
   clearExpenses: PropTypes.func,
   clearCategories: PropTypes.func,
   setSelectedCategory: PropTypes.func,
+  toogleShowCharts: PropTypes.func,
+  showCharts: PropTypes.bool,
   expenses: PropTypes.array.isRequired,
 };
 
@@ -130,6 +141,8 @@ Header.defaultProps = {
   clearExpenses: () => {},
   clearCategories: () => {},
   setSelectedCategory: () => {},
+  toogleShowCharts: () => {},
+  showCharts: false,
 };
 
 export default Header;
