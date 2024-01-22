@@ -46,7 +46,7 @@ const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
   const validate = (values) => {
     log(`values : ${JSON.stringify(values)}`, LogLevel.DEBUG);
     const errors = {};
-    if (!values.name || values.name.trim().length <= 3) errors.name = "(*) a name is required";
+    if (!values.name || values.name.trim().length < 3) errors.name = "(*) a name is required";
     if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id))
       errors.name = "(*) already used";
     if (values.budget && +values.budget <= 0) errors.budget = "(*) must be more than 0"; // note the budget could be null
