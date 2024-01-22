@@ -18,7 +18,7 @@ const Button = ({ className, type, onClick, children, secured = false }) => {
         <input
           type="checkbox"
           checked={confirmed}
-          style={{ cursor: "pointer", marginLeft: "5px" }}
+          style={{ cursor: "pointer", marginLeft: "5px", height: "10px" }}
           onChange={(e) => {
             e.stopPropagation();
             setConfirmed((value) => !value);
