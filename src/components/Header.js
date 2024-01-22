@@ -103,12 +103,12 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
           </Button>
         )}
         <Hover caption={"Delete all expenses"}>
-          <Button className={"button-outline button-small"} onClick={clearExpenses}>
+          <Button className={"button-outline button-small"} secured={true} onClick={clearExpenses}>
             Clear Expenses
           </Button>
         </Hover>
         <Hover caption={"Delete all categories"}>
-          <Button className={"button-outline button-small"} onClick={clearCategories}>
+          <Button className={"button-outline button-small"} secured={true} onClick={clearCategories}>
             Clear Categories
           </Button>
         </Hover>

@@ -18,7 +18,7 @@ const ExpensesService = (useState) => {
   };
 
   const addExpense = (date, category, description, amount) => {
-    const newExpense = createExpense(date, category, description, amount);
+    const newExpense = createExpense(startOfDay(date), category, description, amount);
     log(`add newExpense : ${JSON.stringify(newExpense)}`, LogLevel.DEBUG);
     setExpenses([...expenses, newExpense]);
   };

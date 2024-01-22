@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { log, LogLevel } from "../services/LogService";
 import { settings } from "../Settings";
+import { startOfDay } from "date-fns";
 
 const loadData = (key, initialValue) => () => {
   // if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to persist all values -
@@ -15,7 +16,7 @@ const loadData = (key, initialValue) => () => {
     switch (key) {
       case "expense-tracker-expenses":
         parsedObj.forEach((item) => {
-          if (item.date && !isNaN(Date.parse(item.date))) item.date = new Date(item.date);
+          if (item.date && !isNaN(Date.parse(item.date))) item.date = startOfDay(new Date(item.date));
         });
         break;
 
