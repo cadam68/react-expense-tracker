@@ -10,6 +10,7 @@ const Button = ({ className, type, onClick, children, secured = false }) => {
       style={secured && !confirmed ? { opacity: "0.5", cursor: "default" } : {}}
       onClick={(e) => {
         if (e.target.name === "checkbox-confirmation" || (secured && !confirmed)) return;
+        if (confirmed) setConfirmed(false);
         onClick(e);
       }}
     >
