@@ -9,9 +9,16 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
   const [expenseList, setExpenseList] = useState(expenses);
   const [orderBy, setOrderBy] = useState("date");
   const [searchBy, setSearchBy] = useState("");
+  const [totalExpenseList, setTotalExpenseList] = useState();
+
+  useEffect(() => {
+    if (searchBy && expenseList) setTotalExpenseList(expenseList.reduce((acc, expense) => acc + expense.amount, 0));
+    else setTotalExpenseList(null);
+  }, [searchBy, expenseList]);
 
   useEffect(() => {
     setExpenseList(sortExpensesBy(expenses, orderBy));
+    setSearchBy("");
   }, [expenses]);
 
   useEffect(() => {
@@ -42,7 +49,7 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
             .replace(/[^A-Za-z ]/g, "")
             .capitalize().s
         }{" "}
-        Expenses List
+        Expenses List {totalExpenseList > 0 && `( Total Selected : ${totalExpenseList} € )`}
       </p>
       <p className={"card expense-list-searchbar"}>
         <span className="input-big">
