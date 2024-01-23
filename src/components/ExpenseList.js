@@ -12,7 +12,7 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
   const [totalExpenseList, setTotalExpenseList] = useState();
 
   useEffect(() => {
-    if (searchBy && expenseList) setTotalExpenseList(expenseList.reduce((acc, expense) => acc + expense.amount, 0));
+    if (searchBy && expenseList) setTotalExpenseList(expenseList.reduce((acc, expense) => acc + expense.amount, 0).toFixed(2));
     else setTotalExpenseList(null);
   }, [searchBy, expenseList]);
 
