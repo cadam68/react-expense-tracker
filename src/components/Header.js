@@ -19,9 +19,9 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
   const { resetBasicData } = useBasicDataContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef([
-    new Audio("/sounds/AlanisMorissetteKingofPain.mp3"),
-    new Audio("/sounds/CountingCrowsMrJones.mp3"),
-    new Audio("/sounds/4NonBlondesWhatsUp.mp3"),
+    // new Audio("/sounds/AlanisMorissetteKingofPain.mp3"),
+    // new Audio("/sounds/CountingCrowsMrJones.mp3"),
+    // new Audio("/sounds/4NonBlondesWhatsUp.mp3"),
     // new Audio("/sounds/DisturbedDontTellMe.mp3"),
     // new Audio("/sounds/LostLinkinPark.mp3"),
     // new Audio("/sounds/NothingLastsForeverVisionAtlantis.mp3"),
@@ -119,11 +119,13 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
             {S(Object.keys(themes)[themeId]).capitalize().s}
           </Button>
         </Hover>
-        <Hover caption={"Would you like to listen some music ?"}>
-          <Button className={"button-outline button-small" + (isPlaying ? " disabled" : "")} onClick={playAudio}>
-            <span>🎵</span>
-          </Button>
-        </Hover>
+        {false && (
+          <Hover caption={"Would you like to listen some music ?"}>
+            <Button className={"button-outline button-small" + (isPlaying ? " disabled" : "")} onClick={playAudio}>
+              <span>🎵</span>
+            </Button>
+          </Hover>
+        )}
       </p>
     </nav>
   );
