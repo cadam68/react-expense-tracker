@@ -41,7 +41,21 @@ const ExpensesPdfDocument = ({ categories, expenses }) => (
               {category.budget ? `/ ${sprintf("%.2f", category.budget)}` : ""} €
             </Text>
           ))}
+        <Text
+          style={{
+            fontSize: 10,
+            marginLeft: 12,
+            marginTop: 10,
+          }}
+        >
+          - Total :{" "}
+          {sprintf(
+            "%.2f €",
+            categories.reduce((acc, curr) => acc + curr.totalExpenses, 0)
+          )}
+        </Text>
       </View>
+
       <View style={styles.table}>
         {/* Table Header */}
         <View style={styles.tableRow}>
