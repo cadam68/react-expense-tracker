@@ -82,7 +82,7 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
           <PDFDownloadLink
             className={"button button-small"}
             document={<ExpensesPdfDocument categories={categories} expenses={sortExpensesBy(expenses, "date-category")} />}
-            fileName={`expenses-${format(new Date(), "yyyymmdd")}.pdf`}
+            fileName={`expenses-${format(new Date(), "yyyyMMdd")}.pdf`}
           >
             {({ blob, url, loading, error }) => (loading ? "Loading document..." : <Button className={"button-small"}>Print</Button>)}
           </PDFDownloadLink>

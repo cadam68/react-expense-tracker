@@ -23,7 +23,7 @@ const proverbs = [
 
 const proverdId = Math.floor(Math.random() * proverbs.length);
 const Footer = () => {
-  return <footer className={"footer"}>2023 Ⓒopyright Ⓒyril | {`"${proverbs[proverdId]}"`}</footer>;
+  return <footer className={"footer"}>2024 Ⓒopyright Ⓒyril | {`"${proverbs[proverdId]}"`}</footer>;
 };
 
 export default Footer;
