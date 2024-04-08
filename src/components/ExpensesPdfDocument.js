@@ -9,11 +9,13 @@ import { sprintf } from "sprintf-js";
 // Create styles
 const styles = StyleSheet.create(styleTable);
 
+const getLastExpenseDate = (expenses) => [...new Set(expenses.map((item) => item.date))].sort((a, b) => a - b).at(-1) || new Date();
+
 // Create a component for the PDF content
 const ExpensesPdfDocument = ({ categories, expenses }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>Expense Report {format(new Date(), "MMM yyyy")}</Text>
+      <Text style={styles.title}>Expense Report {format(getLastExpenseDate(expenses), "MMM yyyy")}</Text>
       <View
         style={{
           display: "table",
@@ -51,7 +53,7 @@ const ExpensesPdfDocument = ({ categories, expenses }) => (
           - Total :{" "}
           {sprintf(
             "%.2f €",
-            categories.reduce((acc, curr) => acc + curr.totalExpenses, 0)
+            categories.reduce((acc, curr) => acc + curr.totalExpenses, 0),
           )}
         </Text>
       </View>

@@ -24,7 +24,7 @@ const App = () => {
   const { expenses, addExpense, updateExpensesByCategory, removeExpense, removeExpensesByCategory, clearExpenses, assignExpenseCategory } =
     ExpensesService(UseLocalStorageState("expense-tracker-expenses", initialExpenses));
   const { categories, setCategories, addCategory, updateCategory, removeCategory, clearCategories } = CategoriesService(
-    UseLocalStorageState("expense-tracker-categories", initialCategories)
+    UseLocalStorageState("expense-tracker-categories", initialCategories),
   );
   const [openFormCategory, setOpenFormCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -51,7 +51,7 @@ const App = () => {
       categories.map((category) => ({
         ...category,
         totalExpenses: expenses.filter((expense) => expense.category === category.name).reduce((acc, el) => acc + el.amount, 0),
-      }))
+      })),
     );
   }, [expenses]);
 
