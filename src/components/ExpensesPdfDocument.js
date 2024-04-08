@@ -5,11 +5,10 @@ import PropTypes from "prop-types";
 import { styleTable } from "./ExpensesPdfDocumentStyles";
 import S from "string";
 import { sprintf } from "sprintf-js";
+import { getLastExpenseDate } from "../services/Helper";
 
 // Create styles
 const styles = StyleSheet.create(styleTable);
-
-const getLastExpenseDate = (expenses) => [...new Set(expenses.map((item) => item.date))].sort((a, b) => a - b).at(-1) || new Date();
 
 // Create a component for the PDF content
 const ExpensesPdfDocument = ({ categories, expenses }) => (

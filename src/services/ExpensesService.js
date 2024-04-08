@@ -1,5 +1,6 @@
 import { log, LogLevel } from "./LogService";
-import { startOfDay, subDays } from "date-fns";
+import { format, startOfDay, subDays } from "date-fns";
+import { getLastExpenseDate } from "./Helper";
 
 const currentDate = new Date();
 const initialExpenses = [
@@ -25,7 +26,7 @@ const ExpensesService = (useState) => {
 
   const updateExpensesByCategory = (prevCategoryName, newCategoryName) => {
     const updatedExpenses = expenses.map((expense) =>
-      expense.category === prevCategoryName ? { ...expense, category: newCategoryName } : expense
+      expense.category === prevCategoryName ? { ...expense, category: newCategoryName } : expense,
     );
     setExpenses(updatedExpenses);
   };
@@ -46,7 +47,13 @@ const ExpensesService = (useState) => {
   };
 
   const clearExpenses = () => {
-    setExpenses([]);
+    // setExpenses([]);
+  };
+
+  const clearExpensesByMonth = () => {
+    let dateRef = format(getLastExpenseDate(expenses, false), "MM yyyy");
+    const updatedExpenses = [...expenses].filter((expense) => format(expense.date, "MM yyyy") !== dateRef);
+    setExpenses(updatedExpenses);
   };
 
   return {
@@ -55,7 +62,7 @@ const ExpensesService = (useState) => {
     updateExpensesByCategory,
     removeExpense,
     removeExpensesByCategory,
-    clearExpenses,
+    clearExpenses: clearExpensesByMonth,
     assignExpenseCategory,
   };
 };
