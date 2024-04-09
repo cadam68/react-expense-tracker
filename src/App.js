@@ -15,9 +15,12 @@ import FormAddCategory from "./components/FormAddCategory";
 import Footer from "./components/Footer";
 import Hover from "./components/Hover";
 import { settings } from "./Settings";
-import Modal from "./components/Modal";
 import { useBasicDataContext } from "./contexts/BasicDataContext";
 import ExpensesChart from "./components/ExpensesChart";
+import useConfirm from "./hooks/useConfirm";
+import styles from "./App.module.css";
+import { format } from "date-fns";
+import { getLastExpenseDate } from "./services/Helper";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel } = useDebugContext();
@@ -29,14 +32,25 @@ const App = () => {
   const [openFormCategory, setOpenFormCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [updatedCategory, setUpdatedCategory] = useState(null);
-  const [showModal, setShowModal] = useState(true);
   const [showCharts, setShowCharts] = UseLocalStorageState("expense-tracker-view", false);
   const { firstTime } = useBasicDataContext();
+  const { requestConfirm, ConfirmModalComponent, handleResponse } = useConfirm(styles);
 
   useEffect(() => {
     window.toggleDebug = toggleDebug;
     window.setLogLevel = setLogLevel;
     console.log("Thanks for using my webapp :)\n\nLooking for a Full Stack Developer ?\nFell free to contact me!\n\ncyril.adam@yahoo.fr");
+
+    if (firstTime)
+      (async () => {
+        await requestConfirm(
+          <div>
+            <h2>Welcome to ExpensesTracker!</h2>
+            <p>This is your first visit. Enjoy exploring...</p>
+          </div>,
+          [{ label: "Close", value: true }],
+        );
+      })();
   }, []);
 
   /*
@@ -81,11 +95,19 @@ const App = () => {
     setOpenFormCategory(false); // close the add friend form
   };
 
-  const handleDeleteCategory = (category) => {
-    log(JSON.stringify(category) + " is deleted", LogLevel.DEBUG);
-    removeCategory(category.id);
-    removeExpensesByCategory(category.name);
-    setSelectedCategory(null);
+  const handleDeleteCategory = async (category) => {
+    if (
+      await requestConfirm(
+        <p>
+          Do you want to <strong>delete</strong> category '{category.name}' and all related expenses ?
+        </p>,
+      )
+    ) {
+      log(JSON.stringify(category) + " is deleted", LogLevel.DEBUG);
+      removeCategory(category.id);
+      removeExpensesByCategory(category.name);
+      setSelectedCategory(null);
+    }
   };
 
   const handleUpdateCategory = (category) => {
@@ -110,18 +132,38 @@ const App = () => {
     setShowCharts((value) => !value);
   };
 
+  const handlerClearExpenses = async () => {
+    let dateRef = format(getLastExpenseDate(expenses, false), "MMM yyyy");
+    if (
+      await requestConfirm(
+        <p>
+          Do you want to <strong>delete all expenses</strong> from <strong>{dateRef}</strong> ?
+        </p>,
+      )
+    )
+      clearExpenses();
+  };
+
+  const handleClearCategories = async () => {
+    if (
+      await requestConfirm(
+        <p style={{ color: "red" }}>
+          Do you <strong>really </strong> want to <strong>delete all categories & expenses</strong> data ?
+        </p>,
+      )
+    )
+      clearCategories();
+  };
+
   return (
     <div className={"container" + (debug ? " debug" : "")}>
-      <Modal show={firstTime && showModal} onClose={() => setShowModal(false)}>
-        <h2>Welcome to ExpensesTracker!</h2>
-        <p>This is your first visit. Enjoy exploring...</p>
-      </Modal>
+      {ConfirmModalComponent}
       <Logo />
       <Header
         categories={categories}
         expenses={expenses}
-        clearExpenses={clearExpenses}
-        clearCategories={clearCategories}
+        clearExpenses={handlerClearExpenses}
+        clearCategories={handleClearCategories}
         setSelectedCategory={setSelectedCategory}
         toogleShowCharts={toogleShowCharts}
         showCharts={showCharts}
