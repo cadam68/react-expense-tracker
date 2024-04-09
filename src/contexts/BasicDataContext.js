@@ -1,5 +1,5 @@
 // Create a context with initial value false for 'debug'
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 
 const BasicDataContext = createContext({
