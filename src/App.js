@@ -50,7 +50,6 @@ const App = () => {
     window.setLogLevel = setLogLevel;
     window.toggleAdmin = toggleAdmin;
     console.log("Thanks for using my webapp :)\n\nLooking for a Full Stack Developer ?\nFell free to contact me!\n\ncyril.adam@yahoo.fr");
-    console.log(process.env);
 
     if (firstTime)
       (async () => {
