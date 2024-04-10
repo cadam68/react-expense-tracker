@@ -58,6 +58,7 @@ const ExpensesService = (useState) => {
 
   return {
     expenses: expenses,
+    setExpenses,
     addExpense,
     updateExpensesByCategory,
     removeExpense,

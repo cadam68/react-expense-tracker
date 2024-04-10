@@ -14,8 +14,18 @@ import { changeTheme, themes } from "../services/Helper";
 import S from "string";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 
-const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelectedCategory, toogleShowCharts, showCharts }) => {
-  const { debug, toggleDebug } = useDebugContext();
+const Header = ({
+  categories,
+  clearExpenses,
+  clearCategories,
+  expenses,
+  setSelectedCategory,
+  toogleShowCharts,
+  showCharts,
+  exportData,
+  importData,
+}) => {
+  const { debug, toggleDebug, admin } = useDebugContext();
   const { resetBasicData } = useBasicDataContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef([
@@ -41,7 +51,7 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
     totalExpenses,
     (totalExpenses * 100) / totalBudget,
     expenses.length,
-    expenses.length === 0 ? "" : "s"
+    expenses.length === 0 ? "" : "s",
   );
 
   const playAudio = () => {
@@ -57,6 +67,19 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
     const nextThemeId = (themeId + 1) % Object.keys(themes).length;
     changeTheme(themes[Object.keys(themes)[nextThemeId]]);
     setThemeId(nextThemeId);
+  };
+
+  function handleFile(file) {
+    const reader = new FileReader();
+    reader.onload = async (event) => importData(event.target.result);
+    reader.readAsText(file); // Read the uploaded file as text
+  }
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    event.target.classList.remove("isDroppable");
+    const file = event.dataTransfer.files[0]; // Get the dropped file
+    handleFile(file);
   };
 
   return (
@@ -109,23 +132,45 @@ const Header = ({ categories, clearExpenses, clearCategories, expenses, setSelec
             Clear Expenses
           </Button>
         </Hover>
-        <Hover caption={"Delete all categories"}>
-          <Button className={"button-outline button-small"} secured={true} onClick={clearCategories}>
-            Clear Categories
-          </Button>
-        </Hover>
+        {(debug || admin) && (
+          <Hover caption={"Delete all categories"}>
+            <Button className={"button-outline button-small"} secured={true} onClick={clearCategories}>
+              Clear Categories
+            </Button>
+          </Hover>
+        )}
         <Hover caption={`Change theme to ${S(Object.keys(themes)[(themeId + 1) % Object.keys(themes).length]).capitalize().s}`}>
           <Button className={"button-outline button-small"} onClick={handleChangeTheme}>
             {S(Object.keys(themes)[themeId]).capitalize().s}
           </Button>
         </Hover>
-        {false && (
+        {(debug || admin) && (
           <Hover caption={"Would you like to listen some music ?"}>
             <Button className={"button-outline button-small" + (isPlaying ? " disabled" : "")} onClick={playAudio}>
               <span>🎵</span>
             </Button>
           </Hover>
         )}
+        <Hover caption={"Export Data"}>
+          <Button className={"button-outline button-small"} onClick={exportData}>
+            Export
+          </Button>
+        </Hover>
+        <Hover caption={"Drag and drop your exported data file here"} visible>
+          <span
+            className={"button-outline button-small dragging"}
+            onDragOver={(event) => {
+              event.preventDefault();
+              if (!event.target.classList.contains("isDroppable")) event.target.classList.add("isDroppable");
+            }}
+            onDragLeave={(event) => {
+              event.target.classList.remove("isDroppable");
+            }}
+            onDrop={handleDrop}
+          >
+            Import
+          </span>
+        </Hover>
       </p>
     </nav>
   );
@@ -147,6 +192,8 @@ Header.defaultProps = {
   setSelectedCategory: () => {},
   toogleShowCharts: () => {},
   showCharts: false,
+  exportData: () => {},
+  importData: () => {},
 };
 
 export default Header;

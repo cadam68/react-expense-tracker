@@ -63,8 +63,7 @@ body {
   color: var(--color-dark);
   text-align: center;
   font-size: 3.6rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .header h6 {
@@ -167,7 +166,7 @@ button.disabled {
   font-family: Epilogue, sans-serif;
   color: #706f6f;
   text-align: center;
-  margin-top: 3rem;
+  margin-bottom: 1rem;
   font-size: 1.2rem;
   font-weight: 500;
 }
@@ -384,6 +383,7 @@ ul {
 /* DragNDrop */
 .dragging:hover {
   cursor: grab;
+  background-color: var(--color-lightest);
 }
 
 .isDragging {

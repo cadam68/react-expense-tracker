@@ -19,13 +19,22 @@ import { useBasicDataContext } from "./contexts/BasicDataContext";
 import ExpensesChart from "./components/ExpensesChart";
 import useConfirm from "./hooks/useConfirm";
 import styles from "./App.module.css";
-import { format } from "date-fns";
+import { format, parse, startOfDay } from "date-fns";
 import { getLastExpenseDate } from "./services/Helper";
+import CryptoJS from "crypto-js";
 
 const App = () => {
-  const { debug, toggleDebug, setLogLevel } = useDebugContext();
-  const { expenses, addExpense, updateExpensesByCategory, removeExpense, removeExpensesByCategory, clearExpenses, assignExpenseCategory } =
-    ExpensesService(UseLocalStorageState("expense-tracker-expenses", initialExpenses));
+  const { debug, toggleDebug, setLogLevel, toggleAdmin } = useDebugContext();
+  const {
+    expenses,
+    setExpenses,
+    addExpense,
+    updateExpensesByCategory,
+    removeExpense,
+    removeExpensesByCategory,
+    clearExpenses,
+    assignExpenseCategory,
+  } = ExpensesService(UseLocalStorageState("expense-tracker-expenses", initialExpenses));
   const { categories, setCategories, addCategory, updateCategory, removeCategory, clearCategories } = CategoriesService(
     UseLocalStorageState("expense-tracker-categories", initialCategories),
   );
@@ -39,6 +48,7 @@ const App = () => {
   useEffect(() => {
     window.toggleDebug = toggleDebug;
     window.setLogLevel = setLogLevel;
+    window.toggleAdmin = toggleAdmin;
     console.log("Thanks for using my webapp :)\n\nLooking for a Full Stack Developer ?\nFell free to contact me!\n\ncyril.adam@yahoo.fr");
 
     if (firstTime)
@@ -144,6 +154,73 @@ const App = () => {
       clearExpenses();
   };
 
+  const handleExportData = () => {
+    const data = {
+      expenses: expenses.map((item) => ({
+        id: item.id,
+        date: format(item.date, "MM-dd-yyyy"),
+        category: item.category,
+        description: item.description,
+        amount: item.amount,
+      })),
+      categories: categories.map((item) => ({ id: item.id, name: item.name, budget: item.budget, color: item.color })),
+      date: format(new Date(), "MM-dd-yyyy hh:mm"),
+    };
+    const jsonData = JSON.stringify(data);
+    const encryptedData = CryptoJS.AES.encrypt(jsonData, settings.passphrase).toString();
+    const blob = new Blob([encryptedData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `expense-tracker_data_${format(new Date(), "yyyyMMdd")}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleImportData = async (encryptedData) => {
+    try {
+      const decryptedData = CryptoJS.AES.decrypt(encryptedData, settings.passphrase).toString(CryptoJS.enc.Utf8); // Decrypt the data
+      const data = JSON.parse(decryptedData);
+
+      data.date = parse(data.date, "MM-dd-yyyy hh:mm", new Date());
+      if (data.date === undefined || !data.expenses?.length || !data.categories?.length) throw new Error();
+      if (
+        await requestConfirm(
+          <p>
+            Do you want to load the {data.expenses.length} expense(s) from <strong>{format(data.date, "dd MMM yyyy")}</strong> ?
+          </p>,
+        )
+      ) {
+        log("loading data...", LogLevel.DEBUG);
+        const updateExpenses = data.expenses.map((item) => ({
+          id: item.id,
+          date: startOfDay(parse(item.date, "MM-dd-yyyy", new Date())),
+          category: item.category,
+          description: item.description,
+          amount: +item.amount,
+        }));
+        const updatedCategories = data.categories.map((item) => ({
+          id: item.id,
+          name: item.name,
+          budget: +item.budget,
+          totalExpenses: updateExpenses.filter((expense) => expense.category === item.name).reduce((acc, el) => acc + el.amount, 0),
+          color: item.color,
+        }));
+        setCategories(updatedCategories);
+        setExpenses(updateExpenses);
+        await requestConfirm(<p>{updateExpenses.length} expense(s) imported 👍</p>, [{ label: "Ok" }]);
+      }
+    } catch (error) {
+      await requestConfirm(
+        <p style={{ color: "red", display: "inline-flex", alignItems: "center" }}>
+          <span style={{ fontSize: "2.5rem" }}>⚠️</span>️ Invalid or corrupted file !
+        </p>,
+        [{ label: "Ok" }],
+      );
+    }
+  };
+
   const handleClearCategories = async () => {
     if (
       await requestConfirm(
@@ -167,6 +244,8 @@ const App = () => {
         setSelectedCategory={setSelectedCategory}
         toogleShowCharts={toogleShowCharts}
         showCharts={showCharts}
+        importData={handleImportData}
+        exportData={handleExportData}
       />
       <FormAddExpense onAdd={addExpense} categories={categories} />
       {showCharts ? (

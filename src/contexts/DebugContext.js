@@ -1,16 +1,20 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { setLogLevel as setLogServiceLogLevel, setLogOn } from "../services/LogService";
+import { log, setLogLevel as setLogServiceLogLevel, setLogOn } from "../services/LogService";
 import PropTypes from "prop-types";
+import { settings } from "../Settings";
 
 // Create a context with initial value false for 'debug'
 const DebugContext = createContext({
   debug: false,
   toggleDebug: () => {},
   setLogLevel: () => {},
+  admin: false,
+  toggleAdmin: () => {},
 });
 
 const DebugContextProvider = ({ children }) => {
   const [debug, setDebug] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     setLogOn(debug);
@@ -24,7 +28,16 @@ const DebugContextProvider = ({ children }) => {
     setLogServiceLogLevel(level);
   };
 
-  return <DebugContext.Provider value={{ debug, toggleDebug, setLogLevel }}>{children}</DebugContext.Provider>;
+  const toggleAdmin = (credential) => {
+    if (credential === settings.passphrase) {
+      setAdmin((admin) => {
+        log(`admin changed to ${!admin}`);
+        return !admin;
+      });
+    }
+  };
+
+  return <DebugContext.Provider value={{ debug, toggleDebug, setLogLevel, admin, toggleAdmin }}>{children}</DebugContext.Provider>;
 };
 
 DebugContextProvider.propTypes = {
