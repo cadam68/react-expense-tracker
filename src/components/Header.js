@@ -1,32 +1,30 @@
 import { sprintf } from "sprintf-js";
 import { useDebugContext } from "../contexts/DebugContext";
-import { LogLevel, setLogLevel } from "../services/LogService";
+import { log, LogLevel, setLogLevel } from "../services/LogService";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Button from "./Button";
 import ExpensesPdfDocument from "./ExpensesPdfDocument";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import Hover from "./Hover";
-import { useBasicDataContext } from "../contexts/BasicDataContext";
+import { useSettingsContext } from "../contexts/SettingsContext";
 import { sortExpensesBy } from "../services/ExpensesService";
-import { format } from "date-fns";
-import { changeTheme, themes } from "../services/Helper";
+import { format, parse, startOfDay } from "date-fns";
+import { changeTheme, getLastExpenseDate, themes } from "../services/Helper";
 import S from "string";
-import UseLocalStorageState from "../hooks/UseLocalStorageState";
+import { useAppContext } from "../contexts/AppContext";
+import CryptoJS from "crypto-js";
+import { settings } from "../Settings";
 
-const Header = ({
-  categories,
-  clearExpenses,
-  clearCategories,
-  expenses,
-  setSelectedCategory,
-  toogleShowCharts,
-  showCharts,
-  exportData,
-  importData,
-}) => {
+const Header = ({ setSelectedCategory }) => {
   const { debug, toggleDebug, admin } = useDebugContext();
-  const { resetBasicData } = useBasicDataContext();
+  const { resetBasicData, themeId, setThemeId, showCharts, toogleShowCharts } = useSettingsContext();
+  const {
+    categoriesService: { categories, clearCategories },
+    expensesService: { expenses, clearExpensesByMonth, setExpensesCategories },
+    confirmService: { requestConfirm },
+  } = useAppContext();
+
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef([
     // new Audio("/sounds/AlanisMorissetteKingofPain.mp3"),
@@ -36,7 +34,6 @@ const Header = ({
     // new Audio("/sounds/LostLinkinPark.mp3"),
     // new Audio("/sounds/NothingLastsForeverVisionAtlantis.mp3"),
   ]);
-  const [themeId, setThemeId] = UseLocalStorageState("expense-tracker-theme", 0);
 
   const totalExpenses = categories.reduce((acc, el) => acc + el.totalExpenses, 0);
   const totalBudget = categories.reduce((acc, el) => acc + (el.budget ? el.budget : el.totalExpenses), 0);
@@ -44,22 +41,14 @@ const Header = ({
   useEffect(() => {
     [...Array(audioRef.current.length).keys()].forEach((i) => (audioRef.current[i].onended = () => setIsPlaying(false)));
     if (themeId !== 0) changeTheme(themes[Object.keys(themes)[themeId]]);
-  }, []);
+  }, [themeId]);
 
-  const text = sprintf(
-    "You spend %.2f euros (%d%% budget) (%d expense%s)",
-    totalExpenses,
-    (totalExpenses * 100) / totalBudget,
-    expenses.length,
-    expenses.length === 0 ? "" : "s",
-  );
+  const text = sprintf("You spend %.2f euros (%d%% budget) (%d expense%s)", totalExpenses, (totalExpenses * 100) / totalBudget, expenses.length, expenses.length === 0 ? "" : "s");
 
   const playAudio = () => {
     if (!isPlaying) {
       setIsPlaying(true);
-      audioRef.current[Math.floor(Math.random() * audioRef.current.length)]
-        .play()
-        .catch((error) => console.error("Audio playback failed", error));
+      audioRef.current[Math.floor(Math.random() * audioRef.current.length)].play().catch((error) => console.error("Audio playback failed", error));
     }
   };
 
@@ -69,17 +58,112 @@ const Header = ({
     setThemeId(nextThemeId);
   };
 
-  function handleFile(file) {
+  const handleFile = (file) => {
     const reader = new FileReader();
-    reader.onload = async (event) => importData(event.target.result);
+    reader.onload = async (event) => handleImportData(event.target.result);
     reader.readAsText(file); // Read the uploaded file as text
-  }
+  };
 
   const handleDrop = (event) => {
     event.preventDefault();
     event.target.classList.remove("isDroppable");
     const file = event.dataTransfer.files[0]; // Get the dropped file
     handleFile(file);
+  };
+
+  const handlerClearExpenses = async () => {
+    let dateRef = format(getLastExpenseDate(expenses, false), "MMM yyyy");
+    if (
+      await requestConfirm(
+        <p>
+          Do you want to <strong>delete all expenses</strong> from <strong>{dateRef}</strong> ?
+        </p>
+      )
+    ) {
+      clearExpensesByMonth(dateRef);
+    }
+  };
+
+  const handleClearCategories = async () => {
+    if (
+      await requestConfirm(
+        <p style={{ color: "red" }}>
+          Do you <strong>really </strong> want to <strong>delete all categories & expenses</strong> data ?
+        </p>
+      )
+    ) {
+      clearCategories();
+    }
+  };
+
+  const handleExportData = () => {
+    const data = {
+      expenses: expenses.map((item) => ({
+        id: item.id,
+        date: format(item.date, "MM-dd-yyyy"),
+        category: item.category,
+        description: item.description,
+        amount: item.amount,
+      })),
+      categories: categories.map((item) => ({ id: item.id, name: item.name, budget: item.budget, color: item.color })),
+      date: format(new Date(), "MM-dd-yyyy hh:mm"),
+    };
+    const jsonData = JSON.stringify(data);
+    const encryptedData = CryptoJS.AES.encrypt(jsonData, settings.passphrase).toString();
+    const blob = new Blob([encryptedData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `expense-tracker_data_${format(new Date(), "yyyyMMdd")}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleImportData = async (encryptedData) => {
+    try {
+      const decryptedData = CryptoJS.AES.decrypt(encryptedData, settings.passphrase).toString(CryptoJS.enc.Utf8); // Decrypt the data
+      const data = JSON.parse(decryptedData);
+
+      data.date = parse(data.date, "MM-dd-yyyy hh:mm", new Date());
+      if (data.date === undefined || !data.expenses?.length || !data.categories?.length) throw new Error();
+      if (
+        await requestConfirm(
+          <p>
+            Do you want to load the {data.expenses.length} expense(s) from <strong>{format(data.date, "dd MMM yyyy")}</strong> ?
+          </p>
+        )
+      ) {
+        log("loading data...", LogLevel.DEBUG);
+        const updateExpenses = data.expenses.map((item) => ({
+          id: item.id,
+          date: startOfDay(parse(item.date, "MM-dd-yyyy", new Date())),
+          category: item.category,
+          description: item.description,
+          amount: +item.amount,
+        }));
+        const updatedCategories = data.categories.map((item) => ({
+          id: item.id,
+          name: item.name,
+          budget: +item.budget,
+          totalExpenses: updateExpenses.filter((expense) => expense.category === item.name).reduce((acc, el) => acc + el.amount, 0),
+          color: item.color,
+        }));
+        setExpensesCategories(updateExpenses, updatedCategories);
+        await requestConfirm(<p>{updateExpenses.length} expense(s) imported 👍</p>, [{ label: "Ok" }]);
+      }
+    } catch (error) {
+      await requestConfirm(
+        <p style={{ color: "red", display: "inline-flex", alignItems: "center" }}>
+          <span style={{ fontSize: "2.5rem" }}>⚠️</span>️ Invalid or corrupted file !
+        </p>,
+        [{ label: "Ok" }]
+      );
+    }
+  };
+
+  const handleListExpenses = () => {
+    setSelectedCategory((selectedCategory) => (selectedCategory?.name === "*" ? null : { name: "*" }));
   };
 
   return (
@@ -89,12 +173,7 @@ const Header = ({
           <span className={"text-middle"}>{text}</span>
         ) : (
           <Hover caption={"List all expenses"}>
-            <Button
-              onClick={() => {
-                setSelectedCategory((selectedCategory) => (selectedCategory?.name === "*" ? null : { name: "*" }));
-              }}
-              className="button-shadow"
-            >
+            <Button onClick={handleListExpenses} className="button-shadow">
               {text}
             </Button>
           </Hover>
@@ -115,7 +194,7 @@ const Header = ({
             Charts
           </Button>
         </Hover>
-        {debug && (
+        {(debug || admin) && (
           <Button
             className={"button-outline button-small"}
             onClick={() => {
@@ -128,13 +207,13 @@ const Header = ({
           </Button>
         )}
         <Hover caption={"Delete all expenses"}>
-          <Button className={"button-outline button-small"} secured={true} onClick={clearExpenses}>
+          <Button className={"button-outline button-small"} secured={true} onClick={handlerClearExpenses}>
             Clear Expenses
           </Button>
         </Hover>
         {(debug || admin) && (
           <Hover caption={"Delete all categories"}>
-            <Button className={"button-outline button-small"} secured={true} onClick={clearCategories}>
+            <Button className={"button-outline button-small"} secured={true} onClick={handleClearCategories}>
               Clear Categories
             </Button>
           </Hover>
@@ -152,7 +231,7 @@ const Header = ({
           </Hover>
         )}
         <Hover caption={"Export Data"}>
-          <Button className={"button-outline button-small"} onClick={exportData}>
+          <Button className={"button-outline button-small"} onClick={handleExportData}>
             Export
           </Button>
         </Hover>
@@ -177,23 +256,11 @@ const Header = ({
 };
 
 Header.propTypes = {
-  categories: PropTypes.array.isRequired,
-  clearExpenses: PropTypes.func,
-  clearCategories: PropTypes.func,
   setSelectedCategory: PropTypes.func,
-  toogleShowCharts: PropTypes.func,
-  showCharts: PropTypes.bool,
-  expenses: PropTypes.array.isRequired,
 };
 
 Header.defaultProps = {
-  clearExpenses: () => {},
-  clearCategories: () => {},
   setSelectedCategory: () => {},
-  toogleShowCharts: () => {},
-  showCharts: false,
-  exportData: () => {},
-  importData: () => {},
 };
 
-export default Header;
+export default memo(Header);

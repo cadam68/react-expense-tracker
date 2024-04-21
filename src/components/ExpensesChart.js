@@ -1,21 +1,10 @@
-import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  TimeScale,
-  Filler,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import "chartjs-adapter-moment";
 import { format, startOfWeek, addDays } from "date-fns";
 import { hsl2Rgba } from "../services/Helper";
 import { sortExpensesBy } from "../services/ExpensesService";
+import { useAppContext } from "../contexts/AppContext";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler);
 
@@ -99,9 +88,7 @@ const transformData = (expenses, categories, cumulAmount = true) => {
         x: date,
         y: expensesData[category][date].amount,
         expenseIds: expensesData[category][date].ids,
-        details: expenses
-          .filter((item) => expensesData[category][date].ids.includes(item.id))
-          .map((item) => `${item.description} : ${item.amount}`),
+        details: expenses.filter((item) => expensesData[category][date].ids.includes(item.id)).map((item) => `${item.description} : ${item.amount}`),
       }));
     })(),
     borderColor: categories.find((item) => item.name === category).color,
@@ -119,7 +106,11 @@ const transformData = (expenses, categories, cumulAmount = true) => {
   return { datasets };
 };
 
-const ExpensesChart = ({ expenses, categories }) => {
+const ExpensesChart = () => {
+  const {
+    expensesService: { expenses },
+    categoriesService: { categories },
+  } = useAppContext();
   const chartData = transformData(expenses, categories);
   const options = {
     scales: {
@@ -138,7 +129,7 @@ const ExpensesChart = ({ expenses, categories }) => {
         grid: {
           drawOnChartArea: true,
           color: function (context) {
-            if (context.tick && context.tick.major) {
+            if (context?.tick?.major) {
               return "rgba(0, 0, 0, 0.8)"; // color of major grid lines (year, month)
             } else {
               // Only draw the grid line if it's a Monday
@@ -205,8 +196,6 @@ const ExpensesChart = ({ expenses, categories }) => {
       },
     },
   };
-
-  // console.log(chartData);
 
   return (
     <>

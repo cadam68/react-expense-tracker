@@ -25,9 +25,7 @@ const ExpensesService = (useState) => {
   };
 
   const updateExpensesByCategory = (prevCategoryName, newCategoryName) => {
-    const updatedExpenses = expenses.map((expense) =>
-      expense.category === prevCategoryName ? { ...expense, category: newCategoryName } : expense,
-    );
+    const updatedExpenses = expenses.map((expense) => (expense.category === prevCategoryName ? { ...expense, category: newCategoryName } : expense));
     setExpenses(updatedExpenses);
   };
 
@@ -46,9 +44,11 @@ const ExpensesService = (useState) => {
     setExpenses(updatedExpenses);
   };
 
+  /*
   const clearExpenses = () => {
-    // setExpenses([]);
+    setExpenses([]);
   };
+   */
 
   const clearExpensesByMonth = () => {
     let dateRef = format(getLastExpenseDate(expenses, false), "MM yyyy");
@@ -57,7 +57,7 @@ const ExpensesService = (useState) => {
   };
 
   return {
-    expenses: expenses,
+    expenses,
     setExpenses,
     addExpense,
     updateExpensesByCategory,

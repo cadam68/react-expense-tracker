@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styles from "./ConfirmModal.module.css";
 import Button from "./Button";
+import PropTypes from "prop-types";
 
 const ConfirmModal = ({ isOpen, content, buttons, handleResponse, className }) => {
   if (!isOpen) return null;
@@ -28,8 +29,23 @@ const ConfirmModal = ({ isOpen, content, buttons, handleResponse, className }) =
         )}
       </div>
     </div>,
-    document.body,
+    document.body
   );
+};
+
+ConfirmModal.propTycpes = {
+  isOpen: PropTypes.bool,
+  content: PropTypes.node.isRequired,
+  buttons: PropTypes.array,
+  handleResponse: PropTypes.func,
+  className: PropTypes.string,
+};
+
+ConfirmModal.defaultProps = {
+  isOpen: true,
+  buttons: [],
+  handleResponse: () => {},
+  className: null,
 };
 
 export default ConfirmModal;

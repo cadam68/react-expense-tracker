@@ -7,6 +7,7 @@ import { sprintf } from "sprintf-js";
 import S from "string";
 import { settings } from "../Settings";
 import { useDrag } from "react-dnd";
+import { memo } from "react";
 
 const Expense = ({ expense, onDelete, num }) => {
   const { debug } = useDebugContext();
@@ -25,9 +26,7 @@ const Expense = ({ expense, onDelete, num }) => {
         <span className={"running-number dragging"}>{num ? sprintf("%02d", num) : ""}</span>
         <span>{format(expense.date, "dd MMM")}</span>
         <span>{S(expense.description).capitalize().s}</span>
-        <span className={"expense-amount " + (expense.amount >= settings.amountHigh ? "amount-high" : "")}>
-          {sprintf("%02.2f", expense.amount)} €
-        </span>
+        <span className={"expense-amount " + (expense.amount >= settings.amountHigh ? "amount-high" : "")}>{sprintf("%02.2f", expense.amount)} €</span>
         <Button className="button-shadow" onClick={() => onDelete(expense)}>
           <span>🗑</span>
         </Button>
@@ -47,4 +46,4 @@ Category.defaultProps = {
   num: null,
 };
 
-export default Expense;
+export default memo(Expense);

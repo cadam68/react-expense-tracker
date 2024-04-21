@@ -1,6 +1,7 @@
 import React from "react";
 import "./Modal.css";
-import Button from "./Button"; // Make sure to create corresponding CSS for styling
+import Button from "./Button";
+import PropTypes from "prop-types";
 
 const Modal = ({ show, onClose, children }) => {
   if (!show) {
@@ -18,5 +19,13 @@ const Modal = ({ show, onClose, children }) => {
     </div>
   );
 };
+
+Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+Modal.defaultProps = {};
 
 export default Modal;

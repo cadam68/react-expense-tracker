@@ -4,14 +4,18 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod } from "../services/Helper";
 import FieldDatePicker from "./FieldDatePicker";
 import S from "string";
-import { useRef } from "react";
-import PropTypes from "prop-types";
+import { memo, useCallback, useRef } from "react";
 import Button from "./Button";
 import Hover from "./Hover";
+import { useAppContext } from "../contexts/AppContext";
 
-const FormAddExpense = ({ onAdd, categories }) => {
+const FormAddExpense = () => {
   const { debug } = useDebugContext();
   const fieldRefs = useRef({});
+  const {
+    categoriesService: { categories },
+    expensesService: { addExpense },
+  } = useAppContext();
 
   const initialValues = {
     date: new Date(),
@@ -21,7 +25,7 @@ const FormAddExpense = ({ onAdd, categories }) => {
   };
 
   // Validation function
-  const validate = (values) => {
+  const validate = useCallback((values) => {
     log(`values : ${JSON.stringify(values)}`, LogLevel.DEBUG);
     const errors = {};
     if (!values.category) errors.category = "(*) choose an option";
@@ -33,16 +37,19 @@ const FormAddExpense = ({ onAdd, categories }) => {
       log(`errors : ${JSON.stringify(errors)}`, LogLevel.DEBUG);
     }
     return errors;
-  };
+  }, []);
 
-  const handleSubmit = (values, { resetForm }) => {
-    log(`do submit: value=${JSON.stringify(values)}`, LogLevel.DEBUG);
-    onAdd(values.date, values.category, values.description, +values.amount);
-    // After submitting the form, reset it to initial values
-    resetForm({ values: { ...values, description: "", amount: 0 } });
-    // set the focus on the field description
-    if (fieldRefs.current["description"]) fieldRefs.current["description"].focus();
-  };
+  const handleSubmit = useCallback(
+    (values, { resetForm }) => {
+      log(`do submit: value=${JSON.stringify(values)}`, LogLevel.DEBUG);
+      addExpense(values.date, values.category, values.description, +values.amount);
+      // After submitting the form, reset it to initial values
+      resetForm({ values: { ...values, description: "", amount: 0 } });
+      // set the focus on the field description
+      if (fieldRefs.current["description"]) fieldRefs.current["description"].focus();
+    },
+    [addExpense]
+  );
 
   return (
     <section>
@@ -124,14 +131,8 @@ const FormAddExpense = ({ onAdd, categories }) => {
   );
 };
 
-FormAddExpense.propTypes = {
-  onAdd: PropTypes.func,
-  categories: PropTypes.array,
-};
+FormAddExpense.propTypes = {};
 
-FormAddExpense.defaultProps = {
-  onAdd: () => {},
-  categories: [],
-};
+FormAddExpense.defaultProps = {};
 
-export default FormAddExpense;
+export default memo(FormAddExpense);

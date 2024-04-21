@@ -1,29 +1,37 @@
 import PropTypes from "prop-types";
 import Expense from "./Expense";
-import { useEffect, useState } from "react";
-import { sortExpensesBy } from "../services/ExpensesService";
+import { memo, useEffect, useState } from "react";
 import S from "string";
 import Hover from "./Hover";
+import { useAppContext } from "../contexts/AppContext";
 
-const ExpenseList = ({ category, expenses, onDelete }) => {
-  const [expenseList, setExpenseList] = useState(expenses);
+const ExpenseList = ({ selectedCategory }) => {
+  const {
+    expensesService: { expenses, delExpense, sortExpensesBy },
+  } = useAppContext();
+  const [expenseList, setExpenseList] = useState([]);
   const [orderBy, setOrderBy] = useState("date");
   const [searchBy, setSearchBy] = useState("");
   const [totalExpenseList, setTotalExpenseList] = useState();
 
+  // compute setTotalExpenseList
   useEffect(() => {
-    if (searchBy && expenseList) setTotalExpenseList(expenseList.reduce((acc, expense) => acc + expense.amount, 0).toFixed(2));
+    const updatedExpenseList = expenses.filter(
+      (expense) => (selectedCategory.name === "*" || expense.category === selectedCategory.name) && expense.description.toUpperCase().includes(searchBy)
+    );
+    if (searchBy) setTotalExpenseList(updatedExpenseList.reduce((acc, expense) => acc + expense.amount, 0).toFixed(2));
     else setTotalExpenseList(null);
-  }, [searchBy, expenseList]);
+    setExpenseList(sortExpensesBy(orderBy, updatedExpenseList));
+  }, [searchBy, selectedCategory, expenses, orderBy, sortExpensesBy]);
 
   useEffect(() => {
-    setExpenseList(sortExpensesBy(expenses, orderBy));
     setSearchBy("");
   }, [expenses]);
 
+  // sort the expenseList
   useEffect(() => {
-    setExpenseList((expenseList) => sortExpensesBy(expenseList, orderBy));
-  }, [orderBy]);
+    setExpenseList((expenseList) => sortExpensesBy(orderBy, expenseList));
+  }, [orderBy, sortExpensesBy]);
 
   const handleSearchBy = (e) => {
     const searchByValue = e.target.value
@@ -31,21 +39,18 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
       .replace(/[^A-Za-z ]/g, "")
       .substring(0, 10);
     setSearchBy(searchByValue);
-    setExpenseList(
-      sortExpensesBy(
-        expenses.filter((expense) => expense.description.toUpperCase().includes(searchByValue)),
-        orderBy
-      )
-    );
   };
 
   const handleOrderBy = (e) => setOrderBy(e.target.value);
+  const handleDelete = (expense) => {
+    delExpense(expense);
+  };
 
   return (
     <div className={"expense-list"}>
       <p style={{ marginBottom: "2rem" }}>
         {
-          S(category)
+          S(selectedCategory.name)
             .replace(/[^A-Za-z ]/g, "")
             .capitalize().s
         }{" "}
@@ -68,7 +73,7 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
       <div className={"card expense-list-items"}>
         <ul>
           {expenseList.map((expense, i) => (
-            <Expense expense={expense} num={i + 1} onDelete={onDelete} key={expense.id} />
+            <Expense expense={expense} num={i + 1} onDelete={handleDelete} key={expense.id} />
           ))}
         </ul>
       </div>
@@ -77,13 +82,11 @@ const ExpenseList = ({ category, expenses, onDelete }) => {
 };
 
 ExpenseList.propTypes = {
-  expenses: PropTypes.array.isRequired,
-  onDelete: PropTypes.func,
-  category: PropTypes.string,
+  selectedCategory: PropTypes.shape({}),
 };
 
 ExpenseList.defaultProps = {
-  onDelete: () => {},
+  selectedCategory: null,
 };
 
-export default ExpenseList;
+export default memo(ExpenseList);

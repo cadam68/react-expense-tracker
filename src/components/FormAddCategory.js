@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { ErrorMessage, Field, Form, Formik, useFormikContext } from "formik";
+import { useRef } from "react";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDebugContext } from "../contexts/DebugContext";
 import { log, LogLevel } from "../services/LogService";
 import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Helper";
@@ -7,12 +7,17 @@ import S from "string";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import Hover from "./Hover";
+import { useAppContext } from "../contexts/AppContext";
 
-const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
+const FormAddCategory = ({ onAdd, onClose, category }) => {
   const { debug } = useDebugContext();
-  // const previousCategory = useRef(null); // persist during renders
+  const {
+    categoriesService: { categories },
+  } = useAppContext();
 
   /*
+  const previousCategory = useRef(null); // persist during renders
+
   const FormikValuesWatcher = () => {
     const { resetForm } = useFormikContext();
 
@@ -47,8 +52,7 @@ const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
     log(`values : ${JSON.stringify(values)}`, LogLevel.DEBUG);
     const errors = {};
     if (!values.name || values.name.trim().length < 3) errors.name = "(*) a name is required";
-    if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id))
-      errors.name = "(*) already used";
+    if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id)) errors.name = "(*) already used";
     if (values.budget && +values.budget <= 0) errors.budget = "(*) must be more than 0"; // note the budget could be null
     if (Object.keys(errors).length !== 0) {
       const fieldName = Object.keys(errors)[0];
@@ -120,14 +124,13 @@ const FormAddCategory = ({ onAdd, onClose, categories, category }) => {
 FormAddCategory.propTypes = {
   onAdd: PropTypes.func,
   onClose: PropTypes.func,
-  categories: PropTypes.array,
   category: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({})]),
 };
 
 FormAddCategory.defaultProps = {
   onAdd: () => {},
   onClose: () => {},
-  categories: [],
+  category: {},
 };
 
 export default FormAddCategory;

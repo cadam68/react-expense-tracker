@@ -1,7 +1,11 @@
 import Category from "./Category";
 import PropTypes from "prop-types";
+import { useAppContext } from "../contexts/AppContext";
 
-const CategoryList = ({ categories, onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
+const CategoryList = ({ onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
+  const {
+    categoriesService: { categories },
+  } = useAppContext();
   return (
     <ul>
       {categories
@@ -24,7 +28,6 @@ const CategoryList = ({ categories, onSelection, onDelete, onUpdate, onExpenseDr
 };
 
 CategoryList.propTypes = {
-  categories: PropTypes.array.isRequired,
   onSelection: PropTypes.func,
   onDelete: PropTypes.func,
   onUpdate: PropTypes.func,

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 const Button = ({ className, type, onClick, children, secured = false }) => {
   const [confirmed, setConfirmed] = useState(false);
@@ -36,12 +36,14 @@ Button.propTypes = {
   type: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired,
+  secured: PropTypes.bool,
 };
 
 Button.defaultProps = {
   className: "button",
   type: "button",
   onClick: () => {},
+  secured: false,
 };
 
-export default Button;
+export default memo(Button);

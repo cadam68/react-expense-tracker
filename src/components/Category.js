@@ -8,14 +8,12 @@ import { useDrop } from "react-dnd";
 const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
   const isSelected = selectedCategory?.id === category.id;
   const currentDate = new Date();
-  const budgetPeriod = Math.round(
-    (category.budget / new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()) * currentDate.getDate()
-  );
+  const budgetPeriod = Math.round((category.budget / new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()) * currentDate.getDate());
 
   const [{ isOver, canDrop }, dropRef] = useDrop({
     accept: "expense",
     drop: (item, monitor) => {
-      onExpenseDrop(item.id, category.name);
+      onExpenseDrop(item, category);
     },
     canDrop: (item, monitor) => {
       return item.category !== category.name;
@@ -29,12 +27,7 @@ const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDro
   return (
     <li>
       <div
-        className={
-          "category" +
-          (isSelected ? " selected" : "") +
-          (category.totalExpenses ? " enable" : "") +
-          (isOver && canDrop ? " isDroppable" : "")
-        }
+        className={"category" + (isSelected ? " selected" : "") + (category.totalExpenses ? " enable" : "") + (isOver && canDrop ? " isDroppable" : "")}
         onClick={() => {
           if (category.totalExpenses) onSelection(category);
         }}
