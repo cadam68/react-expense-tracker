@@ -235,6 +235,7 @@ div.category p.expense-amount {
   font-size: 1rem;
 }
 
+.header.enable,
 .category.enable {
   cursor: pointer;
 }

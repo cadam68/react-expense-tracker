@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDebugContext } from "./contexts/DebugContext";
 import Logo from "./components/Logo";
 import Footer from "./components/Footer";
@@ -7,10 +7,12 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import { useAppContext } from "./contexts/AppContext";
+import ChartsPage from "./pages/ChartsPage";
+import ExpensesPage from "./pages/ExpensesPage";
 
 const App = () => {
   const { debug, toggleDebug, setLogLevel, toggleAdmin } = useDebugContext();
-  const { firstTime } = useSettingsContext();
+  const { firstTime, showCharts } = useSettingsContext();
   const {
     confirmService: { requestConfirm, ConfirmModalComponent },
   } = useAppContext();
@@ -40,8 +42,13 @@ const App = () => {
         <Logo />
         <div className={"page-content" + (debug ? " debug" : "")}>
           <Routes>
-            <Route index element={<HomePage />} />
+            <Route path={"/app"} element={<HomePage />}>
+              <Route index element={<Navigate replace to={showCharts ? "charts" : "expenses"} />} />
+              <Route path={"expenses"} element={<ExpensesPage />} />
+              <Route path={"charts"} element={<ChartsPage />} />
+            </Route>
             <Route path={"about"} element={<AboutPage />} />
+            <Route path="*" replace element={<Navigate to="/app" />} />
           </Routes>
         </div>
         <Footer className={debug ? " debug" : ""} />

@@ -15,10 +15,11 @@ import S from "string";
 import { useAppContext } from "../contexts/AppContext";
 import CryptoJS from "crypto-js";
 import { settings } from "../Settings";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = ({ setSelectedCategory }) => {
   const { debug, toggleDebug, admin } = useDebugContext();
-  const { resetBasicData, themeId, setThemeId, showCharts, toogleShowCharts } = useSettingsContext();
+  const { resetBasicData, themeId, setThemeId, toogleShowCharts } = useSettingsContext();
   const {
     categoriesService: { categories, clearCategories },
     expensesService: { expenses, clearExpensesByMonth, setExpensesCategories },
@@ -34,6 +35,8 @@ const Header = ({ setSelectedCategory }) => {
     // new Audio("/sounds/LostLinkinPark.mp3"),
     // new Audio("/sounds/NothingLastsForeverVisionAtlantis.mp3"),
   ]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const totalExpenses = categories.reduce((acc, el) => acc + el.totalExpenses, 0);
   const totalBudget = categories.reduce((acc, el) => acc + (el.budget ? el.budget : el.totalExpenses), 0);
@@ -166,10 +169,15 @@ const Header = ({ setSelectedCategory }) => {
     setSelectedCategory((selectedCategory) => (selectedCategory?.name === "*" ? null : { name: "*" }));
   };
 
+  const handleShowCharts = () => {
+    toogleShowCharts();
+    navigate(`/app/${location.pathname === "/app/expenses" ? "charts" : "expenses"}`);
+  };
+
   return (
     <nav className={"nav" + (debug ? " debug" : "")}>
       <p>
-        {showCharts ? (
+        {location.pathname === "/app/charts" ? (
           <span className={"text-middle"}>{text}</span>
         ) : (
           <Hover caption={"List all expenses"}>
@@ -189,9 +197,9 @@ const Header = ({ setSelectedCategory }) => {
             {({ blob, url, loading, error }) => (loading ? "Loading document..." : <Button className={"button-small"}>Print</Button>)}
           </PDFDownloadLink>
         </Hover>
-        <Hover caption={showCharts ? "Expenses List view" : "Expenses charts view"}>
-          <Button className={"button-outline button-small" + (showCharts ? " selected" : "")} onClick={toogleShowCharts}>
-            Charts
+        <Hover caption={location.pathname === "/app/charts" ? "Expenses List view" : "Expenses charts view"}>
+          <Button className={"button-outline button-small" + (location.pathname === "/app/charts" ? " selected" : "")} onClick={handleShowCharts}>
+            {location.pathname === "/app/expenses" ? "Charts" : "Expenses"}
           </Button>
         </Hover>
         {(debug || admin) && (
