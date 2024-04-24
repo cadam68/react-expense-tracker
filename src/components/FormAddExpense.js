@@ -1,5 +1,5 @@
 import { useDebugContext } from "../contexts/DebugContext";
-import { log, LogLevel } from "../services/LogService";
+import { Log, log, LogLevel } from "../services/LogService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod } from "../services/Helper";
 import FieldDatePicker from "./FieldDatePicker";
@@ -8,6 +8,8 @@ import { memo, useCallback, useRef } from "react";
 import Button from "./Button";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
+
+const logger = Log("FormAddExpense");
 
 const FormAddExpense = () => {
   const { debug } = useDebugContext();
@@ -41,12 +43,17 @@ const FormAddExpense = () => {
 
   const handleSubmit = useCallback(
     (values, { resetForm }) => {
-      log(`do submit: value=${JSON.stringify(values)}`, LogLevel.DEBUG);
-      addExpense(values.date, values.category, values.description, +values.amount);
-      // After submitting the form, reset it to initial values
-      resetForm({ values: { ...values, description: "", amount: 0 } });
-      // set the focus on the field description
-      if (fieldRefs.current["description"]) fieldRefs.current["description"].focus();
+      try {
+        log(`do submit: value=${JSON.stringify(values)}`, LogLevel.DEBUG);
+        if (+values.amount >= 2000) throw new Error(`Invalid amount: ${values.amount}`); //!\ bug for demo purpose
+        addExpense(values.date, values.category, values.description, +values.amount);
+        // After submitting the form, reset it to initial values
+        resetForm({ values: { ...values, description: "", amount: 0 } });
+        // set the focus on the field description
+        if (fieldRefs.current["description"]) fieldRefs.current["description"].focus();
+      } catch (err) {
+        logger.fatal(err.message);
+      }
     },
     [addExpense]
   );

@@ -1,12 +1,11 @@
 import React, { createContext, useContext, useEffect, useMemo, useReducer } from "react";
-import { log, setLogLevel as setLogServiceLogLevel, setLogOn } from "../services/LogService";
+import { log, setLogOn } from "../services/LogService";
 import PropTypes from "prop-types";
 import { settings } from "../Settings";
 
 const DebugContext = createContext({
   debug: false,
   toggleDebug: () => {},
-  setLogLevel: () => {},
   admin: false,
   toggleAdmin: () => {},
 });
@@ -16,14 +15,13 @@ const initialState = { debug: false, admin: false };
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case "debug/toggle": // nomenclature : "state/event*
+      log(`debug changed to ${!state.debug}`);
       return { ...state, debug: !state.debug };
-    case "debug/set":
-      return { ...state, debug: payload };
     case "admin/toggle": {
       const { credential } = payload;
-      if (credential !== settings.passphrase) return state;
-      log(`admin changed to ${!state.admin}`);
-      return { ...state, admin: !state.admin };
+      const status = credential !== settings.passphrase ? false : !state.admin;
+      if (state.admin !== status) log(`admin changed to ${status}`);
+      return { ...state, admin: status };
     }
     default:
       throw new Error(`Unknown action ${type}`);
@@ -45,11 +43,7 @@ const DebugContextProvider = ({ children }) => {
     dispatch({ type: "admin/toggle", payload: { credential } });
   };
 
-  const setLogLevel = (level) => {
-    setLogServiceLogLevel(level);
-  };
-
-  const contextValues = useMemo(() => ({ debug, toggleDebug, setLogLevel, admin, toggleAdmin }), [debug, admin]); // value is cached by useMemo
+  const contextValues = useMemo(() => ({ debug, toggleDebug, admin, toggleAdmin }), [debug, admin]); // value is cached by useMemo
   return <DebugContext.Provider value={contextValues}>{children}</DebugContext.Provider>;
 };
 

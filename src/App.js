@@ -9,9 +9,10 @@ import AboutPage from "./pages/AboutPage";
 import { useAppContext } from "./contexts/AppContext";
 import ChartsPage from "./pages/ChartsPage";
 import ExpensesPage from "./pages/ExpensesPage";
+import { setLogLevel, setLogOn } from "./services/LogService";
 
 const App = () => {
-  const { debug, toggleDebug, setLogLevel, toggleAdmin } = useDebugContext();
+  const { debug, toggleDebug, toggleAdmin } = useDebugContext();
   const { firstTime, showCharts } = useSettingsContext();
   const {
     confirmService: { requestConfirm, ConfirmModalComponent },
@@ -19,8 +20,10 @@ const App = () => {
 
   useEffect(() => {
     window.toggleDebug = toggleDebug;
-    window.setLogLevel = setLogLevel;
     window.toggleAdmin = toggleAdmin;
+    window.setLogLevel = setLogLevel;
+    window.setLogOn = setLogOn;
+    console.clear();
     console.log("Thanks for using my webapp :)\n\nLooking for a Full Stack Developer ?\nFell free to contact me!\n\ncyril.adam@yahoo.fr");
 
     if (firstTime)
@@ -33,7 +36,7 @@ const App = () => {
           [{ label: "Close", value: true }]
         );
       })();
-  }, [firstTime, toggleDebug, setLogLevel, toggleAdmin, requestConfirm]);
+  }, [firstTime]);
 
   return (
     <BrowserRouter>

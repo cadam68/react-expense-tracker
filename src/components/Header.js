@@ -202,7 +202,7 @@ const Header = ({ setSelectedCategory }) => {
             {location.pathname === "/app/expenses" ? "Charts" : "Expenses"}
           </Button>
         </Hover>
-        {(debug || admin) && (
+        {admin && (
           <Button
             className={"button-outline button-small"}
             onClick={() => {
@@ -219,7 +219,7 @@ const Header = ({ setSelectedCategory }) => {
             Clear Expenses
           </Button>
         </Hover>
-        {(debug || admin) && (
+        {admin && (
           <Hover caption={"Delete all categories"}>
             <Button className={"button-outline button-small"} secured={true} onClick={handleClearCategories}>
               Clear Categories
@@ -231,7 +231,7 @@ const Header = ({ setSelectedCategory }) => {
             {S(Object.keys(themes)[themeId]).capitalize().s}
           </Button>
         </Hover>
-        {(debug || admin) && (
+        {admin && (
           <Hover caption={"Would you like to listen some music ?"}>
             <Button className={"button-outline button-small" + (isPlaying ? " disabled" : "")} onClick={playAudio}>
               <span>🎵</span>
