@@ -1,3 +1,5 @@
+import { settings } from "../Settings";
+
 const proverbs = [
   "Budgeting is like trying to fold a fitted sheet - it sounds easy until you start.",
   "Why did the penny break up with the nickel? Because it couldn't handle the constant expenses!",
@@ -25,7 +27,7 @@ const proverdId = Math.floor(Math.random() * proverbs.length);
 const Footer = () => {
   return (
     <footer className={"footer"}>
-      {new Date().getFullYear()} Ⓒopyright Ⓒyril | {`"${proverbs[proverdId]}"`}
+      {new Date().getFullYear()} Ⓒopyright Ⓒyril | v${settings.version} | {`"${proverbs[proverdId]}"`}
     </footer>
   );
 };
