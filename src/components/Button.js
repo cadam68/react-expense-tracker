@@ -1,18 +1,19 @@
 import PropTypes from "prop-types";
 import { memo, useState } from "react";
 
-const Button = ({ className, type, onClick, children, secured = false }) => {
+const Button = ({ className, type, onClick, children, secured = false, disabled = false }) => {
   const [confirmed, setConfirmed] = useState(false);
   return (
     <button
       type={type}
       className={className}
-      style={secured && !confirmed ? { opacity: "0.5", cursor: "default" } : {}}
+      style={(secured && !confirmed) || disabled ? { opacity: "0.5", cursor: "default" } : {}}
       onClick={(e) => {
         if (e.target.name === "checkbox-confirmation" || (secured && !confirmed)) return;
         if (confirmed) setConfirmed(false);
         onClick(e);
       }}
+      disabled={disabled}
     >
       {children}{" "}
       {secured && (

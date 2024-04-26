@@ -158,5 +158,10 @@ export const hsl2Rgba = (hslString, a = 1) => {
   return null;
 };
 
-export const getLastExpenseDate = (expenses, reverse = false) =>
-  [...new Set(expenses.map((item) => item.date))].sort((a, b) => a - b).at(reverse ? -1 : 0) || new Date();
+export const getLastExpenseDate = (expenses, reverse = false) => [...new Set(expenses.map((item) => item.date))].sort((a, b) => a - b).at(reverse ? -1 : 0) || new Date();
+
+Number.prototype.between = function (a, b) {
+  const min = Math.min(a, b),
+    max = Math.max(a, b);
+  return this > min && this < max;
+}; // usage : console.log(value.between(500, 600));

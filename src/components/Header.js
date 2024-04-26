@@ -231,7 +231,7 @@ const Header = ({ setSelectedCategory }) => {
             {S(Object.keys(themes)[themeId]).capitalize().s}
           </Button>
         </Hover>
-        {admin && (
+        {false && (
           <Hover caption={"Would you like to listen some music ?"}>
             <Button className={"button-outline button-small" + (isPlaying ? " disabled" : "")} onClick={playAudio}>
               <span>🎵</span>

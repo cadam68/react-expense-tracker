@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useDebugContext } from "./contexts/DebugContext";
-import Logo from "./components/Logo";
-import Footer from "./components/Footer";
 import { useSettingsContext } from "./contexts/SettingsContext";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
 import { useAppContext } from "./contexts/AppContext";
-import ChartsPage from "./pages/ChartsPage";
-import ExpensesPage from "./pages/ExpensesPage";
 import { setLogLevel, setLogOn } from "./services/LogService";
+import SpinnerFullPage from "./components/SpinnerFullPage";
+import ExpensesPage from "./pages/ExpensesPage";
+import ChartsPage from "./pages/ChartsPage";
+import Footer from "./components/Footer";
+import Logo from "./components/Logo";
+import HomePage from "./pages/HomePage";
+// import AboutPage from "./pages/AboutPage";
+// import BuyMeACafePage from "./pages/BuyMeACafePage";
 
 const App = () => {
   const { debug, toggleDebug, toggleAdmin } = useDebugContext();
@@ -17,6 +19,9 @@ const App = () => {
   const {
     confirmService: { requestConfirm, ConfirmModalComponent },
   } = useAppContext();
+
+  const BuyMeACafePage = lazy(() => import("./pages/BuyMeACafePage.js"));
+  const AboutPage = lazy(() => import("./pages/AboutPage.js"));
 
   useEffect(() => {
     window.toggleDebug = toggleDebug;
@@ -40,22 +45,25 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className={"container" + (debug ? " debug" : "")}>
-        {ConfirmModalComponent}
-        <Logo />
-        <div className={"page-content" + (debug ? " debug" : "")}>
-          <Routes>
-            <Route path={"/app"} element={<HomePage />}>
-              <Route index element={<Navigate replace to={showCharts ? "charts" : "expenses"} />} />
-              <Route path={"expenses"} element={<ExpensesPage />} />
-              <Route path={"charts"} element={<ChartsPage />} />
-            </Route>
-            <Route path={"about"} element={<AboutPage />} />
-            <Route path="*" replace element={<Navigate to="/app" />} />
-          </Routes>
+      <Suspense fallback={<SpinnerFullPage />}>
+        <div className={"container" + (debug ? " debug" : "")}>
+          {ConfirmModalComponent}
+          <Logo />
+          <div className={"page-content" + (debug ? " debug" : "")}>
+            <Routes>
+              <Route path={"/app"} element={<HomePage />}>
+                <Route index element={<Navigate replace to={showCharts ? "charts" : "expenses"} />} />
+                <Route path={"expenses"} element={<ExpensesPage />} />
+                <Route path={"charts"} element={<ChartsPage />} />
+              </Route>
+              <Route path={"about"} element={<AboutPage />} />
+              <Route path={"buyMeACafe"} element={<BuyMeACafePage />} />
+              <Route path="*" replace element={<Navigate to="/app" />} />
+            </Routes>
+          </div>
+          <Footer className={debug ? " debug" : ""} />
         </div>
-        <Footer className={debug ? " debug" : ""} />
-      </div>
+      </Suspense>
     </BrowserRouter>
   );
 };

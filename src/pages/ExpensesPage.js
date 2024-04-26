@@ -9,9 +9,11 @@ import { useState } from "react";
 import { log, LogLevel } from "../services/LogService";
 import { useAppContext } from "../contexts/AppContext";
 import { useOutletContext } from "react-router-dom";
+import { useToast } from "../contexts/ToastContext";
 
 const ExpensesPage = () => {
   const { selectedCategory, setSelectedCategory } = useOutletContext(); // <-- access context value
+  const { addToast } = useToast();
 
   const { debug } = useDebugContext();
   const {
@@ -30,8 +32,10 @@ const ExpensesPage = () => {
   };
 
   const handleAddCategory = (id, name, budget) => {
-    if (id == null) addCategory(name, budget);
-    else if (updatedCategory.name !== name || updatedCategory.budget !== budget) {
+    if (id == null) {
+      addToast({ type: "info", message: `New category ${name} added` });
+      addCategory(name, budget);
+    } else if (updatedCategory.name !== name || updatedCategory.budget !== budget) {
       const res = updateCategory(updatedCategory.id, name, budget);
       if (selectedCategory) setSelectedCategory(res);
     }
@@ -53,6 +57,7 @@ const ExpensesPage = () => {
       )
     ) {
       log(JSON.stringify(category) + " is deleted", LogLevel.DEBUG);
+      addToast({ type: "warning", message: `Category ${category.name} deleted` });
       delCategory(category);
       setSelectedCategory(null);
     }

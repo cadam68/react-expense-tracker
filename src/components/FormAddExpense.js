@@ -8,11 +8,13 @@ import { memo, useCallback, useRef } from "react";
 import Button from "./Button";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
+import { useToast } from "../contexts/ToastContext";
 
 const logger = Log("FormAddExpense");
 
 const FormAddExpense = () => {
   const { debug } = useDebugContext();
+  const { addToast } = useToast();
   const fieldRefs = useRef({});
   const {
     categoriesService: { categories },
@@ -44,9 +46,10 @@ const FormAddExpense = () => {
   const handleSubmit = useCallback(
     (values, { resetForm }) => {
       try {
+        const amount = +values.amount;
         log(`do submit: value=${JSON.stringify(values)}`, LogLevel.DEBUG);
-        if (+values.amount >= 2000) throw new Error(`Invalid amount: ${values.amount}`); //!\ bug for demo purpose
-        addExpense(values.date, values.category, values.description, +values.amount);
+        addExpense(values.date, values.category, values.description, amount);
+        addToast({ type: "info", message: `Expenses added to category ${values.category}` });
         // After submitting the form, reset it to initial values
         resetForm({ values: { ...values, description: "", amount: 0 } });
         // set the focus on the field description

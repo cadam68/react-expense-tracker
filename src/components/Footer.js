@@ -27,7 +27,7 @@ const proverdId = Math.floor(Math.random() * proverbs.length);
 const Footer = () => {
   return (
     <footer className={"footer"}>
-      {new Date().getFullYear()} Ⓒopyright Ⓒyril | v${settings.version} | {`"${proverbs[proverdId]}"`}
+      {new Date().getFullYear()}/{settings.version} Ⓒopyright Ⓒyril | {`"${proverbs[proverdId]}"`}
     </footer>
   );
 };

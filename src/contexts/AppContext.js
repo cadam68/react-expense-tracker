@@ -5,7 +5,9 @@ import { format, startOfDay, subDays } from "date-fns";
 import useLocalStorageReducer from "../hooks/UseLocalStorageReducer";
 import useConfirm from "../hooks/useConfirm";
 import styles from "../App.module.css";
-import { log, LogLevel } from "../services/LogService";
+import { Log, LogLevel } from "../services/LogService";
+
+const logger = Log("AppContext");
 
 const AppContext = createContext({
   expensesService: {
@@ -84,7 +86,7 @@ const reducer = (state, { type, payload }) => {
       const {
         category: { id: categoryId, name: categoryName },
       } = payload;
-      log(`del category:name =[${categoryName}]`, LogLevel.DEBUG);
+      logger.debug(`del category:name =[${categoryName}]`);
       const updatedCategories = state.categories.filter((category) => category.id !== categoryId);
       const updatedExpenses = state.expenses.filter((expense) => expense.category !== categoryName);
       return { ...state, categories: updatedCategories, expenses: updatedExpenses };
@@ -92,13 +94,13 @@ const reducer = (state, { type, payload }) => {
 
     case "categories/add": {
       const { category } = payload;
-      log(`add category:${JSON.stringify(category)}`, LogLevel.DEBUG);
+      logger.debug(`add category:${JSON.stringify(category)}`);
       return { ...state, categories: [...state.categories, category] };
     }
 
     case "categories/update": {
       const { category, updatedCategory } = payload;
-      log(`update category:${JSON.stringify(category)} to ${JSON.stringify(updatedCategory)}`, LogLevel.DEBUG);
+      logger.debug(`update category:${JSON.stringify(category)} to ${JSON.stringify(updatedCategory)}`);
       const updatedCategories = [...state.categories.filter((category) => category.id !== updatedCategory.id), updatedCategory];
       const updatedExpenses = state.expenses.map((expense) => (expense.category === category.name ? { ...expense, category: updatedCategory.name } : expense));
       return { ...state, categories: updatedCategories, expenses: updatedExpenses };
@@ -113,7 +115,7 @@ const reducer = (state, { type, payload }) => {
 
     case "expenses/add": {
       const { expense } = payload;
-      log(`add expense : ${JSON.stringify(expense)}`, LogLevel.DEBUG);
+      logger.debug(`add expense : ${JSON.stringify(expense)}`);
       const updatedExpenses = [...state.expenses, expense];
       const updatedCategories = refreshCategories(state.categories, updatedExpenses, expense.category);
       return { ...state, categories: updatedCategories, expenses: updatedExpenses };
@@ -122,7 +124,7 @@ const reducer = (state, { type, payload }) => {
     case "expenses/del": {
       const { expense } = payload;
       const { id: expenseId, category: expenseCategory } = expense;
-      log(`del expense:${JSON.stringify(expense)}`, LogLevel.DEBUG);
+      logger.debug(`del expense:${JSON.stringify(expense)}`);
       const updatedExpenses = state.expenses.filter((expense) => expense.id !== expenseId);
       const updatedCategories = refreshCategories(state.categories, updatedExpenses, expenseCategory);
       return { ...state, expenses: updatedExpenses, categories: updatedCategories };
@@ -133,7 +135,7 @@ const reducer = (state, { type, payload }) => {
         expense: { id: expenseId, category: expenseCategoryName },
         category: { name: categoryName },
       } = payload;
-      log(`assign expense:id=[${expenseId}] from category:name=[${expenseCategoryName}] to category:name=[${categoryName}]`, LogLevel.DEBUG);
+      logger.debug(`assign expense:id=[${expenseId}] from category:name=[${expenseCategoryName}] to category:name=[${categoryName}]`);
       const updatedExpenses = state.expenses.map((expense) => (expense.id === expenseId ? { ...expense, category: categoryName } : expense));
       const updatedCategories = refreshCategories(state.categories, updatedExpenses);
       return { ...state, categories: updatedCategories, expenses: updatedExpenses };
@@ -170,6 +172,10 @@ const AppContextProvider = ({ children }) => {
   };
 
   const createExpense = (date, category, description, amount) => {
+    if (!amount.between(0, 2000)) {
+      logger.warn(`amount value are out of valid ranges!`);
+      throw new Error(`Invalid expense submitted`);
+    } //!\ bug for demo purpose
     return { id: crypto.randomUUID(), date: date === null ? startOfDay(new Date()) : date, category, description, amount };
   };
 
@@ -208,7 +214,7 @@ const AppContextProvider = ({ children }) => {
   };
 
   const sortCategoryBy = (orderBy, categoryList = categories) => {
-    log(`sort categories by ${orderBy}`, LogLevel.DEBUG);
+    logger.debug(`sort categories by ${orderBy}`);
     switch (orderBy) {
       case "name":
       default: {
@@ -218,7 +224,7 @@ const AppContextProvider = ({ children }) => {
   };
 
   const sortExpensesBy = (orderBy, expenseList = expenses) => {
-    log(`sort expenses by ${orderBy}`, LogLevel.DEBUG);
+    logger.debug(`sort expenses by ${orderBy}`);
     switch (orderBy) {
       case "description": {
         return expenseList.slice().sort((a, b) => {

@@ -1,23 +1,54 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import Hover from "./Hover";
+import Button from "./Button";
+import { useDebugContext } from "../contexts/DebugContext";
 
 const Logo = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [enable, setEnable] = useState(false);
+  const { admin } = useDebugContext();
 
-  useEffect(() => {
-    setEnable(pathname.indexOf("/app/") === -1);
-  }, [pathname]);
+  const enableBackHome = pathname.indexOf("/app/") === -1;
+  const enableBuyMeACafeHome = pathname.indexOf("/buyMeACafe") === -1;
+  const enableAboutHome = pathname.indexOf("/about") === -1;
 
-  const handleBackHome = () => {
-    if (enable) navigate("/app");
+  const handleBackHome = (e) => {
+    e.preventDefault();
+    if (enableBackHome) navigate("/app");
+  };
+
+  const handleBuyMeACafeHome = (e) => {
+    e.preventDefault();
+    if (enableBuyMeACafeHome) navigate("/buyMeACafe");
+  };
+
+  const handleAboutHome = (e) => {
+    e.preventDefault();
+    if (enableAboutHome) navigate("/about");
   };
 
   return (
-    <header className={"header " + (enable ? "enable" : "")} onClick={handleBackHome}>
-      <h1>ExpensesTracker</h1>
-      <h6>— Keep your expenses in order —</h6>
+    <header className={`header ${enableBackHome ? "enable" : ""}`}>
+      <div onClick={handleBackHome}>
+        <h1>ExpensesTracker</h1>
+        <h6>— Keep your expenses in order —</h6>
+      </div>
+      <div className={"floatingBanner"}>
+        {admin && (
+          <Hover caption={"All you want to know about me..."}>
+            <Button className={`button-shadow button-big ${!enableAboutHome ? "selected" : ""}`} onClick={handleAboutHome} disabled={!enableAboutHome}>
+              😀
+            </Button>
+          </Hover>
+        )}
+        {admin && (
+          <Hover caption={"Would you like to buy me a café ?"}>
+            <Button className={`button-shadow button-big ${!enableBuyMeACafeHome ? "selected" : ""}`} onClick={handleBuyMeACafeHome} disabled={!enableBuyMeACafeHome}>
+              ☕️
+            </Button>
+          </Hover>
+        )}
+      </div>
     </header>
   );
 };
