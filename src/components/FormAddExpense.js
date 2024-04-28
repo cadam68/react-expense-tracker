@@ -1,5 +1,5 @@
 import { useDebugContext } from "../contexts/DebugContext";
-import { Log, log, LogLevel } from "../services/LogService";
+import { Log } from "../services/LogService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod } from "../services/Helper";
 import FieldDatePicker from "./FieldDatePicker";
@@ -14,7 +14,7 @@ const logger = Log("FormAddExpense");
 
 const FormAddExpense = () => {
   const { debug } = useDebugContext();
-  const { addToast } = useToast();
+  const { Toast } = useToast();
   const fieldRefs = useRef({});
   const {
     categoriesService: { categories },
@@ -30,7 +30,7 @@ const FormAddExpense = () => {
 
   // Validation function
   const validate = useCallback((values) => {
-    log(`values : ${JSON.stringify(values)}`, LogLevel.DEBUG);
+    logger.debug(`values : ${JSON.stringify(values)}`);
     const errors = {};
     if (!values.category) errors.category = "(*) choose an option";
     if (!values.description || values.description.trim().length <= 3) errors.description = "(*) a description is required";
@@ -38,7 +38,7 @@ const FormAddExpense = () => {
     if (Object.keys(errors).length !== 0) {
       const fieldName = Object.keys(errors)[0];
       if (fieldRefs.current[fieldName]) fieldRefs.current[fieldName].focus();
-      log(`errors : ${JSON.stringify(errors)}`, LogLevel.DEBUG);
+      logger.debug(`errors : ${JSON.stringify(errors)}`);
     }
     return errors;
   }, []);
@@ -47,9 +47,9 @@ const FormAddExpense = () => {
     (values, { resetForm }) => {
       try {
         const amount = +values.amount;
-        log(`do submit: value=${JSON.stringify(values)}`, LogLevel.DEBUG);
+        logger.debug(`do submit: value=${JSON.stringify(values)}`);
         addExpense(values.date, values.category, values.description, amount);
-        addToast({ type: "info", message: `Expenses added to category ${values.category}` });
+        Toast.info(`Expenses added to category ${values.category}`);
         // After submitting the form, reset it to initial values
         resetForm({ values: { ...values, description: "", amount: 0 } });
         // set the focus on the field description

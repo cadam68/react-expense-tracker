@@ -1,4 +1,4 @@
-import { log, LogLevel } from "./LogService";
+import { log } from "./LogService";
 
 export const handleFormikFieldChange = (formikProps, format, e) => {
   const numberRegex = /number\[(\d+)-(\d+)]/;
@@ -13,7 +13,7 @@ export const handleFormikFieldChange = (formikProps, format, e) => {
     }
   };
 
-  // log(`${e.target.name}=[${e.target.value}]`, LogLevel.DEBUG);
+  // log(`${e.target.name}=[${e.target.value}]`);
   let value = e.target.value;
 
   if (e.target.localName === "input") {
@@ -43,7 +43,7 @@ export const handleFormikFieldChange = (formikProps, format, e) => {
 
 export const handleFormikFieldBlur = ({ handleBlur }, callback, e) => {
   handleBlur(e); //!\ important
-  log(`${e.target.name} value changed to ${e.target.value}`, LogLevel.DEBUG);
+  log(`${e.target.name} value changed to ${e.target.value}`);
   callback(e);
 };
 

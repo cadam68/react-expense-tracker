@@ -1,6 +1,6 @@
 import { sprintf } from "sprintf-js";
 import { useDebugContext } from "../contexts/DebugContext";
-import { log, LogLevel, setLogLevel } from "../services/LogService";
+import { Log, LogLevel, setLogLevel } from "../services/LogService";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Button from "./Button";
 import ExpensesPdfDocument from "./ExpensesPdfDocument";
@@ -16,6 +16,8 @@ import { useAppContext } from "../contexts/AppContext";
 import CryptoJS from "crypto-js";
 import { settings } from "../Settings";
 import { useLocation, useNavigate } from "react-router-dom";
+
+const logger = Log("Header");
 
 const Header = ({ setSelectedCategory }) => {
   const { debug, toggleDebug, admin } = useDebugContext();
@@ -137,7 +139,7 @@ const Header = ({ setSelectedCategory }) => {
           </p>
         )
       ) {
-        log("loading data...", LogLevel.DEBUG);
+        logger.debug("loading data...");
         const updateExpenses = data.expenses.map((item) => ({
           id: item.id,
           date: startOfDay(parse(item.date, "MM-dd-yyyy", new Date())),

@@ -10,6 +10,7 @@ import ChartsPage from "./pages/ChartsPage";
 import Footer from "./components/Footer";
 import Logo from "./components/Logo";
 import HomePage from "./pages/HomePage";
+import ToastContainer from "./components/ToastContainer";
 // import AboutPage from "./pages/AboutPage";
 // import BuyMeACafePage from "./pages/BuyMeACafePage";
 
@@ -48,6 +49,7 @@ const App = () => {
       <Suspense fallback={<SpinnerFullPage />}>
         <div className={"container" + (debug ? " debug" : "")}>
           {ConfirmModalComponent}
+          <ToastContainer />
           <Logo />
           <div className={"page-content" + (debug ? " debug" : "")}>
             <Routes>

@@ -8,15 +8,18 @@ import { SettingsContextProvider } from "./contexts/SettingsContext";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { AppContextProvider } from "./contexts/AppContext";
+import { ToastProvider } from "./contexts/ToastContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <DebugContextProvider>
     <SettingsContextProvider>
       <AppContextProvider>
-        <DndProvider backend={HTML5Backend}>
-          <App />
-        </DndProvider>
+        <ToastProvider>
+          <DndProvider backend={HTML5Backend}>
+            <App />
+          </DndProvider>
+        </ToastProvider>
       </AppContextProvider>
     </SettingsContextProvider>
   </DebugContextProvider>

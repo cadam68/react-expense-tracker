@@ -2,13 +2,13 @@
 import { format } from "date-fns";
 import { settings } from "../Settings";
 
-const LogLevel = {
+const LogLevel = Object.freeze({
   DEBUG: 0,
   INFO: 1,
   WARNING: 2,
   ERROR: 3,
   FATAL: 4,
-};
+});
 
 let currentLogLevel = LogLevel.INFO; // Default log level
 let isLogOn = false;

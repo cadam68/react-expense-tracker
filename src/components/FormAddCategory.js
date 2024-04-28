@@ -1,13 +1,15 @@
 import { useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDebugContext } from "../contexts/DebugContext";
-import { log, LogLevel } from "../services/LogService";
+import { Log } from "../services/LogService";
 import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Helper";
 import S from "string";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
+
+const logger = Log("FormAddCategory");
 
 const FormAddCategory = ({ onAdd, onClose, category }) => {
   const { debug } = useDebugContext();
@@ -23,7 +25,7 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
 
     useEffect(() => {
       if (category && previousCategory && previousCategory.current !== category.name) {
-        log(`category has changed from ${previousCategory.current} to ${category.name}...`, LogLevel.DEBUG);
+        logger.debug(`category has changed from ${previousCategory.current} to ${category.name}...`);
         // reset the form
         resetForm({
           values: {
@@ -49,7 +51,7 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
   };
 
   const validate = (values) => {
-    log(`values : ${JSON.stringify(values)}`, LogLevel.DEBUG);
+    logger.debug(`values : ${JSON.stringify(values)}`);
     const errors = {};
     if (!values.name || values.name.trim().length < 3) errors.name = "(*) a name is required";
     if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id)) errors.name = "(*) already used";
@@ -57,13 +59,13 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
     if (Object.keys(errors).length !== 0) {
       const fieldName = Object.keys(errors)[0];
       if (fieldRefs.current[fieldName]) fieldRefs.current[fieldName].focus();
-      log(`errors : ${JSON.stringify(errors)}`, LogLevel.DEBUG);
+      logger.debug(`errors : ${JSON.stringify(errors)}`);
     }
     return errors;
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    log(`do submit: value=${JSON.stringify(values)}`, LogLevel.DEBUG);
+    logger.debug(`do submit: value=${JSON.stringify(values)}`);
     onAdd(values.id, values.name, values.budget === "" ? null : +values.budget);
     // After submitting the form, reset it to initial values
     resetForm({ values: initialValues });

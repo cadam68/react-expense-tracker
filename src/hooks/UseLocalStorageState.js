@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { log, LogLevel } from "../services/LogService";
+import { Log } from "../services/LogService";
 import { settings } from "../Settings";
 import { startOfDay } from "date-fns";
+
+const logger = Log("UseLocalStorageState");
 
 const loadData = (key, initialValue) => () => {
   // if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to persist all values -
 
   let parsedObj;
   let storedValue = localStorage.getItem(key);
-  log(`load ${key} from localStorage : ${storedValue}`, LogLevel.DEBUG);
+  logger.debug(`load ${key} from localStorage : ${storedValue}`);
 
   //!\ dates are converted to strings because JSON doesn't have a native date type. //!\
   if (storedValue) {
@@ -39,7 +41,7 @@ const UseLocalStorageState = (key, initialValue) => {
 
   useEffect(() => {
     // Update localStorage when 'items' state changes
-    log(`save ${key} in localStorage :  ${JSON.stringify(state)}`, LogLevel.DEBUG);
+    logger.debug(`save ${key} in localStorage :  ${JSON.stringify(state)}`);
     localStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 

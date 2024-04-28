@@ -41,7 +41,7 @@ const Logo = () => {
             </Button>
           </Hover>
         )}
-        {admin && (
+        {true && (
           <Hover caption={"Would you like to buy me a café ?"}>
             <Button className={`button-shadow button-big ${!enableBuyMeACafeHome ? "selected" : ""}`} onClick={handleBuyMeACafeHome} disabled={!enableBuyMeACafeHome}>
               ☕️

@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useEffect, useMemo, useReducer } from "react";
-import { log, setLogOn } from "../services/LogService";
+import { Log, setLogOn } from "../services/LogService";
 import PropTypes from "prop-types";
 import { settings } from "../Settings";
+
+const logger = Log("DebugContext");
 
 const DebugContext = createContext({
   debug: false,
@@ -15,12 +17,12 @@ const initialState = { debug: false, admin: false };
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case "debug/toggle": // nomenclature : "state/event*
-      log(`debug changed to ${!state.debug}`);
+      logger.info(`debug changed to ${!state.debug}`);
       return { ...state, debug: !state.debug };
     case "admin/toggle": {
       const { credential } = payload;
       const status = credential !== settings.passphrase ? false : !state.admin;
-      if (state.admin !== status) log(`admin changed to ${status}`);
+      if (state.admin !== status) logger.info(`admin changed to ${status}`);
       return { ...state, admin: status };
     }
     default:

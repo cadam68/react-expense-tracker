@@ -6,14 +6,16 @@ import ExpenseList from "../components/ExpenseList";
 import { useDebugContext } from "../contexts/DebugContext";
 import { settings } from "../Settings";
 import { useState } from "react";
-import { log, LogLevel } from "../services/LogService";
+import { Log } from "../services/LogService";
 import { useAppContext } from "../contexts/AppContext";
 import { useOutletContext } from "react-router-dom";
 import { useToast } from "../contexts/ToastContext";
 
+const logger = Log("ExpensesPage");
+
 const ExpensesPage = () => {
   const { selectedCategory, setSelectedCategory } = useOutletContext(); // <-- access context value
-  const { addToast } = useToast();
+  const { Toast, addToast } = useToast();
 
   const { debug } = useDebugContext();
   const {
@@ -26,6 +28,9 @@ const ExpensesPage = () => {
   const [updatedCategory, setUpdatedCategory] = useState(null);
 
   const handleOpenFormCategory = () => {
+    Toast.info("qwe");
+    // addToast("Criado excluir");
+    return; // iici
     if (selectedCategory && !openFormCategory) setSelectedCategory(null); // close the selection form
     setOpenFormCategory((showAddCategory) => !showAddCategory);
     setUpdatedCategory(null);
@@ -33,7 +38,7 @@ const ExpensesPage = () => {
 
   const handleAddCategory = (id, name, budget) => {
     if (id == null) {
-      addToast({ type: "info", message: `New category ${name} added` });
+      Toast.info(`New category ${name} added`);
       addCategory(name, budget);
     } else if (updatedCategory.name !== name || updatedCategory.budget !== budget) {
       const res = updateCategory(updatedCategory.id, name, budget);
@@ -43,7 +48,7 @@ const ExpensesPage = () => {
   };
 
   const handleSelectCategory = (category) => {
-    log(JSON.stringify(category) + " is selected", LogLevel.DEBUG);
+    logger.debug(JSON.stringify(category) + " is selected");
     setSelectedCategory((selectedCategory) => (selectedCategory?.id === category.id ? null : category));
     setOpenFormCategory(false); // close the add friend form
   };
@@ -56,8 +61,8 @@ const ExpensesPage = () => {
         </p>
       )
     ) {
-      log(JSON.stringify(category) + " is deleted", LogLevel.DEBUG);
-      addToast({ type: "warning", message: `Category ${category.name} deleted` });
+      logger.debug(JSON.stringify(category) + " is deleted");
+      Toast.warn(`Category ${category.name} deleted`);
       delCategory(category);
       setSelectedCategory(null);
     }

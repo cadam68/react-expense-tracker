@@ -1,7 +1,8 @@
-import { log, LogLevel } from "./LogService";
+import { Log } from "./LogService";
 import { format, startOfDay, subDays } from "date-fns";
 import { getLastExpenseDate } from "./Helper";
 
+const logger = Log("ExpensesService");
 const currentDate = new Date();
 const initialExpenses = [
   { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "Food", description: "Supermarket", amount: 10 },
@@ -20,7 +21,7 @@ const ExpensesService = (useState) => {
 
   const addExpense = (date, category, description, amount) => {
     const newExpense = createExpense(startOfDay(date), category, description, amount);
-    log(`add newExpense : ${JSON.stringify(newExpense)}`, LogLevel.DEBUG);
+    logger.debug(`add newExpense : ${JSON.stringify(newExpense)}`);
     setExpenses([...expenses, newExpense]);
   };
 

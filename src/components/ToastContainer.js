@@ -1,7 +1,7 @@
 import React from "react";
 import { useToast } from "../contexts/ToastContext";
 import styles from "./ToastContainer.module.css";
-import Toast from "./Toast";
+import ToastItem from "./ToastItem";
 
 const ToastContainer = () => {
   const { toasts, removeToast } = useToast();
@@ -9,7 +9,7 @@ const ToastContainer = () => {
   return (
     <div className={styles.toastContainer}>
       {toasts.map((toast) => (
-        <Toast key={toast.id} toast={toast} removeToast={removeToast} />
+        <ToastItem key={toast.id} toast={toast} removeToast={removeToast} />
       ))}
     </div>
   );

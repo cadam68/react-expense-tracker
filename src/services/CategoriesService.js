@@ -1,5 +1,7 @@
-import { log, LogLevel } from "./LogService";
+import { Log } from "./LogService";
 import { settings } from "../Settings";
+
+const logger = Log("CategoriesService");
 
 const initialCategories = [
   { id: crypto.randomUUID(), name: "Food", budget: 300, totalExpenses: 0, color: settings.palette[0] },
@@ -17,16 +19,13 @@ const CategoriesService = (useState) => {
 
   const addCategory = (name, budget) => {
     const newCategory = createCategory(name, budget);
-    log(`add newCategory : ${JSON.stringify(newCategory)}`, LogLevel.DEBUG);
+    logger.debug(`add newCategory : ${JSON.stringify(newCategory)}`);
     setCategories([...categories, newCategory]);
   };
 
   const updateCategory = (id, name, budget) => {
     const updatedCategory = { ...categories.find((category) => category.id === id), name: name, budget: budget };
-    log(
-      `update category[i] : ${JSON.stringify(categories.find((category) => category.id === id))} to ${JSON.stringify(updatedCategory)}`,
-      LogLevel.DEBUG
-    );
+    logger.debug(`update category[i] : ${JSON.stringify(categories.find((category) => category.id === id))} to ${JSON.stringify(updatedCategory)}`);
     setCategories(categories.map((category) => (category.id === id ? updatedCategory : category)));
     return updatedCategory;
   };
@@ -41,7 +40,7 @@ const CategoriesService = (useState) => {
   };
 
   const sortBy = (orderBy) => {
-    log(`sort categories by ${orderBy}`, LogLevel.DEBUG);
+    logger.debug(`sort categories by ${orderBy}`);
     const updatedCategories = [...categories].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
     setCategories(() => updatedCategories);
   };
