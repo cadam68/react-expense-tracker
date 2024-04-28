@@ -123,7 +123,7 @@ const ExpensesChart = () => {
           tooltipFormat: "MMM D",
         },
         title: {
-          display: true,
+          display: false,
           text: "Date",
         },
         grid: {
@@ -200,7 +200,7 @@ const ExpensesChart = () => {
   return (
     <>
       <div>Expenses Chart</div>
-      <Line data={chartData} options={options} />;
+      <Line data={chartData} options={options} style={{ paddingBottom: "2rem" }} />;
     </>
   );
 };
