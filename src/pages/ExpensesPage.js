@@ -15,7 +15,7 @@ const logger = Log("ExpensesPage");
 
 const ExpensesPage = () => {
   const { selectedCategory, setSelectedCategory } = useOutletContext(); // <-- access context value
-  const { Toast, addToast } = useToast();
+  const { Toast } = useToast();
 
   const { debug } = useDebugContext();
   const {
@@ -28,9 +28,6 @@ const ExpensesPage = () => {
   const [updatedCategory, setUpdatedCategory] = useState(null);
 
   const handleOpenFormCategory = () => {
-    Toast.info("qwe");
-    // addToast("Criado excluir");
-    return; // iici
     if (selectedCategory && !openFormCategory) setSelectedCategory(null); // close the selection form
     setOpenFormCategory((showAddCategory) => !showAddCategory);
     setUpdatedCategory(null);

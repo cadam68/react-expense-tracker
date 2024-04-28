@@ -34,7 +34,7 @@ const BuyMeACafeService = () => {
       const res = await fetch(`${settings.baseApiUrl}/supporters`, { signal: signal });
       if (!res.ok) throw new Error("Something went wrong with fetching supporters");
       const data = await res.json();
-      console.log("iici-1", data);
+      logger.debug(`fetchSupporters : ${JSON.stringify(data)}`);
       dispatch({ type: "supporters/loaded", payload: data });
     } catch (err) {
       if (err.name === "AbortError") console.log("fetch supporters aborted!");
@@ -68,4 +68,4 @@ const BuyMeACafeService = () => {
   return { supporters, isLoading, error, testAdd };
 };
 
-export { BuyMeACafeService };
+export default BuyMeACafeService;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { changeTheme, themes } from "../services/Helper";
 import { useSettingsContext } from "../contexts/SettingsContext";
-import { BuyMeACafeService } from "../services/BuyMeACafeService";
+import BuyMeACafeService from "../services/BuyMeACafeService";
 import Button from "../components/Button";
 import { useToast } from "../contexts/ToastContext";
 

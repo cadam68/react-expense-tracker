@@ -6,7 +6,7 @@ const logger = Log("ToastContext");
 const ToastContext = createContext({
   toasts: [],
   removeToast: () => {},
-  // Toast: { info: () => {}, warn: () => {}, error: () => {} },
+  Toast: { info: () => {}, warn: () => {}, error: () => {} },
 });
 
 export function useToast() {
@@ -16,10 +16,11 @@ export function useToast() {
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
+  // cf ToastContainer.module.css for dynamic animation duration
   const ToastType = Object.freeze({
-    INFO: "info",
-    WARNING: "warning",
-    ERROR: "error",
+    INFO: { label: "info", duration: 3 },
+    WARNING: { label: "warning", duration: 6 },
+    ERROR: { label: "error", duration: 6 },
   });
 
   const createToast = (text, type, id = crypto.randomUUID()) => {
@@ -33,7 +34,7 @@ export const ToastProvider = ({ children }) => {
     setTimeout(() => {
       logger.debug(`remove toast: ${JSON.stringify(toast)}`);
       removeToast(toast.id);
-    }, 3500);
+    }, type.duration * 1000 + 500);
     return toast.id;
   };
 
