@@ -4,9 +4,12 @@ import { useSettingsContext } from "../contexts/SettingsContext";
 import BuyMeACafeService from "../services/BuyMeACafeService";
 import Button from "../components/Button";
 import { useToast } from "../contexts/ToastContext";
+import styles from "./BuyMeACafePage.module.css";
+import { useDebugContext } from "../contexts/DebugContext";
 
 function AboutPage() {
   const { themeId } = useSettingsContext();
+  const { debug, admin } = useDebugContext();
   const { supporters, isLoading, error, testAdd } = BuyMeACafeService();
   const { Toast } = useToast();
 
@@ -20,19 +23,36 @@ function AboutPage() {
 
   return (
     <section>
-      <h1>Buy me a cafe...</h1>
-      <Button onClick={testAdd} disabled={isLoading}>
-        Add
-      </Button>
-      <ul>
-        {supporters.map((supporter) => (
-          <li key={supporter.id}>
-            <p>
-              Supporter : {supporter.name} - {supporter.firstname}
-            </p>
-          </li>
-        ))}
-      </ul>
+      <div className={styles.container}>
+        <p>Hey there! I'm Cyril, and I've been diving into the realms of IT Development Engineering and Full Stack development since 2001.</p>
+        <p>
+          One of my latest creations is ExpensesTracker, a testament to my journey in web development. Curious to peek under the hood? Take a stroll through my{" "}
+          <a href="https://github.com/cadam68/react-expense-tracker" target="_blank">
+            GitHub repository
+          </a>
+          .
+        </p>
+        <p>
+          If you find it helpful or intriguing, consider supporting my work with a cup of coffee. Your contribution fuels the continuous evolution of ExpensesTracker. <br />
+          Cheers to innovation and thank you for your support!
+        </p>
+      </div>
+      {admin && (
+        <div>
+          <Button onClick={testAdd} disabled={isLoading}>
+            Add
+          </Button>
+          <ul>
+            {supporters.map((supporter) => (
+              <li key={supporter.id}>
+                <p>
+                  Supporter : {supporter.name} - {supporter.firstname}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   );
 }

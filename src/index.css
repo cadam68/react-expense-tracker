@@ -42,6 +42,7 @@ body {
 /* Containers */
 .container {
   min-width: 900px;
+  max-width: 90vw;
 }
 
 .container::before {
@@ -81,6 +82,7 @@ body {
   right: 0rem;
   display: flex;
   gap: 0.5rem;
+  align-items: baseline;
 }
 
 .header h6 {

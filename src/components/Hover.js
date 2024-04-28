@@ -6,9 +6,9 @@ import { useSettingsContext } from "../contexts/SettingsContext";
 const Hover = ({ caption, enable, visible, children }) => {
   const { firstTime } = useSettingsContext();
 
-  if (visible !== undefined && !visible) return children;
-  if (visible === undefined && !firstTime) return children; // iici - to uncomment for production -
-  if (enable !== undefined && !enable) return children;
+  if (visible !== undefined && !visible) return <span>{children}</span>;
+  if (visible === undefined && !firstTime) return <span>{children}</span>; // iici - to uncomment for production -
+  if (enable !== undefined && !enable) return <span>{children}</span>;
 
   return (
     <span className="hover-container">

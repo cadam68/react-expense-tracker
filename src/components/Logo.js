@@ -34,20 +34,18 @@ const Logo = () => {
         <h6>— Keep your expenses in order —</h6>
       </div>
       <div className={"floatingBanner"}>
-        {admin && (
-          <Hover caption={"All you want to know about me..."}>
+        {false && (
+          <Hover visible={enableAboutHome} caption={"All you want to know about me..."}>
             <Button className={`button-shadow button-big ${!enableAboutHome ? "selected" : ""}`} onClick={handleAboutHome} disabled={!enableAboutHome}>
               😀
             </Button>
           </Hover>
         )}
-        {true && (
-          <Hover caption={"Would you like to buy me a café ?"}>
-            <Button className={`button-shadow button-big ${!enableBuyMeACafeHome ? "selected" : ""}`} onClick={handleBuyMeACafeHome} disabled={!enableBuyMeACafeHome}>
-              ☕️
-            </Button>
-          </Hover>
-        )}
+        <Hover visible={enableBuyMeACafeHome} caption={"Would you like to buy me a café ?"}>
+          <Button className={`button-shadow button-big ${!enableBuyMeACafeHome ? "selected" : ""}`} onClick={handleBuyMeACafeHome} disabled={!enableBuyMeACafeHome}>
+            ☕️
+          </Button>
+        </Hover>
       </div>
     </header>
   );
