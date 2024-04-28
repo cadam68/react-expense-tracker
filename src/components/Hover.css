@@ -16,6 +16,7 @@
     transform: translateX(-50%);
     display: inline-block;
     z-index: 99;
+    color: var(--color-dark);
 
     font-size: 1rem;
     background-color: #FFF;

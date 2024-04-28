@@ -8,7 +8,7 @@
 
   --color-dark--0: #242a2e;
   --color-dark--1: #2d3439;
-  --color-dark--2: #42484d;
+  --color-dark--2: #495057;
   --color-light--1: #aaa;
   --color-light--2: #ececec;
   --color-light--3: #d6dee0;
@@ -28,7 +28,7 @@ html {
 
 body {
   height: 100vh;
-  color: #495057;
+  color: var(--color-dark--2);
   display: flex;
   justify-content: center;
 }
