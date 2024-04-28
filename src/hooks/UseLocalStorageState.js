@@ -3,6 +3,10 @@ import { Log } from "../services/LogService";
 import { settings } from "../Settings";
 import { startOfDay } from "date-fns";
 
+/*
+Usage : const { categories, setCategories, addCategory, ... } = CategoriesService(UseLocalStorageState("expense-tracker-categories", initialCategories));
+ */
+
 const logger = Log("UseLocalStorageState");
 
 const loadData = (key, initialValue) => () => {

@@ -1,6 +1,10 @@
 import { Log } from "./LogService";
 import { settings } from "../Settings";
 
+/*
+Usage : const { categories, setCategories, addCategory, ... } = CategoriesService(UseLocalStorageState("expense-tracker-categories", initialCategories));
+*/
+
 const logger = Log("CategoriesService");
 
 const initialCategories = [

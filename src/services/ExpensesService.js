@@ -2,6 +2,9 @@ import { Log } from "./LogService";
 import { format, startOfDay, subDays } from "date-fns";
 import { getLastExpenseDate } from "./Helper";
 
+/*
+ Usage : const { expenses, setExpenses, addExpense,... } = ExpensesService(UseLocalStorageState("expense-tracker-expenses", initialExpenses));
+ */
 const logger = Log("ExpensesService");
 const currentDate = new Date();
 const initialExpenses = [
