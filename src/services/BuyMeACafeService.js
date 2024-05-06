@@ -37,8 +37,8 @@ const BuyMeACafeService = () => {
       logger.debug(`fetchSupporters : ${JSON.stringify(data)}`);
       dispatch({ type: "supporters/loaded", payload: data });
     } catch (err) {
-      if (err.name === "AbortError") console.log("fetch supporters aborted!");
-      dispatch({ type: "rejected", payload: err.name !== "AbortError" ? `There was an error loading data : ${err.message}` : null });
+      if (err.name === "AbortError") logger.debug("fetch supporters aborted!");
+      else dispatch({ type: "rejected", payload: `There was an error loading data : ${err.message}` });
     }
   };
 
