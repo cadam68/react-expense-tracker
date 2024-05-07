@@ -10,6 +10,7 @@ const ShortcutContext = createContext({
   addShortcut: () => {},
   delShortcut: () => {},
   updateShortcut: () => {},
+  getShortcut: () => {},
 });
 const initialState = { shortcuts: {} };
 
@@ -77,7 +78,13 @@ const ShortcutContextProvider = ({ children }) => {
     dispatch({ type: "shortcut/update", payload: { category } });
   };
 
-  const contextValues = useMemo(() => ({ shortcuts, addShortcut, delShortcut, updateShortcut }), [shortcuts]); // value is cached by useMemo
+  const getShortcut = (objectId) => {
+    const entry = Object.entries(shortcuts).find(([key, item]) => item.id === objectId);
+    const key = entry ? entry[0] : undefined;
+    return key;
+  };
+
+  const contextValues = useMemo(() => ({ shortcuts, addShortcut, delShortcut, updateShortcut, getShortcut }), [shortcuts]); // value is cached by useMemo
   return <ShortcutContext.Provider value={contextValues}>{children}</ShortcutContext.Provider>;
 };
 
