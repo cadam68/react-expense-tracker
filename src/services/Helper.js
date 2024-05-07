@@ -13,7 +13,7 @@ export const handleFormikFieldChange = (formikProps, format, e) => {
     }
   };
 
-  // log(`${e.target.name}=[${e.target.value}]`);
+  // Log().debug(`event ${e.target.name}=[${e.target.value}] raised`);
   let value = e.target.value;
 
   if (e.target.localName === "input") {
@@ -160,8 +160,20 @@ export const hsl2Rgba = (hslString, a = 1) => {
 
 export const getLastExpenseDate = (expenses, reverse = false) => [...new Set(expenses.map((item) => item.date))].sort((a, b) => a - b).at(reverse ? -1 : 0) || new Date();
 
+export const setFieldRefValue = (fieldRef, value) => {
+  Log().debug(`set element[name='${fieldRef?.name}', tagName='${fieldRef?.tagName}'].value=[${value}]`); //  iici
+  if (!fieldRef) return false;
+  if (fieldRef.tagName === "SELECT" || fieldRef.tagName === "INPUT") {
+    fieldRef.focus();
+    fieldRef.value = value;
+    fieldRef.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  return true;
+};
+
+// usage : if(value.between(500, 600)) { ... } ;
 Number.prototype.between = function (a, b) {
   const min = Math.min(a, b),
     max = Math.max(a, b);
   return this > min && this < max;
-}; // usage : console.log(value.between(500, 600));
+};

@@ -5,7 +5,8 @@ import { format, startOfDay, subDays } from "date-fns";
 import useLocalStorageReducer from "../hooks/UseLocalStorageReducer";
 import useConfirm from "../hooks/useConfirm";
 import styles from "../App.module.css";
-import { Log, LogLevel } from "../services/LogService";
+import { Log } from "../services/LogService";
+import { useShortcuts } from "./ShortcutContext";
 
 const logger = Log("AppContext");
 
@@ -154,9 +155,11 @@ const reducer = (state, { type, payload }) => {
 const AppContextProvider = ({ children }) => {
   const [{ expenses, categories }, dispatch] = useLocalStorageReducer("expense-tracker-data", initialState, reducer, converter);
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
+  const { dispatch: dispatchShortcuts } = useShortcuts();
 
   useEffect(() => {
     dispatch({ type: "categories/refresh" });
+    categories.forEach((category) => dispatchShortcuts({ type: "shortcut/add", payload: { category: { id: category.id, name: category.name } } })); // iici
   }, [dispatch]);
 
   const clearExpensesByMonth = (dateRef) => {
@@ -190,6 +193,7 @@ const AppContextProvider = ({ children }) => {
 
   const delCategory = (category) => {
     dispatch({ type: "categories/del", payload: { category } });
+    dispatchShortcuts({ type: "shortcut/del", payload: { category: { id: category.id, name: category.name } } }); // iici
   };
 
   const assignExpense = (expense, category) => {
@@ -203,6 +207,7 @@ const AppContextProvider = ({ children }) => {
   const addCategory = (name, budget) => {
     const category = createCategory(name, budget);
     dispatch({ type: "categories/add", payload: { category } });
+    dispatchShortcuts({ type: "shortcut/add", payload: { category: { id: category.id, name: category.name } } }); // iici
   };
 
   const updateCategory = (id, name, budget) => {
@@ -210,6 +215,7 @@ const AppContextProvider = ({ children }) => {
     if (!category || (category.name === name && category.budget === budget)) return null;
     const updatedCategory = { ...category, name: name, budget: budget };
     dispatch({ type: "categories/update", payload: { category, updatedCategory } });
+    if (updatedCategory.name !== category.name) dispatchShortcuts({ type: "shortcut/update", payload: { category: { id: updatedCategory.id, name: updatedCategory.name } } }); // iici
     return updatedCategory;
   };
 

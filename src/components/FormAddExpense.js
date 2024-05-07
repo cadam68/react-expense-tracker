@@ -1,7 +1,7 @@
 import { useDebugContext } from "../contexts/DebugContext";
 import { Log } from "../services/LogService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod } from "../services/Helper";
+import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod, setFieldRefValue } from "../services/Helper";
 import FieldDatePicker from "./FieldDatePicker";
 import S from "string";
 import { memo, useCallback, useRef } from "react";
@@ -9,6 +9,7 @@ import Button from "./Button";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
 import { useToast } from "../contexts/ToastContext";
+import useShortcut from "../hooks/UseShortcut";
 
 const logger = Log("FormAddExpense");
 
@@ -20,6 +21,12 @@ const FormAddExpense = () => {
     categoriesService: { categories },
     expensesService: { addExpense },
   } = useAppContext();
+
+  const handleShortcut = (category) => {
+    setFieldRefValue(fieldRefs.current["category"], category.name);
+  };
+
+  useShortcut(handleShortcut);
 
   const initialValues = {
     date: new Date(),
@@ -113,8 +120,8 @@ const FormAddExpense = () => {
                   })}
                   innerRef={(el) => (fieldRefs.current["description"] = el)}
                 />
-                <ErrorMessage name="description" component="span" className={"errorMessage"} />
               </Hover>
+              <ErrorMessage name="description" component="span" className={"errorMessage"} />
             </span>
             <span>
               <Hover caption={"How much is it ?"}>
@@ -128,8 +135,8 @@ const FormAddExpense = () => {
                   })}
                   innerRef={(el) => (fieldRefs.current["amount"] = el)}
                 />
-                <ErrorMessage name="amount" component="span" className={"errorMessage"} />
               </Hover>
+              <ErrorMessage name="amount" component="span" className={"errorMessage"} />
             </span>
             <Hover caption={"Record the expense :)"}>
               <Button type={"submit"}>Add Expense</Button>
