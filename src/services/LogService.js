@@ -82,7 +82,7 @@ const fetchLog = async (logLevel, module, text) => {
   });
   return response.status;
   // } catch (err) {
-  //   log("iici " + err.message, -1, "fetchLog");
+  //   log(err.message, -1, "fetchLog");
   //   return 500;
   // }
 };

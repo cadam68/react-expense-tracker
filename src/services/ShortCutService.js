@@ -1,17 +1,10 @@
-import React, { createContext, useReducer, useContext, useEffect, useMemo } from "react";
-import PropTypes from "prop-types";
-import { Log } from "../services/LogService";
+import { Log } from "./LogService";
+import { useEffect, useReducer } from "react";
 
-const logger = Log("ShortcutContext");
+const logger = Log("ShortCutService");
 
 const shortcutPrefix = "Ctrl+Shift";
-const ShortcutContext = createContext({
-  shortcuts: {},
-  addShortcut: () => {},
-  delShortcut: () => {},
-  updateShortcut: () => {},
-  getShortcut: () => {},
-});
+
 const initialState = { shortcuts: {} };
 
 // Helper function to find the next available shortcut
@@ -59,7 +52,7 @@ const reducer = (state, { type, payload }) => {
   }
 };
 
-const ShortcutContextProvider = ({ children }) => {
+const ShortcutService = () => {
   const [{ shortcuts }, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -84,20 +77,7 @@ const ShortcutContextProvider = ({ children }) => {
     return key;
   };
 
-  const contextValues = useMemo(() => ({ shortcuts, addShortcut, delShortcut, updateShortcut, getShortcut }), [shortcuts]); // value is cached by useMemo
-  return <ShortcutContext.Provider value={contextValues}>{children}</ShortcutContext.Provider>;
+  return { shortcuts, addShortcut, delShortcut, updateShortcut, getShortcut };
 };
 
-ShortcutContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-const useShortcutContext = () => {
-  const context = useContext(ShortcutContext);
-  if (!context) {
-    throw new Error("useShortcutContext must be used within a ShortcutContextProvider");
-  }
-  return context;
-};
-
-export { ShortcutContextProvider, useShortcutContext };
+export { ShortcutService };

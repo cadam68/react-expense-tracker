@@ -6,7 +6,7 @@ import useLocalStorageReducer from "../hooks/UseLocalStorageReducer";
 import useConfirm from "../hooks/useConfirm";
 import styles from "../App.module.css";
 import { Log } from "../services/LogService";
-import { useShortcutContext } from "./ShortcutContext";
+import { ShortcutService } from "../services/ShortCutService";
 
 const logger = Log("AppContext");
 
@@ -22,6 +22,7 @@ const AppContext = createContext({
   },
   categoriesService: { categories: [], clearCategories: () => {}, delCategory: () => {}, addCategory: () => {}, updateCategory: () => {}, sortCategoryBy: () => {} },
   confirmService: { requestConfirm: () => {}, ConfirmModalComponent: () => {} },
+  shortcutService: { shortcuts: {} },
 });
 
 const initialCategories = [
@@ -155,7 +156,7 @@ const reducer = (state, { type, payload }) => {
 const AppContextProvider = ({ children }) => {
   const [{ expenses, categories }, dispatch] = useLocalStorageReducer("expense-tracker-data", initialState, reducer, converter);
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
-  const { addShortcut, delShortcut, updateShortcut } = useShortcutContext();
+  const { shortcuts, addShortcut, delShortcut, updateShortcut } = ShortcutService();
 
   useEffect(() => {
     dispatch({ type: "categories/refresh" });
@@ -215,7 +216,7 @@ const AppContextProvider = ({ children }) => {
     if (!category || (category.name === name && category.budget === budget)) return null;
     const updatedCategory = { ...category, name: name, budget: budget };
     dispatch({ type: "categories/update", payload: { category, updatedCategory } });
-    if (updatedCategory.name !== category.name) updateShortcut({ id: category.id, name: category.name });
+    if (updatedCategory.name !== category.name) updateShortcut({ id: updatedCategory.id, name: updatedCategory.name });
     return updatedCategory;
   };
 
@@ -278,8 +279,9 @@ const AppContextProvider = ({ children }) => {
       expensesService: { expenses, clearExpensesByMonth, setExpensesCategories, addExpense, assignExpense, sortExpensesBy, delExpense },
       categoriesService: { categories, clearCategories, delCategory, addCategory, updateCategory, sortCategoryBy },
       confirmService: { requestConfirm, ConfirmModalComponent },
+      shortcutService: { shortcuts },
     }),
-    [expenses, categories, ConfirmModalComponent]
+    [expenses, categories, ConfirmModalComponent, shortcuts]
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;

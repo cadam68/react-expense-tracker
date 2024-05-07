@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { useShortcutContext } from "../contexts/ShortcutContext";
 import { Log } from "../services/LogService";
+import { useAppContext } from "../contexts/AppContext";
 
 const logger = Log("useShortcut");
 
 const useShortcut = (callback) => {
-  const { shortcuts } = useShortcutContext();
+  const {
+    shortcutService: { shortcuts },
+  } = useAppContext();
 
   useEffect(() => {
     const handleKeyPress = (event) => {

@@ -1,0 +1,14 @@
+{
+  "versions": [
+    {
+      "version": "2.3",
+      "date": "2024-06-06",
+      "changes": [
+        {
+          "title": "add shortcut feature",
+          "description" : "Simply use the shortcut associated to each category to set the category in the expense form. \n The shortcut correspond to Ctrl+Shift and the first letter of the category name"
+        }
+      ]
+    }
+  ]
+}
