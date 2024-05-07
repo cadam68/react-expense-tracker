@@ -1,18 +1,18 @@
 import { useEffect } from "react";
-import { useShortcuts } from "../contexts/ShortcutContext";
+import { useShortcutContext } from "../contexts/ShortcutContext";
 import { Log } from "../services/LogService";
 
 const logger = Log("useShortcut");
 
 const useShortcut = (callback) => {
-  const { state } = useShortcuts();
+  const { shortcuts } = useShortcutContext();
 
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (!event.ctrlKey && !event.shiftKey) return; // Early exit if Ctrl or Shift is not pressed
 
       // Loop through each shortcut and check for a match with the event
-      Object.entries(state.shortcuts).forEach(([shortcut, item]) => {
+      Object.entries(shortcuts).forEach(([shortcut, item]) => {
         const keys = shortcut.split("+"); // Split the shortcut into parts, e.g., ['Ctrl', 'Shift', 'F']
         const key = keys.pop(); // The actual key to be pressed, e.g., 'F'
         const modifiersMatch = keys.every((modifier) => {
@@ -33,8 +33,11 @@ const useShortcut = (callback) => {
     };
 
     window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [state.shortcuts, callback]); // Ensure effect updates when shortcuts or callback changes
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+      // logger.debug(`removeEventListener("keydown")`);
+    };
+  }, [shortcuts, callback]); // Ensure effect updates when shortcuts or callback changes
 };
 
 export default useShortcut;

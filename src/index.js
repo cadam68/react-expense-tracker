@@ -9,13 +9,13 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { AppContextProvider } from "./contexts/AppContext";
 import { ToastProvider } from "./contexts/ToastContext";
-import { ShortcutProvider } from "./contexts/ShortcutContext";
+import { ShortcutContextProvider } from "./contexts/ShortcutContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <DebugContextProvider>
     <SettingsContextProvider>
-      <ShortcutProvider>
+      <ShortcutContextProvider>
         <AppContextProvider>
           <ToastProvider>
             <DndProvider backend={HTML5Backend}>
@@ -23,7 +23,7 @@ root.render(
             </DndProvider>
           </ToastProvider>
         </AppContextProvider>
-      </ShortcutProvider>
+      </ShortcutContextProvider>
     </SettingsContextProvider>
   </DebugContextProvider>
 );

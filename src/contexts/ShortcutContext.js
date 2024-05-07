@@ -1,12 +1,30 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
+import React, { createContext, useReducer, useContext, useEffect, useMemo } from "react";
+import PropTypes from "prop-types";
 import { Log } from "../services/LogService";
 
 const logger = Log("ShortcutContext");
-const ShortcutContext = createContext();
+
 const shortcutPrefix = "Ctrl+Shift";
+const ShortcutContext = createContext({
+  shortcuts: {},
+  addShortcut: () => {},
+  delShortcut: () => {},
+  updateShortcut: () => {},
+});
+const initialState = { shortcuts: {} };
+
+// Helper function to find the next available shortcut
+const findAvailableShortcut = (category, shortcuts) => {
+  const potentialShortcuts = category
+    .toUpperCase()
+    .split("")
+    .map((char) => `${shortcutPrefix}+${char.toUpperCase()}`)
+    .filter((key) => !Object.keys(shortcuts).includes(key));
+  return potentialShortcuts.length > 0 ? potentialShortcuts[0] : null;
+};
 
 // Reducer to manage shortcuts
-const shortcutReducer = (state, { type, payload }) => {
+const reducer = (state, { type, payload }) => {
   switch (type) {
     case "shortcut/add": {
       const { category } = payload;
@@ -40,26 +58,39 @@ const shortcutReducer = (state, { type, payload }) => {
   }
 };
 
-// Helper function to find the next available shortcut
-const findAvailableShortcut = (category, shortcuts) => {
-  const potentialShortcuts = category
-    .toUpperCase()
-    .split("")
-    .map((char) => `${shortcutPrefix}+${char.toUpperCase()}`)
-    .filter((key) => !Object.keys(shortcuts).includes(key));
-  return potentialShortcuts.length > 0 ? potentialShortcuts[0] : null;
-};
-
-// Context provider
-export const ShortcutProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(shortcutReducer, { shortcuts: {} });
+const ShortcutContextProvider = ({ children }) => {
+  const [{ shortcuts }, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    logger.debug(`shortcuts=${JSON.stringify(state.shortcuts)}`);
-  }, [state.shortcuts]);
+    logger.debug(`shortcuts=${JSON.stringify(shortcuts)}`);
+  }, [shortcuts]);
 
-  return <ShortcutContext.Provider value={{ state, dispatch }}>{children}</ShortcutContext.Provider>;
+  const addShortcut = (category) => {
+    dispatch({ type: "shortcut/add", payload: { category } });
+  };
+
+  const delShortcut = (category) => {
+    dispatch({ type: "shortcut/del", payload: { category } });
+  };
+
+  const updateShortcut = (category) => {
+    dispatch({ type: "shortcut/update", payload: { category } });
+  };
+
+  const contextValues = useMemo(() => ({ shortcuts, addShortcut, delShortcut, updateShortcut }), [shortcuts]); // value is cached by useMemo
+  return <ShortcutContext.Provider value={contextValues}>{children}</ShortcutContext.Provider>;
 };
 
-// Custom hook to use the shortcut context
-export const useShortcuts = () => useContext(ShortcutContext);
+ShortcutContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+const useShortcutContext = () => {
+  const context = useContext(ShortcutContext);
+  if (!context) {
+    throw new Error("useShortcutContext must be used within a ShortcutContextProvider");
+  }
+  return context;
+};
+
+export { ShortcutContextProvider, useShortcutContext };
