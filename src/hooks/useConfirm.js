@@ -13,6 +13,7 @@ const useConfirm = (className) => {
   const resolveReject = useRef();
 
   const requestConfirm = useCallback((jsxContent, buttonsProperties = defaultButtons) => {
+    document.activeElement.blur(); // remove the focus from the activeElement
     setContent(jsxContent);
     setIsOpen(true);
     if (buttonsProperties != null) setButtons(buttonsProperties);
@@ -29,7 +30,7 @@ const useConfirm = (className) => {
       }
       setIsOpen(false);
     },
-    [resolveReject],
+    [resolveReject]
   );
 
   useEffect(() => {
@@ -43,9 +44,7 @@ const useConfirm = (className) => {
 
   return {
     requestConfirm,
-    ConfirmModalComponent: (
-      <ConfirmModal isOpen={isOpen} content={content} buttons={buttons} handleResponse={handleResponse} className={className} />
-    ),
+    ConfirmModalComponent: <ConfirmModal isOpen={isOpen} content={content} buttons={buttons} handleResponse={handleResponse} className={className} />,
     handleResponse,
   };
 };

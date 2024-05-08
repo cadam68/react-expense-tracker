@@ -177,3 +177,54 @@ Number.prototype.between = function (a, b) {
     max = Math.max(a, b);
   return this > min && this < max;
 };
+
+/* Usage
+const queue = new Queue();
+queue.enqueue('a');
+queue.enqueue('b');
+queue.enqueue('c');
+console.log(queue.dequeue()); // Outputs: 'a'
+console.log(queue.peek());    // Outputs: 'b'
+console.log(queue.size());    // Outputs: 2
+ */
+export class Queue {
+  constructor() {
+    this.items = [];
+  }
+
+  // Add an element to the end of the queue
+  enqueue(element) {
+    this.items.push(element);
+  }
+
+  // Remove an element from the front of the queue
+  dequeue() {
+    if (this.isEmpty()) {
+      throw new Error("Queue is empty");
+    }
+    return this.items.shift();
+  }
+
+  // Check if the queue is empty
+  isEmpty() {
+    return this.items.length === 0;
+  }
+
+  // Get the first element of the queue
+  peek() {
+    if (this.isEmpty()) {
+      throw new Error("Queue is empty");
+    }
+    return this.items[0];
+  }
+
+  // Get the length of the queue
+  size() {
+    return this.items.length;
+  }
+
+  // Clear the queue
+  clear() {
+    this.items = [];
+  }
+}

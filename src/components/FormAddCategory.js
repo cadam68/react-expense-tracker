@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Button from "./Button";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
+import useShortcut from "../hooks/UseShortcut";
 
 const logger = Log("FormAddCategory");
 
@@ -15,7 +16,25 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
   const { debug } = useDebugContext();
   const {
     categoriesService: { categories },
+    confirmService: { requestConfirm },
   } = useAppContext();
+
+  // shortcuts
+  useShortcut("Ctrl+H", "help-category", async () => {
+    await requestConfirm(
+      <div style={{ maxWidth: "50vw" }}>
+        <div style={{ marginBottom: "1rem" }}>
+          <h4>New Category Form Help Pag</h4>
+        </div>
+        <div style={{ textAlign: "left" }}>
+          Please enter the name of a category and its budget.
+          <br />
+          Note: The budget is optional
+        </div>
+      </div>,
+      []
+    );
+  });
 
   /*
   const previousCategory = useRef(null); // persist during renders

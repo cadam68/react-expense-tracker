@@ -9,6 +9,7 @@ import Button from "./Button";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
 import { useToast } from "../contexts/ToastContext";
+import useShortcutContext from "../hooks/UseShortcutContext";
 import useShortcut from "../hooks/UseShortcut";
 
 const logger = Log("FormAddExpense");
@@ -20,13 +21,30 @@ const FormAddExpense = () => {
   const {
     categoriesService: { categories },
     expensesService: { addExpense },
+    confirmService: { requestConfirm },
   } = useAppContext();
 
+  // shortcuts
   const handleShortcut = (category) => {
     setFieldRefValue(fieldRefs.current["category"], category.name);
   };
+  useShortcutContext(handleShortcut);
 
-  useShortcut(handleShortcut);
+  useShortcut("Ctrl+H", "help-expenses", async () => {
+    await requestConfirm(
+      <div style={{ maxWidth: "50vw" }}>
+        <div style={{ marginBottom: "1rem" }}>
+          <h4>New Expense Form Help Page</h4>
+        </div>
+        <div style={{ textAlign: "left" }}>
+          Please select a date, choose the category associated to the expense, enter a description and the amount.
+          <br />
+          Tips: Use the category shortcut to select directly the category in the drop down list.
+        </div>
+      </div>,
+      []
+    );
+  });
 
   const initialValues = {
     date: new Date(),

@@ -16,6 +16,7 @@ import { useAppContext } from "../contexts/AppContext";
 import CryptoJS from "crypto-js";
 import { settings } from "../Settings";
 import { useLocation, useNavigate } from "react-router-dom";
+import useShortcut from "../hooks/UseShortcut";
 
 const logger = Log("Header");
 
@@ -175,6 +176,11 @@ const Header = ({ setSelectedCategory }) => {
     toogleShowCharts();
     navigate(`/app/${location.pathname === "/app/expenses" ? "charts" : "expenses"}`);
   };
+
+  // Shortcuts
+  useShortcut("Ctrl+T", "change-theme", handleChangeTheme);
+  useShortcut("Ctrl+C", "change-theme", handleShowCharts);
+  useShortcut("Ctrl+X", "change-theme", handleExportData);
 
   return (
     <nav className={"nav" + (debug ? " debug" : "")}>
