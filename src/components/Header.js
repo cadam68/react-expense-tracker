@@ -266,6 +266,16 @@ const Header = ({ setSelectedCategory }) => {
             Import
           </span>
         </Hover>
+        {admin && (
+          <Button
+            className={"button-outline button-small"}
+            onClick={() => {
+              logger.error("this is a error generated on purpose to test log service, please ignore this message");
+            }}
+          >
+            POC
+          </Button>
+        )}
       </p>
     </nav>
   );
