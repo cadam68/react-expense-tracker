@@ -253,6 +253,7 @@ const Header = ({ setSelectedCategory }) => {
         </Hover>
         <Hover caption={"Drag and drop your exported data file here"} visible>
           <span
+            style={{ display: "inline-block" }}
             className={"button-outline button-small dragging"}
             onDragOver={(event) => {
               event.preventDefault();

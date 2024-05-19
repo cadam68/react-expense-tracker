@@ -11,7 +11,6 @@ import Footer from "./components/Footer";
 import Logo from "./components/Logo";
 import HomePage from "./pages/HomePage";
 import ToastContainer from "./components/ToastContainer";
-// import AboutPage from "./pages/AboutPage";
 // import BuyMeACafePage from "./pages/BuyMeACafePage";
 
 const App = () => {
@@ -19,10 +18,11 @@ const App = () => {
   const { firstTime, showCharts } = useSettingsContext();
   const {
     confirmService: { requestConfirm, ConfirmModalComponent },
+    basicDataService,
+    isLoading,
   } = useAppContext();
 
   const BuyMeACafePage = lazy(() => import("./pages/BuyMeACafePage.js"));
-  const AboutPage = lazy(() => import("./pages/AboutPage.js"));
 
   useEffect(() => {
     window.toggleDebug = toggleDebug;
@@ -51,18 +51,21 @@ const App = () => {
           {ConfirmModalComponent}
           <ToastContainer />
           <Logo />
-          <div className={"page-content" + (debug ? " debug" : "")}>
-            <Routes>
-              <Route path={"/app"} element={<HomePage />}>
-                <Route index element={<Navigate replace to={showCharts ? "charts" : "expenses"} />} />
-                <Route path={"expenses"} element={<ExpensesPage />} />
-                <Route path={"charts"} element={<ChartsPage />} />
-              </Route>
-              <Route path={"about"} element={<AboutPage />} />
-              <Route path={"buyMeACafe"} element={<BuyMeACafePage />} />
-              <Route path="*" replace element={<Navigate to="/app" />} />
-            </Routes>
-          </div>
+          {isLoading ? (
+            <SpinnerFullPage />
+          ) : (
+            <div className={"page-content" + (debug ? " debug" : "")}>
+              <Routes>
+                <Route path={"/app"} element={<HomePage />}>
+                  <Route index element={<Navigate replace to={showCharts ? "charts" : "expenses"} />} />
+                  <Route path={"expenses"} element={<ExpensesPage />} />
+                  <Route path={"charts"} element={<ChartsPage />} />
+                </Route>
+                <Route path={"buyMeACafe"} element={<BuyMeACafePage />} />
+                <Route path="*" replace element={<Navigate to="/app" />} />
+              </Routes>
+            </div>
+          )}
           <Footer className={debug ? " debug" : ""} />
         </div>
       </Suspense>

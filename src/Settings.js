@@ -8,4 +8,5 @@ export const settings = {
   passphrase: process.env.REACT_APP_PASSPHRASE || "passphrase",
   apiKey: process.env.REACT_APP_API_KEY || "apiKey",
   baseApiUrl: process.env.REACT_APP_API_URL || "http://localhost:5001",
+  downloadReferences: ["AdamCyrilMoiMesValeurs.mp4"],
 };

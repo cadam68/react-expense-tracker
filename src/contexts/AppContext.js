@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { settings } from "../Settings";
 import { format, startOfDay, subDays } from "date-fns";
@@ -7,6 +7,7 @@ import useConfirm from "../hooks/useConfirm";
 import styles from "../App.module.css";
 import { Log } from "../services/LogService";
 import { ShortcutService } from "../services/ShortCutService";
+import { DownloadUrlService } from "../services/DownloadUrlService";
 
 const logger = Log("AppContext");
 
@@ -23,6 +24,8 @@ const AppContext = createContext({
   categoriesService: { categories: [], clearCategories: () => {}, delCategory: () => {}, addCategory: () => {}, updateCategory: () => {}, sortCategoryBy: () => {} },
   confirmService: { requestConfirm: () => {}, ConfirmModalComponent: () => {} },
   shortcutService: { shortcuts: {} },
+  basicDataService: { downloadUrls: [] },
+  isLoading: true,
 });
 
 const initialCategories = [
@@ -157,11 +160,44 @@ const AppContextProvider = ({ children }) => {
   const [{ expenses, categories }, dispatch] = useLocalStorageReducer("expense-tracker-data", initialState, reducer, converter);
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
   const { shortcuts, addShortcut, delShortcut, updateShortcut } = ShortcutService();
+  const { fetchDownloadUrl } = DownloadUrlService();
+  const [downloadUrls, setDownloadUrls] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     dispatch({ type: "categories/refresh" });
     categories.forEach((category) => addShortcut({ id: category.id, name: category.name })); // iici
   }, [dispatch]);
+
+  // load basicData(s)
+  useEffect(() => {
+    const abortCtrl = new AbortController();
+
+    const fetchAllDownloadUrls = async () => {
+      const downloadUrls = await Promise.all(
+        settings.downloadReferences.map(async (ref) => {
+          try {
+            const downloadUrl = await fetchDownloadUrl(ref, abortCtrl);
+            return { ref, downloadUrl };
+          } catch (err) {
+            logger.error(`Error fetching download url for reference : ${ref}`);
+          }
+        })
+      );
+      setDownloadUrls(downloadUrls);
+    };
+
+    const fetchData = async () => {
+      await fetchAllDownloadUrls();
+      setIsLoading(false);
+    };
+
+    fetchData();
+
+    return () => {
+      abortCtrl.abort();
+    };
+  }, []);
 
   const clearExpensesByMonth = (dateRef) => {
     dispatch({ type: "expenses/clearByMonth", payload: { dateRef } });
@@ -280,8 +316,10 @@ const AppContextProvider = ({ children }) => {
       categoriesService: { categories, clearCategories, delCategory, addCategory, updateCategory, sortCategoryBy },
       confirmService: { requestConfirm, ConfirmModalComponent },
       shortcutService: { shortcuts },
+      basicDataService: { downloadUrls },
+      isLoading,
     }),
-    [expenses, categories, ConfirmModalComponent, shortcuts]
+    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading]
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;
