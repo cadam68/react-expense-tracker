@@ -175,12 +175,12 @@ const AppContextProvider = ({ children }) => {
 
     const fetchAllDownloadUrls = async () => {
       const downloadUrls = await Promise.all(
-        settings.downloadReferences.map(async (ref) => {
+        settings.downloadReferences.map(async (item) => {
           try {
-            const downloadUrl = await fetchDownloadUrl(ref, abortCtrl);
-            return { ref, downloadUrl };
+            const downloadUrl = await fetchDownloadUrl(item.fileName, abortCtrl);
+            return { ...item, url: downloadUrl };
           } catch (err) {
-            logger.error(`Error fetching download url for reference : ${ref}`);
+            logger.error(`Error fetching download url for file : ${item.fileName}`);
           }
         })
       );
