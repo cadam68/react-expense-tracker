@@ -72,7 +72,7 @@ const refreshCategories = (categories, expenses, categoryName) => {
           ...category,
           totalExpenses: expenses.filter((expense) => expense.category === category.name).reduce((acc, el) => acc + el.amount, 0),
         }
-      : category
+      : category,
   );
   return updatedCategories;
 };
@@ -174,7 +174,7 @@ const AppContextProvider = ({ children }) => {
     const abortCtrl = new AbortController();
 
     const fetchAllDownloadUrls = async () => {
-      const downloadUrls = await Promise.all(
+      const values = await Promise.all(
         settings.downloadReferences.map(async (item) => {
           try {
             const downloadUrl = await fetchDownloadUrl(item.fileName, abortCtrl);
@@ -182,9 +182,9 @@ const AppContextProvider = ({ children }) => {
           } catch (err) {
             logger.error(`Error fetching download url for file : ${item.fileName}`);
           }
-        })
+        }),
       );
-      setDownloadUrls(downloadUrls);
+      setDownloadUrls(values.filter((item) => item != undefined));
     };
 
     const fetchData = async () => {
@@ -319,7 +319,7 @@ const AppContextProvider = ({ children }) => {
       basicDataService: { downloadUrls },
       isLoading,
     }),
-    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading]
+    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading],
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;

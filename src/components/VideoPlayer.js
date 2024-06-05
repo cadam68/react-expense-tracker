@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
+import { Log } from "../services/LogService";
+import { useToast } from "../contexts/ToastContext";
+
+const logger = Log("VideoPlayer");
 
 const VideoPlayer = () => {
   const { lg: param_lg, videoId: param_videoId } = useParams();
@@ -10,11 +14,19 @@ const VideoPlayer = () => {
   const {
     basicDataService: { downloadUrls },
   } = useAppContext();
+  const { Toast } = useToast();
   const [lg, setLg] = useState(() => (param_videoId ? param_lg : null));
   const [videoId, setVideoId] = useState(() => (param_videoId ? param_videoId : param_lg));
-  const [videoUrl, setVideoUrl] = useState(() => downloadUrls.find((item) => item.id === (lg ? `${videoId}-${lg}` : videoId))?.url);
+  const [videoUrl, setVideoUrl] = useState(() => {
+    const ref = lg ? `${videoId}-${lg}` : videoId;
+    let url = downloadUrls.find((item) => item.id === ref)?.url;
+    if (!url) url = downloadUrls.find((item) => item.id.startsWith(videoId))?.url; // find first matching
+    logger.console(`initialisation settings : video(id=[${ref}]).url=[${url}]`);
+    if (!url) Toast.error(`video ${videoId} not available`);
+    return url;
+  });
 
-  // console.log(downloadUrls, param_lg, param_videoId, videoId, videoUrl);
+  // console.log("iici", downloadUrls, param_lg, param_videoId, videoId, videoUrl);
 
   const videoHandler = (control) => {
     if (control === "play") {
@@ -40,7 +52,7 @@ const VideoPlayer = () => {
 
   return (
     <section>
-      <h2>Now Playing: {videoId}</h2>
+      <h2>Playing {videoId}</h2>
       <div>
         <video ref={videoRef} src={`${videoUrl}#t=0`} playsInline controls={true} preload="metadata" width="80%">
           Your browser does not support the video tag.
