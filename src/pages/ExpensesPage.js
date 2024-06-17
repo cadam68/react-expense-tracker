@@ -10,6 +10,7 @@ import { Log } from "../services/LogService";
 import { useAppContext } from "../contexts/AppContext";
 import { useOutletContext } from "react-router-dom";
 import { useToast } from "../contexts/ToastContext";
+import { Helmet } from "react-helmet";
 
 const logger = Log("ExpensesPage");
 
@@ -81,6 +82,14 @@ const ExpensesPage = () => {
 
   return (
     <section className={"sidebar" + (debug ? " debug" : "")}>
+      <Helmet>
+        <title>Expense Tracker - Create Categories and Track Your Expenses</title>
+        <meta
+          name="description"
+          content="Manage your expenses effortlessly with our expense tracker. Create categories, track expenses, and perform detailed searches. Start organizing your finances today!"
+        />
+        <meta name="keywords" content="expense tracker, create categories, track expenses, finance management, expense search" />
+      </Helmet>
       <div className={"category-list" + (debug ? " debug" : "")}>
         <p className={"space-between"}>
           <span>Categories</span>

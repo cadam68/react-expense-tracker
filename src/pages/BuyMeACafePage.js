@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import { useToast } from "../contexts/ToastContext";
 import styles from "./BuyMeACafePage.module.css";
 import { useDebugContext } from "../contexts/DebugContext";
+import { Helmet } from "react-helmet";
 
 function AboutPage() {
   const { themeId } = useSettingsContext();
@@ -23,6 +24,14 @@ function AboutPage() {
 
   return (
     <section>
+      <Helmet>
+        <title>Support Us - Buy Me a Coffee</title>
+        <meta
+          name="description"
+          content="Learn more about the creator of this expense tracker and support the development of this application. Buy me a coffee to keep this project going!"
+        />
+        <meta name="keywords" content="support us, buy me a coffee, support developer, expense tracker creator, support project" />
+      </Helmet>
       <div className={styles.container}>
         <p>Hey there! I'm Cyril, and I've been diving into the realms of IT Development Engineering and Full Stack development since 2001.</p>
         <p>
