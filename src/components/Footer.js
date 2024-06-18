@@ -3,7 +3,7 @@ import useComponentTranslation from "../hooks/useComponentTranslation";
 import { useEffect, useState } from "react";
 
 const Footer = () => {
-  const { i18n, t } = useComponentTranslation(Footer.name);
+  const { i18n, t } = useComponentTranslation("Footer");
   const [randomProverb, setRandomProverb] = useState("");
 
   useEffect(() => {

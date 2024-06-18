@@ -9,7 +9,7 @@ const Logo = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { admin } = useDebugContext();
-  const { i18n, t } = useComponentTranslation(Logo.name);
+  const { i18n, t } = useComponentTranslation("Logo");
 
   const enableBackHome = pathname.indexOf("/app/") === -1;
   const enableBuyMeACafeHome = pathname.indexOf("/buyMeACafe") === -1;

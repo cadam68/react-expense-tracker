@@ -14,7 +14,7 @@ function AboutPage() {
   const { debug, admin } = useDebugContext();
   const { supporters, isLoading, error, testAdd } = BuyMeACafeService();
   const { Toast } = useToast();
-  const { Trans, t } = useComponentTranslation(AboutPage.name);
+  const { Trans, t } = useComponentTranslation("AboutPage");
 
   useEffect(() => {
     if (themeId !== 0) changeTheme(themes[Object.keys(themes)[themeId]]);

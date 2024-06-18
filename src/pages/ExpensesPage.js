@@ -18,7 +18,7 @@ const logger = Log("ExpensesPage");
 const ExpensesPage = () => {
   const { selectedCategory, setSelectedCategory } = useOutletContext(); // <-- access context value
   const { Toast } = useToast();
-  const { t } = useComponentTranslation(ExpensesPage.name);
+  const { t } = useComponentTranslation("ExpensesPage");
 
   const { debug } = useDebugContext();
   const {

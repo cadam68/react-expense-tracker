@@ -5,7 +5,7 @@ import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const ChartsPage = () => {
   const { debug } = useDebugContext();
-  const { t } = useComponentTranslation(ChartsPage.name);
+  const { t } = useComponentTranslation("ChartsPage");
 
   return (
     <section className={debug ? " debug" : ""}>
