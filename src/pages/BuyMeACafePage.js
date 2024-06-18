@@ -7,12 +7,14 @@ import { useToast } from "../contexts/ToastContext";
 import styles from "./BuyMeACafePage.module.css";
 import { useDebugContext } from "../contexts/DebugContext";
 import { Helmet } from "react-helmet";
+import { Trans, useTranslation } from "react-i18next";
 
 function AboutPage() {
   const { themeId } = useSettingsContext();
   const { debug, admin } = useDebugContext();
   const { supporters, isLoading, error, testAdd } = BuyMeACafeService();
   const { Toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (themeId !== 0) changeTheme(themes[Object.keys(themes)[themeId]]);
@@ -33,17 +35,14 @@ function AboutPage() {
         <meta name="keywords" content="support us, buy me a coffee, support developer, expense tracker creator, support project" />
       </Helmet>
       <div className={styles.container}>
-        <p>Hey there! I'm Cyril, and I've been diving into the realms of IT Development Engineering and Full Stack development since 2001.</p>
+        <p>{t("aboutMe_me")}</p>
         <p>
-          One of my latest creations is ExpensesTracker, a testament to my journey in web development. Curious to peek under the hood? Take a stroll through my{" "}
-          <a href="https://github.com/cadam68/react-expense-tracker" target="_blank">
-            GitHub repository
-          </a>
-          .
+          <Trans i18nKey="aboutMe_more" components={[<a href="https://github.com/cadam68/react-expense-tracker" target="_blank"></a>]} />
         </p>
         <p>
-          If you find it helpful or intriguing, consider supporting my work with a cup of coffee. Your contribution fuels the continuous evolution of ExpensesTracker. <br />
-          Cheers to innovation and thank you for your support!
+          {t("aboutMe_support")}
+          <br />
+          {t("aboutMe_thanks")}
         </p>
       </div>
       {admin && (

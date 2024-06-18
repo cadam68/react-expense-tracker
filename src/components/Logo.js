@@ -2,11 +2,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Hover from "./Hover";
 import Button from "./Button";
 import { useDebugContext } from "../contexts/DebugContext";
+import { settings } from "../Settings";
+import { useTranslation } from "react-i18next";
 
 const Logo = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { admin } = useDebugContext();
+  const { i18n, t } = useTranslation();
 
   const enableBackHome = pathname.indexOf("/app/") === -1;
   const enableBuyMeACafeHome = pathname.indexOf("/buyMeACafe") === -1;
@@ -31,7 +34,7 @@ const Logo = () => {
     <header className={`header ${enableBackHome ? "enable" : ""}`}>
       <div onClick={handleBackHome}>
         <h1>ExpensesTracker</h1>
-        <h6>— Keep your expenses in order —</h6>
+        <h6>{t("logo_title_slogan")}</h6>
       </div>
       <div className={"floatingBanner"}>
         {false && (
@@ -41,7 +44,19 @@ const Logo = () => {
             </Button>
           </Hover>
         )}
-        <Hover visible={enableBuyMeACafeHome} caption={"Would you like to buy me a café ?"}>
+        <Hover caption={t("logo_caption_changeLanguage")}>
+          <Button
+            className={`button-shadow button-big`}
+            onClick={() => {
+              const availableLanguages = Object.keys(settings.availableLanguages);
+              const i = (availableLanguages.indexOf(i18n.resolvedLanguage) + 1) % availableLanguages.length;
+              i18n.changeLanguage(availableLanguages[i]);
+            }}
+          >
+            {settings.availableLanguages[i18n.resolvedLanguage]}
+          </Button>
+        </Hover>
+        <Hover visible={enableBuyMeACafeHome} caption={t("logo_caption_buyMeACafe")}>
           <Button className={`button-shadow button-big ${!enableBuyMeACafeHome ? "selected" : ""}`} onClick={handleBuyMeACafeHome} disabled={!enableBuyMeACafeHome}>
             ☕️
           </Button>

@@ -1,0 +1,34 @@
+
+{
+  "msg_welcome": "Bienvenu, {{name}}!",
+  "logo_title_slogan": "— Mettez de l'ordre dans vos dépenses —",
+  "logo_caption_buyMeACafe" : "Voudrais-tu m'offrir un café ?",
+  "logo_caption_changeLanguage" : "Changer de langue",
+  "footer_proverbs": [
+    "Mon portefeuille est comme un oignon - l'ouvrir me fait pleurer.",
+    "Je dépense de l'argent que je n'ai pas encore gagné pour des choses dont je n'ai pas besoin.",
+    "Mon budget a un trou noir - il avale tout ce que j'y mets.",
+    "Les soldes me disent toujours : 'Achète maintenant, pleure plus tard.'",
+    "Pourquoi le banquier est-il devenu jardinier ? Pour essayer de faire pousser son argent.",
+    "Si seulement je pouvais dépenser des calories aussi facilement que de l'argent.",
+    "Je fais des économies… jusqu'à ce que je vois quelque chose de joli.",
+    "Ma carte de crédit est comme une baguette magique - elle fait disparaître mon argent.",
+    "Je ne suis pas fauché, je suis juste financièrement créatif.",
+    "Je ne suis pas dépensier, je suis juste bon pour l'économie locale.",
+    "Mon compte bancaire est un comique - il me fait rire (jaune) chaque fois que je le consulte.",
+    "Je suis tellement endetté que même mes factures reçoivent des factures.",
+    "J'ai une relation d'amour-haine avec ma carte de crédit : je l'aime, elle me déteste.",
+    "Pourquoi mon porte-monnaie va-t-il toujours au spa ? Parce qu'il a besoin de se détendre après chaque shopping.",
+    "Mon portefeuille est un artiste : il sait disparaître en un clin d'œil.",
+    "Je suis sur un régime strict de dépenses : je dépense tout ce que je gagne.",
+    "Je suis un expert en finances personnelles : je sais exactement comment dépenser chaque centime.",
+    "Mon compte bancaire est comme une montgolfière : il monte et descend sans prévenir.",
+    "Je ne fais pas du shopping, je fais de la 'thérapie retail' intensive.",
+    "Mes dépenses sont comme des enfants en bas âge : incontrôlables et toujours en mouvement.",
+    "Mon budget est comme un puzzle : il me manque toujours une pièce."
+  ],
+  "aboutMe_me": "Bonjour! Je suis Cyril, et je suis plongé dans les domaines de l'ingénierie de développement informatique et du développement Full Stack depuis 2001.",
+  "aboutMe_more": "L'une de mes dernières réalisations est ExpensesTracker, un reflet de mon parcours dans le développement web. Vous êtes curieux de découvrir les coulisses ? Visitez mon dépôt <0>GitHub</0>.",
+  "aboutMe_support": "Si vous trouvez cela utile ou intéressant, pensez à soutenir mon travail avec un café. Votre contribution nourrit l'évolution continue d'ExpensesTracker.",
+  "aboutMe_thanks": "À l'innovation et merci pour votre soutien!"
+}

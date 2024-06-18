@@ -10,6 +10,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { AppContextProvider } from "./contexts/AppContext";
 import { ToastProvider } from "./contexts/ToastContext";
+import "./i18n";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
