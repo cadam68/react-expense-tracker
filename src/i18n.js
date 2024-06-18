@@ -14,11 +14,10 @@ i18n
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",
       requestOptions: {
-        cache: "default", // This leverages the browser's default caching strategy. Change as needed.
+        cache: "default",
       },
     },
     debug: false,
-
     interpolation: {
       escapeValue: false,
     },

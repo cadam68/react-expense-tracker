@@ -1,10 +1,13 @@
 
 {
   "msg_welcome": "Bienvenu, {{name}}!",
-  "logo_title_slogan": "— Mettez de l'ordre dans vos dépenses —",
-  "logo_caption_buyMeACafe" : "Voudrais-tu m'offrir un café ?",
-  "logo_caption_changeLanguage" : "Changer de langue",
-  "footer_proverbs": [
+
+  "ChartsPage_title" : "Visualisez vos dépenses avec des graphiques",
+  "ExpensesPage_title" : "Créez des catégories et suivez vos dépenses",
+  "Logo_title_slogan": "— Mettez de l'ordre dans vos dépenses —",
+  "Logo_caption_buyMeACafe" : "Voudrais-tu m'offrir un café ?",
+  "Logo_caption_changeLanguage" : "Changer de langue",
+  "Footer_proverbs": [
     "Mon portefeuille est comme un oignon - l'ouvrir me fait pleurer.",
     "Je dépense de l'argent que je n'ai pas encore gagné pour des choses dont je n'ai pas besoin.",
     "Mon budget a un trou noir - il avale tout ce que j'y mets.",
@@ -27,8 +30,9 @@
     "Mes dépenses sont comme des enfants en bas âge : incontrôlables et toujours en mouvement.",
     "Mon budget est comme un puzzle : il me manque toujours une pièce."
   ],
-  "aboutMe_me": "Bonjour! Je suis Cyril, et je suis plongé dans les domaines de l'ingénierie de développement informatique et du développement Full Stack depuis 2001.",
-  "aboutMe_more": "L'une de mes dernières réalisations est ExpensesTracker, un reflet de mon parcours dans le développement web. Vous êtes curieux de découvrir les coulisses ? Visitez mon dépôt <0>GitHub</0>.",
-  "aboutMe_support": "Si vous trouvez cela utile ou intéressant, pensez à soutenir mon travail avec un café. Votre contribution nourrit l'évolution continue d'ExpensesTracker.",
-  "aboutMe_thanks": "À l'innovation et merci pour votre soutien!"
+  "AboutPage_title" : "Offrez-moi un café",
+  "AboutPage_text_me": "Bonjour! Je suis Cyril, et je suis plongé dans les domaines de l'ingénierie de développement informatique et du développement Full Stack depuis 2001.",
+  "AboutPage_text_more": "L'une de mes dernières réalisations est ExpensesTracker, un reflet de mon parcours dans le développement web. Vous êtes curieux de découvrir les coulisses ? Visitez mon dépôt <0>GitHub</0>.",
+  "AboutPage_text_support": "Si vous trouvez cela utile ou intéressant, pensez à soutenir mon travail avec un café. Votre contribution nourrit l'évolution continue d'ExpensesTracker.",
+  "AboutPage_text_thanks": "À l'innovation et merci pour votre soutien!"
 }

@@ -7,14 +7,14 @@ import { useToast } from "../contexts/ToastContext";
 import styles from "./BuyMeACafePage.module.css";
 import { useDebugContext } from "../contexts/DebugContext";
 import { Helmet } from "react-helmet";
-import { Trans, useTranslation } from "react-i18next";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 function AboutPage() {
   const { themeId } = useSettingsContext();
   const { debug, admin } = useDebugContext();
   const { supporters, isLoading, error, testAdd } = BuyMeACafeService();
   const { Toast } = useToast();
-  const { t } = useTranslation();
+  const { Trans, t } = useComponentTranslation(AboutPage.name);
 
   useEffect(() => {
     if (themeId !== 0) changeTheme(themes[Object.keys(themes)[themeId]]);
@@ -27,7 +27,7 @@ function AboutPage() {
   return (
     <section>
       <Helmet>
-        <title>Support Us - Buy Me a Coffee</title>
+        <title>Expense Tracker - {t("title")}</title>
         <meta
           name="description"
           content="Learn more about the creator of this expense tracker and support the development of this application. Buy me a coffee to keep this project going!"
@@ -35,14 +35,14 @@ function AboutPage() {
         <meta name="keywords" content="support us, buy me a coffee, support developer, expense tracker creator, support project" />
       </Helmet>
       <div className={styles.container}>
-        <p>{t("aboutMe_me")}</p>
+        <p>{t("text_me")}</p>
         <p>
-          <Trans i18nKey="aboutMe_more" components={[<a href="https://github.com/cadam68/react-expense-tracker" target="_blank"></a>]} />
+          <Trans i18nKey="text_more" components={[<a href="https://github.com/cadam68/react-expense-tracker" target="_blank"></a>]} />
         </p>
         <p>
-          {t("aboutMe_support")}
+          {t("text_support")}
           <br />
-          {t("aboutMe_thanks")}
+          {t("text_thanks")}
         </p>
       </div>
       {admin && (

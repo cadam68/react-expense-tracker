@@ -1,13 +1,13 @@
 import { settings } from "../Settings";
-import { useTranslation } from "react-i18next";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 import { useEffect, useState } from "react";
 
 const Footer = () => {
-  const { i18n, t } = useTranslation();
+  const { i18n, t } = useComponentTranslation(Footer.name);
   const [randomProverb, setRandomProverb] = useState("");
 
   useEffect(() => {
-    const proverbs = t("footer_proverbs", { returnObjects: true });
+    const proverbs = t("proverbs", { returnObjects: true });
     setRandomProverb(proverbs[Math.floor(Math.random() * proverbs.length)]);
   }, [i18n.resolvedLanguage]);
 

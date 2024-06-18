@@ -1,10 +1,13 @@
 
 {
   "msg_welcome": "Welcome, {{name}}!",
-  "logo_title_slogan": "— Keep your expenses in order —",
-  "logo_caption_buyMeACafe" : "Would you like to buy me a café ?",
-  "logo_caption_changeLanguage" : "Change language",
-  "footer_proverbs": [
+
+  "ChartsPage_title" : "Visualize Your Expenses with Graphs",
+  "ExpensesPage_title" : "Create Categories and Track Your Expenses",
+  "Logo_title_slogan": "— Keep your expenses in order —",
+  "Logo_caption_buyMeACafe" : "Would you like to buy me a café ?",
+  "Logo_caption_changeLanguage" : "Change language",
+  "Footer_proverbs": [
     "Budgeting is like trying to fold a fitted sheet - it sounds easy until you start.",
     "Why did the penny break up with the nickel? Because it couldn't handle the constant expenses!",
     "I'm on a seafood diet. I see food, and I eat my budget instead.",
@@ -26,8 +29,9 @@
     "I'm practicing the art of 'retail therapy' to heal my budget wounds.",
     "My wallet and I are in a long-term committed relationship – it takes all my money!"
   ],
-  "aboutMe_me": "Hey there! I'm Cyril, and I've been diving into the realms of IT Development Engineering and Full Stack development since 2001.",
-  "aboutMe_more": "One of my latest creations is ExpensesTracker, a testament to my journey in web development. Curious to peek under the hood? Take a stroll through my <0>GitHub repository</0>.",
-  "aboutMe_support": "If you find it helpful or intriguing, consider supporting my work with a cup of coffee. Your contribution fuels the continuous evolution of ExpensesTracker.",
-  "aboutMe_thanks": "Cheers to innovation and thank you for your support!"
+  "AboutPage_title" : "Buy Me a Coffee",
+  "AboutPage_text_me": "Hey there! I'm Cyril, and I've been diving into the realms of IT Development Engineering and Full Stack development since 2001.",
+  "AboutPage_text_more": "One of my latest creations is ExpensesTracker, a testament to my journey in web development. Curious to peek under the hood? Take a stroll through my <0>GitHub repository</0>.",
+  "AboutPage_text_support": "If you find it helpful or intriguing, consider supporting my work with a cup of coffee. Your contribution fuels the continuous evolution of ExpensesTracker.",
+  "AboutPage_text_thanks": "Cheers to innovation and thank you for your support!"
 }

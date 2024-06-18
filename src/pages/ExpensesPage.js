@@ -11,12 +11,14 @@ import { useAppContext } from "../contexts/AppContext";
 import { useOutletContext } from "react-router-dom";
 import { useToast } from "../contexts/ToastContext";
 import { Helmet } from "react-helmet";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const logger = Log("ExpensesPage");
 
 const ExpensesPage = () => {
   const { selectedCategory, setSelectedCategory } = useOutletContext(); // <-- access context value
   const { Toast } = useToast();
+  const { t } = useComponentTranslation(ExpensesPage.name);
 
   const { debug } = useDebugContext();
   const {
@@ -83,7 +85,7 @@ const ExpensesPage = () => {
   return (
     <section className={"sidebar" + (debug ? " debug" : "")}>
       <Helmet>
-        <title>Expense Tracker - Create Categories and Track Your Expenses</title>
+        <title>Expense Tracker - {t("title")}</title>
         <meta
           name="description"
           content="Manage your expenses effortlessly with our expense tracker. Create categories, track expenses, and perform detailed searches. Start organizing your finances today!"

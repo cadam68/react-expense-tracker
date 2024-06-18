@@ -1,14 +1,16 @@
 import ExpensesChart from "../components/ExpensesChart";
 import { useDebugContext } from "../contexts/DebugContext";
 import { Helmet } from "react-helmet";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const ChartsPage = () => {
   const { debug } = useDebugContext();
+  const { t } = useComponentTranslation(ChartsPage.name);
 
   return (
     <section className={debug ? " debug" : ""}>
       <Helmet>
-        <title>Expense Tracker - Visualize Your Expenses with Graphs</title>
+        <title>Expense Tracker - {t("title")}</title>
         <meta
           name="description"
           content="View and analyze your expenses with our interactive charts. Gain insights into your spending habits and make informed financial decisions with ease."
