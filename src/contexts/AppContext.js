@@ -8,6 +8,7 @@ import styles from "../App.module.css";
 import { Log } from "../services/LogService";
 import { ShortcutService } from "../services/ShortCutService";
 import { DownloadUrlService } from "../services/DownloadUrlService";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const logger = Log("AppContext");
 
@@ -28,23 +29,7 @@ const AppContext = createContext({
   isLoading: true,
 });
 
-const initialCategories = [
-  { id: crypto.randomUUID(), name: "Food", budget: 300, totalExpenses: 0, color: settings.palette[0] },
-  { id: crypto.randomUUID(), name: "Shopping", budget: 200, totalExpenses: 0, color: settings.palette[1] },
-  { id: crypto.randomUUID(), name: "Car", budget: 200, totalExpenses: 0, color: settings.palette[2] },
-  { id: crypto.randomUUID(), name: "Divers", budget: null, totalExpenses: 0, color: settings.palette[3] },
-];
-
 const currentDate = new Date();
-const initialExpenses = [
-  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "Food", description: "Supermarket", amount: 10 },
-  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "Food", description: "Fast food", amount: 20 },
-  { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 1), category: "Food", description: "Other", amount: 30 },
-  { id: crypto.randomUUID(), date: startOfDay(currentDate), category: "Divers", description: "Amazon", amount: 10 },
-  { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 2), category: "Divers", description: "Gift", amount: 20 },
-];
-
-const initialState = { expenses: initialExpenses, categories: initialCategories };
 
 const converter = (rawValues) => {
   //!\ dates are converted to strings because JSON doesn't have a native date type. //!\
@@ -72,7 +57,7 @@ const refreshCategories = (categories, expenses, categoryName) => {
           ...category,
           totalExpenses: expenses.filter((expense) => expense.category === category.name).reduce((acc, el) => acc + el.amount, 0),
         }
-      : category,
+      : category
   );
   return updatedCategories;
 };
@@ -157,6 +142,22 @@ const reducer = (state, { type, payload }) => {
 };
 
 const AppContextProvider = ({ children }) => {
+  const { i18n } = useComponentTranslation();
+  const initialCategories = [
+    { id: crypto.randomUUID(), name: i18n.t("Food"), budget: 300, totalExpenses: 0, color: settings.palette[0] },
+    { id: crypto.randomUUID(), name: i18n.t("Shopping"), budget: 200, totalExpenses: 0, color: settings.palette[1] },
+    { id: crypto.randomUUID(), name: i18n.t("Car"), budget: 200, totalExpenses: 0, color: settings.palette[2] },
+    { id: crypto.randomUUID(), name: i18n.t("Divers"), budget: null, totalExpenses: 0, color: settings.palette[3] },
+  ];
+  const initialExpenses = [
+    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("Food"), description: i18n.t("Supermarket"), amount: 10 },
+    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("Food"), description: i18n.t("Fast food"), amount: 20 },
+    { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 1), category: i18n.t("Food"), description: i18n.t("Other"), amount: 30 },
+    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("Divers"), description: i18n.t("Commercial Center"), amount: 10 },
+    { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 2), category: i18n.t("Divers"), description: i18n.t("Gift"), amount: 20 },
+  ];
+  const initialState = { expenses: initialExpenses, categories: initialCategories };
+
   const [{ expenses, categories }, dispatch] = useLocalStorageReducer("expense-tracker-data", initialState, reducer, converter);
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
   const { shortcuts, addShortcut, delShortcut, updateShortcut } = ShortcutService();
@@ -182,7 +183,7 @@ const AppContextProvider = ({ children }) => {
           } catch (err) {
             logger.error(`Error fetching download url for file : ${item.fileName}`);
           }
-        }),
+        })
       );
       setDownloadUrls(values.filter((item) => item != undefined));
     };
@@ -319,7 +320,7 @@ const AppContextProvider = ({ children }) => {
       basicDataService: { downloadUrls },
       isLoading,
     }),
-    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading],
+    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading]
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;

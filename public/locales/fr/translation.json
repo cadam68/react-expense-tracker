@@ -1,5 +1,17 @@
 
 {
+  "_": "----------------------------------------------",
+  "Food": "Nourriture",
+  "Shopping": "Achats",
+  "Car": "Voiture",
+  "Divers": "Divers",
+  "Supermarket": "Supermarché",
+  "Fast food": "Restauration rapide",
+  "Other": "Autre",
+  "Commercial Center": "Centre commercial",
+  "Gift": "Cadeau",
+  "_": "----------------------------------------------",
+
   "msg_welcome": "Bienvenu, {{name}}!",
 
   "ChartsPage_title" : "Visualisez vos dépenses avec des graphiques",

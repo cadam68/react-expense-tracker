@@ -1,5 +1,17 @@
 
+
 {
+  "_": "----------------------------------------------",
+  "Food": "Food",
+  "Shopping": "Shopping",
+  "Car": "Car",
+  "Divers": "Divers",
+  "Supermarket": "Supermarket",
+  "Fast food": "Fast food",
+  "Other": "Other",
+  "Commercial Center": "Commercial Center",
+  "Gift": "Gift",
+  "_": "----------------------------------------------",
   "msg_welcome": "Welcome, {{name}}!",
 
   "ChartsPage_title" : "Visualize Your Expenses with Graphs",
