@@ -37,6 +37,15 @@
   "ExpensesPage_text_newCategory" : "New Category",
   "ExpensesPage_text_updateCategory" : "Update Category {{name}}",
 
+  "ExpenseList_caption_searchBy" : "Quick search in the expenses list",
+  "ExpenseList_placeHolder_searchBy": "Search...",
+  "ExpenseList_text_orderByDate": "By Date",
+  "ExpenseList_text_orderByDescription": "By Description",
+  "ExpenseList_text_orderByAmount": "By Amount",
+  "ExpenseList_caption_orderBy" : "Sort the expenses by date, description or amount",
+  "ExpenseList_text_title" : "Expenses List",
+  "ExpenseList_text_titleWithTotal" : "Expenses List ( Total Selected : {{value}} € )",
+
   "FormAddCategory_popup_helpTitle" : "New Category Form Help Page",
   "FormAddCategory_popup_helpContent" : "Please enter the name of a category and its budget. <0/>Note: The budget is optional",
   "FormAddCategory_caption_categoryName" : "Enter the name of the Category",

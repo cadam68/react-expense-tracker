@@ -4,8 +4,10 @@ import { memo, useEffect, useState } from "react";
 import S from "string";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const ExpenseList = ({ selectedCategory }) => {
+  const { t } = useComponentTranslation("ExpenseList");
   const {
     expensesService: { expenses, delExpense, sortExpensesBy },
   } = useAppContext();
@@ -54,19 +56,19 @@ const ExpenseList = ({ selectedCategory }) => {
             .replace(/[^A-Za-z ]/g, "")
             .capitalize().s
         }{" "}
-        Expenses List {totalExpenseList > 0 && `( Total Selected : ${totalExpenseList} € )`}
+        {totalExpenseList > 0 ? t("text_titleWithTotal", { value: totalExpenseList }) : t("text_title")}
       </p>
       <p className={"card expense-list-searchbar"}>
         <span className="input-big">
-          <Hover caption={"Quick search in the expenses list"}>
-            <input value={searchBy} type="text" placeholder="Search... " onChange={handleSearchBy} />
+          <Hover caption={t("caption_searchBy")}>
+            <input value={searchBy} type="text" placeholder={t("placeHolder_searchBy")} onChange={handleSearchBy} />
           </Hover>
         </span>
-        <Hover caption={"Sort the expenses by date, description or amount"}>
+        <Hover caption={t("caption_orderBy")}>
           <select onChange={handleOrderBy} value={orderBy}>
-            <option value="date">By Date</option>
-            <option value="description">By Description</option>
-            <option value="amount">By Amount</option>
+            <option value="date">{t("text_orderByDate")}</option>
+            <option value="description">{t("text_orderByDescription")}</option>
+            <option value="amount">{t("text_orderByAmount")}</option>
           </select>
         </Hover>
       </p>

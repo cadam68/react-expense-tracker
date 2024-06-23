@@ -35,7 +35,7 @@ const SettingsContextProvider = ({ children }) => {
   const firstTimeRef = useRef(firstTime);
 
   useEffect(() => {
-    // if (firstTime) dispatch({ type: "firstTime/false" });  // iici - uncomment for production
+    // if (firstTime) dispatch({ type: "firstTime/false" });  // iici - uncomment for production <----
   }, [firstTime]);
 
   const resetBasicData = () => {
