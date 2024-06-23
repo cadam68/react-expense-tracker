@@ -4,8 +4,10 @@ import S from "string";
 import { sprintf } from "sprintf-js";
 import Hover from "./Hover";
 import { useDrop } from "react-dnd";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
+  const { i18n, t } = useComponentTranslation("Category");
   const isSelected = selectedCategory?.id === category.id;
   const currentDate = new Date();
   const budgetPeriod = Math.round((category.budget / new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()) * currentDate.getDate());
@@ -36,12 +38,12 @@ const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDro
         <div>
           <p>{S(category.name).capitalize().s}</p>
           <p className={"expense-amount " + (category.budget && category.totalExpenses > category.budget ? "amount-high" : "")}>
-            Spent {sprintf("%.2f €", category.totalExpenses)} {category.budget ? sprintf("/ %.2f €", category.budget) : ""}
+            {t("text_spent", { amount: sprintf("%.2f €", category.totalExpenses), budget: category.budget ? sprintf("/ %.2f €", category.budget) : "" })}
             <span className="expense-amount amount-high">{category.budget && category.totalExpenses > budgetPeriod ? " ⚠️" : ""}</span>
           </p>
         </div>
         <span>
-          <Hover enable={num === 1} caption={"Update"}>
+          <Hover enable={num === 1} caption={i18n.t("Update")}>
             <Button
               className="button-shadow"
               onClick={(e) => {
@@ -53,7 +55,7 @@ const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDro
             </Button>
           </Hover>
           &nbsp;
-          <Hover enable={num === 1} caption={"Delete"}>
+          <Hover enable={num === 1} caption={i18n.t("Delete")}>
             <Button
               className="button-shadow"
               onClick={(e) => {

@@ -32,12 +32,12 @@ function AboutPage() {
           name="description"
           content="Learn more about the creator of this expense tracker and support the development of this application. Buy me a coffee to keep this project going!"
         />
-        <meta name="keywords" content="support us, buy me a coffee, support developer, expense tracker creator, support project" />
+        <meta name="keywords" content="expense tracker, track expenses, personal finance, finance management" />
       </Helmet>
       <div className={styles.container}>
         <p>{t("text_me")}</p>
         <p>
-          <Trans i18nKey="text_more" components={[<a href="https://github.com/cadam68/react-expense-tracker" target="_blank"></a>]} />
+          <Trans i18nKey="text_more" components={[<a href="https://github.com/cadam68/react-expense-tracker" target="_blank" />]} />
         </p>
         <p>
           {t("text_support")}

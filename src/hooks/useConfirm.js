@@ -1,12 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import ConfirmModal from "./../components/ConfirmModal";
-
-const defaultButtons = [
-  { label: "No", value: false },
-  { label: "Yes", value: true },
-];
+import useComponentTranslation from "./useComponentTranslation";
 
 const useConfirm = (className) => {
+  const { i18n } = useComponentTranslation();
+
+  const defaultButtons = [
+    { label: i18n.t("No"), value: false },
+    { label: i18n.t("Yes"), value: true },
+  ];
+
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState(null);
   const [buttons, setButtons] = useState(defaultButtons);

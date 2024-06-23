@@ -9,10 +9,12 @@ import Button from "./Button";
 import Hover from "./Hover";
 import { useAppContext } from "../contexts/AppContext";
 import useShortcut from "../hooks/UseShortcut";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const logger = Log("FormAddCategory");
 
 const FormAddCategory = ({ onAdd, onClose, category }) => {
+  const { i18n, t, Trans } = useComponentTranslation("FormAddCategory");
   const { debug } = useDebugContext();
   const {
     categoriesService: { categories },
@@ -22,14 +24,10 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
   // shortcuts
   useShortcut("Ctrl+H", "help-category", async () => {
     await requestConfirm(
-      <div style={{ maxWidth: "50vw" }}>
-        <div style={{ marginBottom: "1rem" }}>
-          <h4>New Category Form Help Pag</h4>
-        </div>
-        <div style={{ textAlign: "left" }}>
-          Please enter the name of a category and its budget.
-          <br />
-          Note: The budget is optional
+      <div className={"popup"}>
+        <h4>{t("popup_helpTitle")}</h4>
+        <div>
+          <Trans i18nKey="popup_helpContent" components={[<br />]} />
         </div>
       </div>,
       []
@@ -72,9 +70,9 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
   const validate = (values) => {
     logger.debug(`values : ${JSON.stringify(values)}`);
     const errors = {};
-    if (!values.name || values.name.trim().length < 3) errors.name = "(*) a name is required";
-    if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id)) errors.name = "(*) already used";
-    if (values.budget && +values.budget <= 0) errors.budget = "(*) must be more than 0"; // note the budget could be null
+    if (!values.name || values.name.trim().length < 3) errors.name = i18n.t("isRequiered", { name: "name" });
+    if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id)) errors.name = i18n.t("alreadyUsed");
+    if (values.budget && +values.budget <= 0) errors.budget = i18n.t("mustBeMoreThan", { value: 0 }); // note the budget could be null
     if (Object.keys(errors).length !== 0) {
       const fieldName = Object.keys(errors)[0];
       if (fieldRefs.current[fieldName]) fieldRefs.current[fieldName].focus();
@@ -95,9 +93,9 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
     <Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit} validateOnChange={false} validateOnBlur={false}>
       {(formikProps) => (
         <Form className={"form-category-add" + (debug ? " debug" : "")}>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">{i18n.t("Name")}</label>
           <span>
-            <Hover caption={"Enter the name of the Category"}>
+            <Hover caption={t("caption_categoryName")}>
               <Field
                 type={"text"}
                 name={"name"}
@@ -110,9 +108,9 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
             </Hover>
             <ErrorMessage name="name" component="span" className={"errorMessage"} />
           </span>
-          <label htmlFor="budget">Budget</label>
+          <label htmlFor="budget">{i18n.t("Budget")}</label>
           <span>
-            <Hover caption={"What is the budget allocated ? (leave empty if undefined)"}>
+            <Hover caption={t("caption_budget")}>
               <Field
                 type={"number"}
                 name={"budget"}
@@ -129,10 +127,10 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
           </span>
           <span>
             <Button className={"button button-small"} type={"submit"}>
-              Save
+              {i18n.t("Save")}
             </Button>
             <Button className={"button-outline button-small"} onClick={onClose}>
-              Close
+              {i18n.t("Close")}
             </Button>
           </span>
           {/* <FormikValuesWatcher /> */}

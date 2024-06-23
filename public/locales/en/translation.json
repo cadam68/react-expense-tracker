@@ -11,14 +11,41 @@
   "Other": "Other",
   "Commercial Center": "Commercial Center",
   "Gift": "Gift",
+  "No": "No",
+  "Yes" : "Yes",
+  "Save": "Save",
+  "Close" : "Close",
+  "Update": "Update",
+  "Delete": "Delete",
+  "Categories": "Categories",
+  "Name" : "Name",
+  "Budget" : "Budget",
+  "isRequiered" : "(*) a {{name}} is required",
+  "mustBeMoreThan" : "(*) must be more than {{value}}",
+  "mustBeBetween" : "(*) between {{min}} and {{max}}",
+  "alreadyUsed" : "(*) already used",
   "_": "----------------------------------------------",
-  "msg_welcome": "Welcome, {{name}}!",
 
   "ChartsPage_title" : "Visualize Your Expenses with Graphs",
+
   "ExpensesPage_title" : "Create Categories and Track Your Expenses",
+  "ExpensesPage_msg_categoryAdded" : "New category {{name}} added",
+  "ExpensesPage_msg_categoryDeleted" : "Category {{name}} deleted",
+  "ExpensesPage_text_deleteConfirmation": "Do you want to <0>delete</0> category '{{category}}' and all related expenses?",
+  "ExpensesPage_caption_addCategories" : "Add up to {{maxCategories}} categories",
+  "ExpensesPage_btn_addCategory" : "Add Category",
+  "ExpensesPage_text_newCategory" : "New Category",
+  "ExpensesPage_text_updateCategory" : "Update Category {{name}}",
+
+  "FormAddCategory_popup_helpTitle" : "New Category Form Help Page",
+  "FormAddCategory_popup_helpContent" : "Please enter the name of a category and its budget. <0/>Note: The budget is optional",
+  "FormAddCategory_caption_categoryName" : "Enter the name of the Category",
+  "FormAddCategory_caption_budget" : "What is the budget allocated ? (leave empty if undefined)",
+
   "Logo_title_slogan": "— Keep your expenses in order —",
   "Logo_caption_buyMeACafe" : "Would you like to buy me a café ?",
   "Logo_caption_changeLanguage" : "Change language",
+
   "Footer_proverbs": [
     "Budgeting is like trying to fold a fitted sheet - it sounds easy until you start.",
     "Why did the penny break up with the nickel? Because it couldn't handle the constant expenses!",
@@ -41,6 +68,12 @@
     "I'm practicing the art of 'retail therapy' to heal my budget wounds.",
     "My wallet and I are in a long-term committed relationship – it takes all my money!"
   ],
+
+  "App_text_welcome" : "Welcome to ExpensesTracker!",
+  "App_text_firstVisit": "This is your first visit. Enjoy exploring...",
+
+  "Category_text_spent" : "Spent {{amount}} {{budget}}",
+
   "AboutPage_title" : "Buy Me a Coffee",
   "AboutPage_text_me": "Hey there! I'm Cyril, and I've been diving into the realms of IT Development Engineering and Full Stack development since 2001.",
   "AboutPage_text_more": "One of my latest creations is ExpensesTracker, a testament to my journey in web development. Curious to peek under the hood? Take a stroll through my <0>GitHub repository</0>.",

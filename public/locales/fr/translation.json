@@ -10,15 +10,41 @@
   "Other": "Autre",
   "Commercial Center": "Centre commercial",
   "Gift": "Cadeau",
+  "No": "Non",
+  "Yes" : "Oui",
+  "Save": "Sauver",
+  "Close" : "Fermer",
+  "Update": "Modifier",
+  "Delete": "Effacer",
+  "Categories": "Categories",
+  "Name": "Nom",
+  "Budget": "Budget",
+  "isRequiered": "(*) un(e) {{name}} est requis(e)",
+  "mustBeMoreThan": "(*) doit être supérieur à {{value}}",
+  "mustBeBetween" : "(*) doit être entre {{min}} et {{max}}",
+  "alreadyUsed": "(*) déjà utilisé",
   "_": "----------------------------------------------",
 
-  "msg_welcome": "Bienvenu, {{name}}!",
-
   "ChartsPage_title" : "Visualisez vos dépenses avec des graphiques",
-  "ExpensesPage_title" : "Créez des catégories et suivez vos dépenses",
+
+  "ExpensesPage_title": "Créez des catégories et suivez vos dépenses",
+  "ExpensesPage_msg_categoryAdded": "Nouvelle catégorie {{name}} ajoutée",
+  "ExpensesPage_msg_categoryDeleted": "Catégorie {{name}} supprimée",
+  "ExpensesPage_text_deleteConfirmation": "Voulez-vous <0>supprimer</0> la catégorie '{{category}}' et toutes les dépenses associées?",
+  "ExpensesPage_caption_addCategories": "Ajoutez jusqu'à {{maxCategories}} catégories",
+  "ExpensesPage_btn_addCategory": "Ajouter une catégorie",
+  "ExpensesPage_text_newCategory": "Nouvelle catégorie",
+  "ExpensesPage_text_updateCategory": "Mettre à jour la catégorie {{name}}",
+
+  "FormAddCategory_popup_helpTitle": "Page d'aide pour le formulaire de nouvelle catégorie",
+  "FormAddCategory_popup_helpContent": "Veuillez saisir le nom d'une catégorie et son budget. <0/>Remarque : Le budget est facultatif",
+  "FormAddCategory_caption_categoryName": "Entrez le nom de la catégorie",
+  "FormAddCategory_caption_budget": "Quel est le budget alloué ? (laissez vide si non défini)",
+
   "Logo_title_slogan": "— Mettez de l'ordre dans vos dépenses —",
   "Logo_caption_buyMeACafe" : "Voudrais-tu m'offrir un café ?",
   "Logo_caption_changeLanguage" : "Changer de langue",
+
   "Footer_proverbs": [
     "Mon portefeuille est comme un oignon - l'ouvrir me fait pleurer.",
     "Je dépense de l'argent que je n'ai pas encore gagné pour des choses dont je n'ai pas besoin.",
@@ -42,6 +68,12 @@
     "Mes dépenses sont comme des enfants en bas âge : incontrôlables et toujours en mouvement.",
     "Mon budget est comme un puzzle : il me manque toujours une pièce."
   ],
+
+  "App_text_welcome": "Bienvenue sur ExpensesTracker !",
+  "App_text_firstVisit": "Ceci est votre première visite. Profitez de l'exploration...",
+
+  "Category_text_spent" : "Dépenses {{amount}} {{budget}}",
+
   "AboutPage_title" : "Offrez-moi un café",
   "AboutPage_text_me": "Bonjour! Je suis Cyril, et je suis plongé dans les domaines de l'ingénierie de développement informatique et du développement Full Stack depuis 2001.",
   "AboutPage_text_more": "L'une de mes dernières réalisations est ExpensesTracker, un reflet de mon parcours dans le développement web. Vous êtes curieux de découvrir les coulisses ? Visitez mon dépôt <0>GitHub</0>.",

@@ -18,7 +18,7 @@ const logger = Log("ExpensesPage");
 const ExpensesPage = () => {
   const { selectedCategory, setSelectedCategory } = useOutletContext(); // <-- access context value
   const { Toast } = useToast();
-  const { t } = useComponentTranslation("ExpensesPage");
+  const { i18n, Trans, t } = useComponentTranslation("ExpensesPage");
 
   const { debug } = useDebugContext();
   const {
@@ -38,7 +38,7 @@ const ExpensesPage = () => {
 
   const handleAddCategory = (id, name, budget) => {
     if (id == null) {
-      Toast.info(`New category ${name} added`);
+      Toast.info(t("msg_categoryAdded"), { name });
       addCategory(name, budget);
     } else if (updatedCategory.name !== name || updatedCategory.budget !== budget) {
       const res = updateCategory(updatedCategory.id, name, budget);
@@ -57,12 +57,12 @@ const ExpensesPage = () => {
     if (
       await requestConfirm(
         <p>
-          Do you want to <strong>delete</strong> category '{category.name}' and all related expenses ?
+          <Trans i18nKey="text_deleteConfirmation" components={[<strong />]} values={{ category: category.name }} />
         </p>
       )
     ) {
       logger.debug(JSON.stringify(category) + " is deleted");
-      Toast.warn(`Category ${category.name} deleted`);
+      Toast.warn(t("msg_categoryDeleted", { name: category.name }));
       delCategory(category);
       setSelectedCategory(null);
     }
@@ -90,14 +90,14 @@ const ExpensesPage = () => {
           name="description"
           content="Manage your expenses effortlessly with our expense tracker. Create categories, track expenses, and perform detailed searches. Start organizing your finances today!"
         />
-        <meta name="keywords" content="expense tracker, create categories, track expenses, finance management, expense search" />
+        <meta name="keywords" content="expense tracker, track expenses, personal finance, finance management" />
       </Helmet>
       <div className={"category-list" + (debug ? " debug" : "")}>
         <p className={"space-between"}>
-          <span>Categories</span>
-          <Hover caption={`Add up to ${settings.maxCategories} categories`}>
+          <span>{i18n.t("Categories")}</span>
+          <Hover caption={t("caption_addCategories", { maxCategories: settings.maxCategories })}>
             <Button className={"button button-small" + (openFormCategory || categories.length >= settings.maxCategories ? " disabled" : "")} onClick={handleOpenFormCategory}>
-              Add Category
+              {t("btn_addCategory")}
             </Button>
           </Hover>
         </p>
@@ -111,7 +111,7 @@ const ExpensesPage = () => {
         <div>
           {openFormCategory && (
             <>
-              <p>{updatedCategory ? `Update Category ${updatedCategory.name}` : "New Category"}</p>
+              <p>{updatedCategory ? t("text_updateCategory", { name: updatedCategory.name }) : t("text_newCategory")}</p>
               <FormAddCategory
                 key={updatedCategory?.id} // <-----/!\ force reset state for every new key value
                 onAdd={handleAddCategory}

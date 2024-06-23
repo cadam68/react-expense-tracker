@@ -15,7 +15,7 @@ const ChartsPage = () => {
           name="description"
           content="View and analyze your expenses with our interactive charts. Gain insights into your spending habits and make informed financial decisions with ease."
         />
-        <meta name="keywords" content="expense tracker, expense charts, visualize expenses, financial graphs, spending analysis" />
+        <meta name="keywords" content="expense tracker, track expenses, personal finance, finance management, visualize expenses, financial graphs, spending analysis" />
       </Helmet>
       <ExpensesChart />
     </section>

@@ -32,11 +32,9 @@ const FormAddExpense = () => {
 
   useShortcut("Ctrl+H", "help-expenses", async () => {
     await requestConfirm(
-      <div style={{ maxWidth: "50vw" }}>
-        <div style={{ marginBottom: "1rem" }}>
-          <h4>New Expense Form Help Page</h4>
-        </div>
-        <div style={{ textAlign: "left" }}>
+      <div className={"popup"}>
+        <h4>New Expense Form Help Page</h4>
+        <div>
           Please select a date, choose the category associated to the expense, enter a description and the amount.
           <br />
           Tips: Use the category shortcut to select directly the category in the drop down list.

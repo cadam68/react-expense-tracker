@@ -11,9 +11,11 @@ import Footer from "./components/Footer";
 import Logo from "./components/Logo";
 import HomePage from "./pages/HomePage";
 import ToastContainer from "./components/ToastContainer";
+import useComponentTranslation from "./hooks/useComponentTranslation";
 // import BuyMeACafePage from "./pages/BuyMeACafePage";
 
 const App = () => {
+  const { i18n, t } = useComponentTranslation("App");
   const { debug, toggleDebug, toggleAdmin } = useDebugContext();
   const { firstTime, showCharts } = useSettingsContext();
   const {
@@ -35,11 +37,11 @@ const App = () => {
     if (firstTime)
       (async () => {
         await requestConfirm(
-          <div>
-            <h2>Welcome to ExpensesTracker!</h2>
-            <p>This is your first visit. Enjoy exploring...</p>
+          <div className={"popup"}>
+            <h2>{t("text_welcome")}</h2>
+            <div>{t("text_firstVisit")}</div>
           </div>,
-          [{ label: "Close", value: true }]
+          [{ label: i18n.t("Close"), value: true }]
         );
       })();
   }, [firstTime]);

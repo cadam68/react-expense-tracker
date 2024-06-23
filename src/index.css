@@ -444,3 +444,15 @@ span.text-middle {
   font-size: 1.3rem;
 }
 
+/* Popup */
+div.popup {
+  max-width: 50vw;
+}
+
+.popup h2, h4 {
+  margin-bottom: 1rem;
+}
+
+.popup div {
+  text-align: left;
+}
