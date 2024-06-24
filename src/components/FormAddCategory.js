@@ -70,9 +70,9 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
   const validate = (values) => {
     logger.debug(`values : ${JSON.stringify(values)}`);
     const errors = {};
-    if (!values.name || values.name.trim().length < 3) errors.name = i18n.t("isRequiered", { name: "name" });
-    if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id)) errors.name = i18n.t("alreadyUsed");
-    if (values.budget && +values.budget <= 0) errors.budget = i18n.t("mustBeMoreThan", { value: 0 }); // note the budget could be null
+    if (!values.name || values.name.trim().length < 3) errors.name = i18n.t("lb_isRequiered", { name: "name" });
+    if (categories.some((category) => S(category.name).equalsIgnoreCase(values.name) && category.id !== values.id)) errors.name = i18n.t("lb_alreadyUsed");
+    if (values.budget && +values.budget <= 0) errors.budget = i18n.t("lb_mustBeMoreThan", { value: 0 }); // note the budget could be null
     if (Object.keys(errors).length !== 0) {
       const fieldName = Object.keys(errors)[0];
       if (fieldRefs.current[fieldName]) fieldRefs.current[fieldName].focus();
@@ -93,7 +93,7 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
     <Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit} validateOnChange={false} validateOnBlur={false}>
       {(formikProps) => (
         <Form className={"form-category-add" + (debug ? " debug" : "")}>
-          <label htmlFor="name">{i18n.t("Name")}</label>
+          <label htmlFor="name">{i18n.t("lb_Name")}</label>
           <span>
             <Hover caption={t("caption_categoryName")}>
               <Field
@@ -108,7 +108,7 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
             </Hover>
             <ErrorMessage name="name" component="span" className={"errorMessage"} />
           </span>
-          <label htmlFor="budget">{i18n.t("Budget")}</label>
+          <label htmlFor="budget">{i18n.t("lb_Budget")}</label>
           <span>
             <Hover caption={t("caption_budget")}>
               <Field
@@ -127,10 +127,10 @@ const FormAddCategory = ({ onAdd, onClose, category }) => {
           </span>
           <span>
             <Button className={"button button-small"} type={"submit"}>
-              {i18n.t("Save")}
+              {i18n.t("lb_Save")}
             </Button>
             <Button className={"button-outline button-small"} onClick={onClose}>
-              {i18n.t("Close")}
+              {i18n.t("lb_Close")}
             </Button>
           </span>
           {/* <FormikValuesWatcher /> */}

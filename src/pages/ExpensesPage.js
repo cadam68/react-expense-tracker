@@ -58,7 +58,11 @@ const ExpensesPage = () => {
       await requestConfirm(
         <p>
           <Trans i18nKey="text_deleteConfirmation" components={[<strong />]} values={{ category: category.name }} />
-        </p>
+        </p>,
+        [
+          { label: i18n.t("lb_No"), value: false },
+          { label: i18n.t("lb_Yes"), value: true },
+        ]
       )
     ) {
       logger.debug(JSON.stringify(category) + " is deleted");
@@ -94,7 +98,7 @@ const ExpensesPage = () => {
       </Helmet>
       <div className={"category-list" + (debug ? " debug" : "")}>
         <p className={"space-between"}>
-          <span>{i18n.t("Categories")}</span>
+          <span>{i18n.t("lb_Categories")}</span>
           <Hover caption={t("caption_addCategories", { maxCategories: settings.maxCategories })}>
             <Button className={"button button-small" + (openFormCategory || categories.length >= settings.maxCategories ? " disabled" : "")} onClick={handleOpenFormCategory}>
               {t("btn_addCategory")}

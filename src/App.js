@@ -41,7 +41,7 @@ const App = () => {
             <h2>{t("text_welcome")}</h2>
             <div>{t("text_firstVisit")}</div>
           </div>,
-          [{ label: i18n.t("Close"), value: true }]
+          [{ label: i18n.t("lb_Close"), value: true }]
         );
       })();
   }, [firstTime]);

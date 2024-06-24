@@ -17,10 +17,12 @@ import CryptoJS from "crypto-js";
 import { settings } from "../Settings";
 import { useLocation, useNavigate } from "react-router-dom";
 import useShortcut from "../hooks/UseShortcut";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const logger = Log("Header");
 
 const Header = ({ setSelectedCategory }) => {
+  const { i18n, t, Trans } = useComponentTranslation("Header");
   const { debug, toggleDebug, admin } = useDebugContext();
   const { resetBasicData, themeId, setThemeId, toogleShowCharts } = useSettingsContext();
   const {
@@ -49,7 +51,8 @@ const Header = ({ setSelectedCategory }) => {
     if (themeId !== 0) changeTheme(themes[Object.keys(themes)[themeId]]);
   }, [themeId]);
 
-  const text = sprintf("You spend %.2f euros (%d%% budget) (%d expense%s)", totalExpenses, (totalExpenses * 100) / totalBudget, expenses.length, expenses.length === 0 ? "" : "s");
+  const text = sprintf(t("text_spendResume"), totalExpenses, (totalExpenses * 100) / totalBudget, expenses.length);
+  const themesNames = t("themes", { returnObjects: true });
 
   const playAudio = () => {
     if (!isPlaying) {
@@ -82,8 +85,12 @@ const Header = ({ setSelectedCategory }) => {
     if (
       await requestConfirm(
         <p>
-          Do you want to <strong>delete all expenses</strong> from <strong>{dateRef}</strong> ?
-        </p>
+          <Trans i18nKey="popup_deleteExpensesConfirmation" components={[<strong />, <strong />]} values={{ date: dateRef }} />
+        </p>,
+        [
+          { label: i18n.t("lb_No"), value: false },
+          { label: i18n.t("lb_Yes"), value: true },
+        ]
       )
     ) {
       clearExpensesByMonth(dateRef);
@@ -94,8 +101,12 @@ const Header = ({ setSelectedCategory }) => {
     if (
       await requestConfirm(
         <p style={{ color: "red" }}>
-          Do you <strong>really </strong> want to <strong>delete all categories & expenses</strong> data ?
-        </p>
+          <Trans i18nKey="popup_deleteAllDataConfirmation" components={[<strong />, <strong />]} />
+        </p>,
+        [
+          { label: i18n.t("lb_No"), value: false },
+          { label: i18n.t("lb_Yes"), value: true },
+        ]
       )
     ) {
       clearCategories();
@@ -136,8 +147,12 @@ const Header = ({ setSelectedCategory }) => {
       if (
         await requestConfirm(
           <p>
-            Do you want to load the {data.expenses.length} expense(s) from <strong>{format(data.date, "dd MMM yyyy")}</strong> ?
-          </p>
+            <Trans i18nKey="popup_loadConfirmation" components={[<strong />]} values={{ nb: data.expenses.length, date: format(data.date, "dd MMM yyyy") }} />
+          </p>,
+          [
+            { label: i18n.t("lb_No"), value: false },
+            { label: i18n.t("lb_Yes"), value: true },
+          ]
         )
       ) {
         logger.debug("loading data...");
@@ -156,14 +171,14 @@ const Header = ({ setSelectedCategory }) => {
           color: item.color,
         }));
         setExpensesCategories(updateExpenses, updatedCategories);
-        await requestConfirm(<p>{updateExpenses.length} expense(s) imported 👍</p>, [{ label: "Ok" }]);
+        await requestConfirm(<p>{t("popup_loadSucceed", { nb: updateExpenses.length })} 👍</p>, [{ label: i18n.t("lb_Close") }]);
       }
     } catch (error) {
       await requestConfirm(
         <p style={{ color: "red", display: "inline-flex", alignItems: "center" }}>
-          <span style={{ fontSize: "2.5rem" }}>⚠️</span>️ Invalid or corrupted file !
+          <span style={{ fontSize: "2.5rem" }}>⚠️</span>️ {t("popup_loadError")}
         </p>,
-        [{ label: "Ok" }]
+        [{ label: i18n.t("lb_Close") }]
       );
     }
   };
@@ -196,18 +211,18 @@ const Header = ({ setSelectedCategory }) => {
         )}
       </p>
       <p>
-        <Hover caption={"Generate a pdf report of all expenses"}>
+        <Hover caption={t("caption_print")}>
           <PDFDownloadLink
             className={"button button-small"}
             document={<ExpensesPdfDocument categories={categories} expenses={sortExpensesBy(expenses, "date-category")} />}
             fileName={`expenses-${format(new Date(), "yyyyMMdd")}.pdf`}
           >
-            {({ blob, url, loading, error }) => (loading ? "Loading document..." : <Button className={"button-small"}>Print</Button>)}
+            {({ blob, url, loading, error }) => (loading ? t("text_loading") : <Button className={"button-small"}>{i18n.t("lb_Print")}</Button>)}
           </PDFDownloadLink>
         </Hover>
-        <Hover caption={location.pathname === "/app/charts" ? "Expenses List view" : "Expenses charts view"}>
+        <Hover caption={location.pathname === "/app/charts" ? t("caption_ExpensesList") : t("caption_ExpensesCharts")}>
           <Button className={"button-outline button-small" + (location.pathname === "/app/charts" ? " selected" : "")} onClick={handleShowCharts}>
-            {location.pathname === "/app/expenses" ? "Charts" : "Expenses"}
+            {location.pathname === "/app/expenses" ? i18n.t("lb_Charts") : i18n.t("lb_Expenses")}
           </Button>
         </Hover>
         {admin && (
@@ -222,36 +237,36 @@ const Header = ({ setSelectedCategory }) => {
             Debug {debug ? "OFF" : "ON"}{" "}
           </Button>
         )}
-        <Hover caption={"Delete all expenses"}>
+        <Hover caption={t("caption_deleteExpenses")}>
           <Button className={"button-outline button-small"} secured={true} onClick={handlerClearExpenses}>
-            Clear Expenses
+            {t("text_deleteExpenses")}
           </Button>
         </Hover>
         {admin && (
-          <Hover caption={"Delete all categories"}>
+          <Hover caption={t("caption_deleteCategories")}>
             <Button className={"button-outline button-small"} secured={true} onClick={handleClearCategories}>
-              Clear Categories
+              {t("text_deleteCategories")}
             </Button>
           </Hover>
         )}
-        <Hover caption={`Change theme to ${S(Object.keys(themes)[(themeId + 1) % Object.keys(themes).length]).capitalize().s}`}>
+        <Hover caption={t("caption_changeTheme", { name: themesNames[(themeId + 1) % themesNames.length] })}>
           <Button className={"button-outline button-small"} onClick={handleChangeTheme}>
-            {S(Object.keys(themes)[themeId]).capitalize().s}
+            {themesNames[themeId]}
           </Button>
         </Hover>
         {false && (
-          <Hover caption={"Would you like to listen some music ?"}>
+          <Hover caption={t("caption_playMusic")}>
             <Button className={"button-outline button-small" + (isPlaying ? " disabled" : "")} onClick={playAudio}>
               <span>🎵</span>
             </Button>
           </Hover>
         )}
-        <Hover caption={"Export Data"}>
+        <Hover caption={t("caption_exportData")}>
           <Button className={"button-outline button-small"} onClick={handleExportData}>
-            Export
+            {t("text_exportData")}
           </Button>
         </Hover>
-        <Hover caption={"Drag and drop your exported data file here"} visible>
+        <Hover caption={t("caption_importData")} visible>
           <span
             style={{ display: "inline-block" }}
             className={"button-outline button-small dragging"}
@@ -264,19 +279,9 @@ const Header = ({ setSelectedCategory }) => {
             }}
             onDrop={handleDrop}
           >
-            Import
+            {t("text_importData")}
           </span>
         </Hover>
-        {admin && (
-          <Button
-            className={"button-outline button-small"}
-            onClick={() => {
-              logger.error("this is a error generated on purpose to test log service, please ignore this message");
-            }}
-          >
-            POC
-          </Button>
-        )}
       </p>
     </nav>
   );

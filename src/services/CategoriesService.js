@@ -12,10 +12,10 @@ const CategoriesService = (useState) => {
   const { i18n } = useComponentTranslation();
 
   const getInitialCategories = () => [
-    { id: crypto.randomUUID(), name: i18n.t("Food"), budget: 300, totalExpenses: 0, color: settings.palette[0] },
-    { id: crypto.randomUUID(), name: i18n.t("Shopping"), budget: 200, totalExpenses: 0, color: settings.palette[1] },
-    { id: crypto.randomUUID(), name: i18n.t("Car"), budget: 200, totalExpenses: 0, color: settings.palette[2] },
-    { id: crypto.randomUUID(), name: i18n.t("Divers"), budget: null, totalExpenses: 0, color: settings.palette[3] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Food"), budget: 300, totalExpenses: 0, color: settings.palette[0] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Shopping"), budget: 200, totalExpenses: 0, color: settings.palette[1] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Car"), budget: 200, totalExpenses: 0, color: settings.palette[2] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Divers"), budget: null, totalExpenses: 0, color: settings.palette[3] },
   ];
 
   const [categories, setCategories] = useState;

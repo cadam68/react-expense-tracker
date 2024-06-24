@@ -17,7 +17,7 @@ i18n
         cache: "default",
       },
     },
-    debug: false,
+    debug: false, // todo : set to false for production
     interpolation: {
       escapeValue: false,
     },

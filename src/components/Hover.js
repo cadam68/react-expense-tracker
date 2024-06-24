@@ -7,7 +7,7 @@ const Hover = ({ caption, enable, visible, children }) => {
   const { firstTime } = useSettingsContext();
 
   if (visible !== undefined && !visible) return <span>{children}</span>;
-  if (visible === undefined && !firstTime) return <span>{children}</span>; // iici - to uncomment for production -
+  if (visible === undefined && !firstTime) return <span>{children}</span>; // todo - to uncomment for production -
   if (enable !== undefined && !enable) return <span>{children}</span>;
 
   return (

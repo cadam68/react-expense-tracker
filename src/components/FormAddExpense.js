@@ -11,10 +11,12 @@ import { useAppContext } from "../contexts/AppContext";
 import { useToast } from "../contexts/ToastContext";
 import useShortcutContext from "../hooks/UseShortcutContext";
 import useShortcut from "../hooks/UseShortcut";
+import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const logger = Log("FormAddExpense");
 
 const FormAddExpense = () => {
+  const { i18n, t, Trans } = useComponentTranslation("FormAddExpense");
   const { debug } = useDebugContext();
   const { Toast } = useToast();
   const fieldRefs = useRef({});
@@ -33,11 +35,9 @@ const FormAddExpense = () => {
   useShortcut("Ctrl+H", "help-expenses", async () => {
     await requestConfirm(
       <div className={"popup"}>
-        <h4>New Expense Form Help Page</h4>
+        <h4>{t("popup_helpTitle")}</h4>
         <div>
-          Please select a date, choose the category associated to the expense, enter a description and the amount.
-          <br />
-          Tips: Use the category shortcut to select directly the category in the drop down list.
+          <Trans i18nKey="popup_helpContent" components={[<br />]} />
         </div>
       </div>,
       []
@@ -55,9 +55,9 @@ const FormAddExpense = () => {
   const validate = useCallback((values) => {
     logger.debug(`values : ${JSON.stringify(values)}`);
     const errors = {};
-    if (!values.category) errors.category = "(*) choose an option";
-    if (!values.description || values.description.trim().length <= 3) errors.description = "(*) a description is required";
-    if (!values.amount || +values.amount <= 0) errors.amount = "(*) must be more than 0";
+    if (!values.category) errors.category = i18n.t("lb_chooseOption");
+    if (!values.description || values.description.trim().length <= 3) errors.description = i18n.t("lb_isRequiered", { name: "description" });
+    if (!values.amount || +values.amount <= 0) errors.amount = i18n.t("lb_mustBeMoreThan", { value: 0 });
     if (Object.keys(errors).length !== 0) {
       const fieldName = Object.keys(errors)[0];
       if (fieldRefs.current[fieldName]) fieldRefs.current[fieldName].focus();
@@ -72,7 +72,7 @@ const FormAddExpense = () => {
         const amount = +values.amount;
         logger.debug(`do submit: value=${JSON.stringify(values)}`);
         addExpense(values.date, values.category, values.description, amount);
-        Toast.info(`Expenses added to category ${values.category}`);
+        Toast.info(t("msg_expenseAdded", { name: values.category }));
         // After submitting the form, reset it to initial values
         resetForm({ values: { ...values, description: "", amount: 0 } });
         // set the focus on the field description
@@ -86,7 +86,7 @@ const FormAddExpense = () => {
 
   return (
     <section>
-      <p>New Expense</p>
+      <p>{t("txt_newExpense")}</p>
       <Formik
         initialValues={initialValues}
         validate={validate}
@@ -96,11 +96,11 @@ const FormAddExpense = () => {
       >
         {(formikProps) => (
           <Form className={"form-expense-add" + (debug ? " debug" : "")}>
-            <Hover caption={"When did you spend the money ?"}>
+            <Hover caption={t("caption_date")}>
               <FieldDatePicker className={"input-small "} fieldName="date" fieldRefs />
             </Hover>
             <span>
-              <Hover caption={"What is it related to ?"}>
+              <Hover caption={t("caption_category")}>
                 <Field
                   as="select"
                   name={"category"}
@@ -109,7 +109,7 @@ const FormAddExpense = () => {
                   innerRef={(el) => (fieldRefs.current["category"] = el)}
                 >
                   <option value="" disabled hidden>
-                    Choose an Category
+                    {t("txt_chooseCategory")}
                   </option>
                   {categories
                     .slice()
@@ -124,11 +124,11 @@ const FormAddExpense = () => {
               <ErrorMessage name="category" component="span" className={"errorMessage"} />
             </span>
             <span className={"input-big"}>
-              <Hover caption={"Enter the name of the shop, location ..."}>
+              <Hover caption={t("caption_description")}>
                 <Field
                   type={"text"}
                   name={"description"}
-                  placeholder={"Description"}
+                  placeholder={i18n.t("lb_Description")}
                   className={formikProps.errors.hasOwnProperty("category") ? "error" : ""}
                   onChange={handleFormikFieldChange.bind(this, formikProps, "alphaNum[45]")}
                   onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
@@ -140,7 +140,7 @@ const FormAddExpense = () => {
               <ErrorMessage name="description" component="span" className={"errorMessage"} />
             </span>
             <span>
-              <Hover caption={"How much is it ?"}>
+              <Hover caption={t("caption_amount")}>
                 <Field
                   type={"number"}
                   name={"amount"}
@@ -154,8 +154,8 @@ const FormAddExpense = () => {
               </Hover>
               <ErrorMessage name="amount" component="span" className={"errorMessage"} />
             </span>
-            <Hover caption={"Record the expense :)"}>
-              <Button type={"submit"}>Add Expense</Button>
+            <Hover caption={t("caption_addExpense")}>
+              <Button type={"submit"}>{t("txt_addExpense")}</Button>
             </Hover>
           </Form>
         )}

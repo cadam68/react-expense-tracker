@@ -9,5 +9,5 @@ export const settings = {
   apiKey: process.env.REACT_APP_API_KEY || "apiKey",
   baseApiUrl: process.env.REACT_APP_API_URL || "http://localhost:5001",
   downloadReferences: [{ id: "about-me-fr", fileName: "AdamCyrilMoiMesValeurs.mp4" }],
-  availableLanguages: { fr: "🇫🇷", en: "󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+  availableLanguages: { fr: "🇫🇷", en: "🇺🇸", de: "🇩🇪", es: "🇪🇸" },
 };

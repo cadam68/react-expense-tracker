@@ -6,8 +6,8 @@ const useConfirm = (className) => {
   const { i18n } = useComponentTranslation();
 
   const defaultButtons = [
-    { label: i18n.t("No"), value: false },
-    { label: i18n.t("Yes"), value: true },
+    { label: i18n.t("lb_No"), value: false },
+    { label: i18n.t("lb_Yes"), value: true },
   ];
 
   const [isOpen, setIsOpen] = useState(false);

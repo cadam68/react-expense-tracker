@@ -43,7 +43,7 @@ const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDro
           </p>
         </div>
         <span>
-          <Hover enable={num === 1} caption={i18n.t("Update")}>
+          <Hover enable={num === 1} caption={i18n.t("lb_Update")}>
             <Button
               className="button-shadow"
               onClick={(e) => {
@@ -55,7 +55,7 @@ const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDro
             </Button>
           </Hover>
           &nbsp;
-          <Hover enable={num === 1} caption={i18n.t("Delete")}>
+          <Hover enable={num === 1} caption={i18n.t("lb_Delete")}>
             <Button
               className="button-shadow"
               onClick={(e) => {

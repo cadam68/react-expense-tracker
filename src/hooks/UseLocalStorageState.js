@@ -10,7 +10,7 @@ Usage : const { categories, setCategories, addCategory, ... } = CategoriesServic
 const logger = Log("UseLocalStorageState");
 
 const loadData = (key, initialValue) => () => {
-  // if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // iici - comment to persist all values -
+  // if (key !== "expense-tracker-firstTime") localStorage.removeItem(key); // todo - comment to persist all values -
 
   let parsedObj;
   let storedValue = localStorage.getItem(key);

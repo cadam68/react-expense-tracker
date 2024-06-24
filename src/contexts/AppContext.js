@@ -144,17 +144,17 @@ const reducer = (state, { type, payload }) => {
 const AppContextProvider = ({ children }) => {
   const { i18n } = useComponentTranslation();
   const initialCategories = [
-    { id: crypto.randomUUID(), name: i18n.t("Food"), budget: 300, totalExpenses: 0, color: settings.palette[0] },
-    { id: crypto.randomUUID(), name: i18n.t("Shopping"), budget: 200, totalExpenses: 0, color: settings.palette[1] },
-    { id: crypto.randomUUID(), name: i18n.t("Car"), budget: 200, totalExpenses: 0, color: settings.palette[2] },
-    { id: crypto.randomUUID(), name: i18n.t("Divers"), budget: null, totalExpenses: 0, color: settings.palette[3] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Food"), budget: 300, totalExpenses: 0, color: settings.palette[0] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Shopping"), budget: 200, totalExpenses: 0, color: settings.palette[1] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Car"), budget: 200, totalExpenses: 0, color: settings.palette[2] },
+    { id: crypto.randomUUID(), name: i18n.t("lb_Divers"), budget: null, totalExpenses: 0, color: settings.palette[3] },
   ];
   const initialExpenses = [
-    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("Food"), description: i18n.t("Supermarket"), amount: 10 },
-    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("Food"), description: i18n.t("Fast food"), amount: 20 },
-    { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 1), category: i18n.t("Food"), description: i18n.t("Other"), amount: 30 },
-    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("Divers"), description: i18n.t("Commercial Center"), amount: 10 },
-    { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 2), category: i18n.t("Divers"), description: i18n.t("Gift"), amount: 20 },
+    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("lb_Food"), description: i18n.t("lb_Supermarket"), amount: 10 },
+    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("lb_Food"), description: i18n.t("lb_FastFood"), amount: 20 },
+    { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 1), category: i18n.t("lb_Food"), description: i18n.t("lb_Other"), amount: 30 },
+    { id: crypto.randomUUID(), date: startOfDay(currentDate), category: i18n.t("lb_Divers"), description: i18n.t("lb_CommercialCenter"), amount: 10 },
+    { id: crypto.randomUUID(), date: subDays(startOfDay(currentDate), 2), category: i18n.t("lb_Divers"), description: i18n.t("lb_Gift"), amount: 20 },
   ];
   const initialState = { expenses: initialExpenses, categories: initialCategories };
 
@@ -167,7 +167,7 @@ const AppContextProvider = ({ children }) => {
 
   useEffect(() => {
     dispatch({ type: "categories/refresh" });
-    categories.forEach((category) => addShortcut({ id: category.id, name: category.name })); // iici
+    categories.forEach((category) => addShortcut({ id: category.id, name: category.name }));
   }, [dispatch]);
 
   // load basicData(s)
