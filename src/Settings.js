@@ -3,7 +3,7 @@ import { generateColorPalette } from "./services/Helper";
 export const settings = {
   maxCategories: 6,
   amountHigh: 30,
-  version: 2.3,
+  version: 2.4,
   palette: generateColorPalette(6),
   passphrase: process.env.REACT_APP_PASSPHRASE || "passphrase",
   apiKey: process.env.REACT_APP_API_KEY || "apiKey",
