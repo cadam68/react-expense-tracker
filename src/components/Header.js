@@ -203,7 +203,7 @@ const Header = ({ setSelectedCategory }) => {
         {location.pathname === "/app/charts" ? (
           <span className={"text-middle"}>{text}</span>
         ) : (
-          <Hover caption={"List all expenses"}>
+          <Hover caption={t("caption_listExpenses")}>
             <Button onClick={handleListExpenses} className="button-shadow">
               {text}
             </Button>

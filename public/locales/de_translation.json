@@ -77,6 +77,7 @@
   "Header_caption_ExpensesCharts": "Ansicht der Kosten-Diagramme",
   "Header_caption_ExpensesList": "Ansicht der Kostenliste",
   "Header_caption_importData": "Ziehen Sie Ihre exportierte Datendatei hierher",
+  "Header_caption_listExpenses" : "Alle Kosten auflisten",
   "Header_caption_playMusic": "Möchten Sie etwas Musik hören?",
   "Header_caption_print": "Erstellen Sie einen PDF-Bericht aller Kosten",
   "Header_popup_deleteAllDataConfirmation": "Möchten Sie <0>wirklich</0> <1>alle Kategorien und Kosten</1> löschen?",
@@ -122,5 +123,8 @@
   "lb_Shopping": "Einkaufen",
   "lb_Supermarket": "Supermarkt",
   "lb_Update": "Aktualisieren",
-  "lb_Yes": "Ja"
+  "lb_Yes": "Ja",
+
+  "title_about-me": "Über mich",
+  "title_hobby": "Mein Hobby"
 }

@@ -78,6 +78,7 @@
   "Header_caption_ExpensesCharts": "Vue des graphiques des dépenses",
   "Header_caption_ExpensesList": "Vue de la liste des dépenses",
   "Header_caption_importData": "Glissez et déposez ici votre fichier de données exporté",
+  "Header_caption_listExpenses" : "Lister toutes les dépenses",
   "Header_caption_playMusic": "Souhaitez-vous écouter de la musique ?",
   "Header_caption_print": "Générer un rapport PDF de toutes les dépenses",
   "Header_popup_deleteAllDataConfirmation": "Voulez-vous <0>vraiment</0> <1>supprimer toutes les catégories et les dépenses</1> ?",
@@ -123,5 +124,8 @@
   "lb_Shopping": "Shopping",
   "lb_Supermarket": "Supermarché",
   "lb_Update": "Mettre à jour",
-  "lb_Yes": "Oui"
+  "lb_Yes": "Oui",
+
+  "title_about-me": "À propos de moi",
+  "title_hobby": "Mon passe-temps"
 }

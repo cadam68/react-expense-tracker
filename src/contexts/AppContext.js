@@ -170,6 +170,8 @@ const AppContextProvider = ({ children }) => {
     categories.forEach((category) => addShortcut({ id: category.id, name: category.name }));
   }, [dispatch]);
 
+  // useEffect(() => { logger.debug(downloadUrls); }, [downloadUrls]);
+
   // load basicData(s)
   useEffect(() => {
     const abortCtrl = new AbortController();
@@ -178,7 +180,8 @@ const AppContextProvider = ({ children }) => {
       const values = await Promise.all(
         settings.downloadReferences.map(async (item) => {
           try {
-            const downloadUrl = await fetchDownloadUrl(item.fileName, abortCtrl);
+            let downloadUrl = item.target;
+            if (item.target.startsWith("firebase://")) downloadUrl = await fetchDownloadUrl(item.target.substring(11), abortCtrl);
             return { ...item, url: downloadUrl };
           } catch (err) {
             logger.error(`Error fetching download url for file : ${item.fileName}`);

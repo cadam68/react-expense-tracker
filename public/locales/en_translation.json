@@ -77,6 +77,7 @@
   "Header_caption_ExpensesCharts": "Expenses charts view",
   "Header_caption_ExpensesList": "Expenses List view",
   "Header_caption_importData": "Drag and drop your exported data file here",
+  "Header_caption_listExpenses" : "List all expenses",
   "Header_caption_playMusic": "Would you like to listen some music ?",
   "Header_caption_print": "Generate a pdf report of all expenses",
   "Header_popup_deleteAllDataConfirmation": "Do you <0>really </0> want to <1>delete all categories & expenses</1> data ?",
@@ -122,5 +123,8 @@
   "lb_Shopping": "Shopping",
   "lb_Supermarket": "Supermarket",
   "lb_Update": "Update",
-  "lb_Yes": "Yes"
+  "lb_Yes": "Yes",
+
+  "title_about-me": "About Me",
+  "title_hobby": "My Hobby"
 }

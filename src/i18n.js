@@ -12,7 +12,7 @@ i18n
     fallbackLng: "en",
     load: "languageOnly",
     backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json",
+      loadPath: "/locales/{{lng}}_{{ns}}.json",
       requestOptions: {
         cache: "default",
       },

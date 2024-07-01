@@ -77,6 +77,7 @@
   "Header_caption_ExpensesCharts": "Vista de gráficos de gastos",
   "Header_caption_ExpensesList": "Vista de lista de gastos",
   "Header_caption_importData": "Arrastra y suelta aquí tu archivo de datos exportados",
+  "Header_caption_listExpenses" : "Listar todos los gastos",
   "Header_caption_playMusic": "¿Te gustaría escuchar música?",
   "Header_caption_print": "Generar un informe PDF de todos los gastos",
   "Header_popup_deleteAllDataConfirmation": "¿Realmente deseas <0>eliminar</0> todos las categorías y gastos?",
@@ -122,5 +123,8 @@
   "lb_Shopping": "Compras",
   "lb_Supermarket": "Supermercado",
   "lb_Update": "Actualizar",
-  "lb_Yes": "Sí"
+  "lb_Yes": "Sí",
+
+  "title_about-me": "Sobre mí",
+  "title_hobby": "Mi afición"
 }
