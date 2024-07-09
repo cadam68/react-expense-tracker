@@ -65,7 +65,7 @@ body {
 
 .video-container::before {
   background-image:none;
-  background-color: blue;  /* iici - var(--color-lightest)   */
+  background-color: var(--color-lightest);  /* iici - var(--color-lightest)   */
 }
 
 .card {
@@ -87,8 +87,13 @@ body {
 .video-header {
   width: 100vw;
   background-color: white;
+  margin-bottom: 0;
   padding-bottom: 2rem;
+  /*
+
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+
+   */
 }
 
 .floatingBanner {

@@ -1,6 +1,27 @@
 import { Log } from "./LogService";
 import i18next from "i18next";
 
+export const downloadFile = async (fileUrl, fileName) => {
+  const response = await fetch(fileUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/octet-stream",
+    },
+  });
+
+  if (!response.ok) throw new Error(`Could not retrieve the ${fileName} file`);
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", fileName);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+};
+
 export const t = (key, params) => {
   return i18next.t(key, params);
 };
