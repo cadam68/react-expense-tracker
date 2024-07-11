@@ -40,7 +40,7 @@ const VideoPlayer = () => {
 
   const initialState = { lg: null, videoId: null, items: null };
   const reducer = (state, { type, payload }) => {
-    console.log(`reducer type=${type} + state=${JSON.stringify(state)} + payload=${JSON.stringify(payload)}`);
+    // console.log(`reducer type=${type} + state=${JSON.stringify(state)} + payload=${JSON.stringify(payload)}`);
     switch (type) {
       case "init": {
         let { param_lg, param_videoId } = payload;
@@ -74,7 +74,7 @@ const VideoPlayer = () => {
 
   useEffect(() => {
     if (!state.lg) return;
-    console.log(`changeLanguage to ${state.lg}`);
+    // console.log(`changeLanguage to ${state.lg}`);
     i18n.changeLanguage(state.lg);
   }, [state.lg]);
 
@@ -85,7 +85,7 @@ const VideoPlayer = () => {
   }, [state.videoId, state.lg]);
 
   useEffect(() => {
-    console.log(`i18n.resolvedLanguage=${i18n.resolvedLanguage}`, state);
+    // console.log(`i18n.resolvedLanguage=${i18n.resolvedLanguage}`, state);
     if (!state.lg) return;
     navigate(`/video/${i18n.resolvedLanguage}/${param_videoId ? param_videoId : state.videoId}`, { replace: true });
   }, [i18n.resolvedLanguage]);
