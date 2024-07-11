@@ -138,7 +138,8 @@ const VideoPlayer = () => {
               key={item.id}
               onClick={() => {
                 if (renderItemsTypes.includes(item.type)) {
-                  navigate(`/video/${state.lg}/${item.id}`, { replace: true });
+                  if (/^\[.*\]$/.test(state.videoId)) dispatch({ type: "init", payload: { param_lg, param_videoId: item.id } });
+                  else navigate(`/video/${state.lg}/${item.id}`, { replace: true });
                 } else if (item.type === "file") {
                   // window.location.href = `${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`;
                   downloadFileHandler(`${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`, item.target.split("/").pop());
