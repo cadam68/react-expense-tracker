@@ -80,8 +80,9 @@ const VideoPlayer = () => {
 
   useEffect(() => {
     if (!state.items) return;
-    setVideoUrl(state.items.find((item) => item.id === state.videoId && item.type === "video")?.url);
-    setCardUrl(state.items.find((item) => item.id === state.videoId && item.type === "card")?.url);
+    const selectedItem = state.items.find((item) => item.id === state.videoId);
+    setVideoUrl(selectedItem?.type === "video" ? selectedItem.url : null);
+    setCardUrl(selectedItem?.type === "card" ? selectedItem.url : null);
   }, [state.videoId, state.lg]);
 
   useEffect(() => {
