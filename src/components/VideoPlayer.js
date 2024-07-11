@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import { Log } from "../services/LogService";
@@ -16,36 +16,6 @@ import UseLocalStorageState from "../hooks/UseLocalStorageState";
 
 const logger = Log("VideoPlayer");
 
-const renderItemsTypes = ["video", "card"];
-
-const initialState = { lg: null, videoId: null, items: null };
-
-const reducer = (state, { type, payload }) => {
-  // logger.console(`reducer type=${type} state=${JSON.stringify(state)} payload=${JSON.stringify(payload)}`);
-  switch (type) {
-    case "init": {
-      const { param_lg, param_videoId, i18n, downloadUrls, settings } = payload;
-      const lg = param_videoId ? param_lg : i18n.resolvedLanguage;
-      let videoId = param_videoId || param_lg;
-      const uniqueIds = [...new Set(downloadUrls.map((item) => item.id))];
-      const items = uniqueIds.map((id) => {
-        const entries = downloadUrls.filter((item) => item.id === id);
-        const entry = entries.find((item) => item.lg === lg) || entries[0];
-        entry.label = i18n.t(`title_${entry.id}`, { defaultValue: S(entry.id.replace(/[^a-zA-Z0-9]/g, " ")).titleCase().s });
-        return entry;
-      });
-
-      if (settings.firstTime) videoId = "[firstime]";
-      if (!uniqueIds.includes(videoId) || !items.find((item) => item.id === videoId && renderItemsTypes.includes(item.type))) {
-        videoId = items.find((item) => renderItemsTypes.includes(item.type))?.id;
-      }
-      return { lg, videoId, items };
-    }
-    default:
-      throw new Error(`Unknown action ${type}`);
-  }
-};
-
 const VideoPlayer = () => {
   const navigate = useNavigate();
   const { i18n, t } = useComponentTranslation("VideoPlayer");
@@ -56,8 +26,8 @@ const VideoPlayer = () => {
   } = useAppContext();
   const { Toast } = useToast();
 
-  const [videoUrl, setVideoUrl] = useState(null);
-  const [cardUrl, setCardUrl] = useState(null);
+  const [videoUrl, setVideoUrl] = useState();
+  const [cardUrl, setCardUrl] = useState();
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(0.8);
@@ -66,112 +36,117 @@ const VideoPlayer = () => {
   const [controlsVisible, setControlsVisible] = useState(true);
   const [settings, setSettings] = UseLocalStorageState("video-player-settings", { firstTime: true });
 
+  const renderItemsTypes = ["video", "card"];
+
+  const initialState = { lg: null, videoId: null, items: null };
+  const reducer = (state, { type, payload }) => {
+    console.log(`reducer type=${type} + state=${JSON.stringify(state)} + payload=${JSON.stringify(payload)}`);
+    switch (type) {
+      case "init": {
+        let { param_lg, param_videoId } = payload;
+        let lg = param_videoId ? param_lg : i18n.resolvedLanguage;
+        let videoId = param_videoId ? param_videoId : param_lg;
+        const uniqueIds = [...new Set(downloadUrls.map((item) => item.id))];
+        let items = uniqueIds.map((id) => {
+          const entries = downloadUrls.filter((item) => item.id === id);
+          // return entries.find((item) => item.lg === lg) || entries[0];
+          let entry = entries.find((item) => item.lg === lg) || entries[0];
+          entry.label = i18n.t(`title_${entry.id}`, { lng: lg, defaultValue: S(entry.id.replace(/[^a-zA-Z0-9]/g, " ")).titleCase().s });
+          return entry;
+        });
+
+        if (settings.firstTime) videoId = "[firstime]";
+        if (!uniqueIds.includes(videoId) || !items.find((item) => item.id === videoId && renderItemsTypes.includes(item.type)))
+          videoId = items.find((item) => renderItemsTypes.includes(item.type))?.id;
+        return { ...initialState, lg, videoId, items };
+      }
+
+      default:
+        throw new Error(`Unknown action ${type}`);
+    }
+  };
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    dispatch({ type: "init", payload: { param_lg, param_videoId, i18n, downloadUrls, settings } });
-  }, [param_lg, param_videoId, i18n, downloadUrls]);
+    dispatch({ type: "init", payload: { param_lg, param_videoId } });
+  }, [param_lg, param_videoId]);
 
   useEffect(() => {
-    if (state.lg) {
-      i18n.changeLanguage(state.lg);
-    }
-  }, [state.lg, i18n]);
+    if (!state.lg) return;
+    console.log(`changeLanguage to ${state.lg}`);
+    i18n.changeLanguage(state.lg);
+  }, [state.lg]);
 
   useEffect(() => {
-    if (state.items) {
-      const selectedItem = state.items.find((item) => item.id === state.videoId);
-      setVideoUrl(selectedItem?.type === "video" ? selectedItem.url : null);
-      setCardUrl(selectedItem?.type === "card" ? selectedItem.url : null);
-    }
-  }, [state.videoId, state.items]);
+    if (!state.items) return;
+    setVideoUrl(state.items.find((item) => item.id === state.videoId && item.type === "video")?.url);
+    setCardUrl(state.items.find((item) => item.id === state.videoId && item.type === "card")?.url);
+  }, [state.videoId, state.lg]);
 
   useEffect(() => {
-    if (state.lg) {
-      navigate(`/video/${i18n.resolvedLanguage}/${param_videoId ? param_videoId : state.videoId}`, { replace: true });
+    console.log(`i18n.resolvedLanguage=${i18n.resolvedLanguage}`, state);
+    if (!state.lg) return;
+    navigate(`/video/${i18n.resolvedLanguage}/${param_videoId ? param_videoId : state.videoId}`, { replace: true });
+  }, [i18n.resolvedLanguage]);
+
+  const videoHandler = (control, state) => {
+    if (control === "PlayPause") {
+      if (!playing) setControlsVisible(false);
+      setPlaying(!playing);
+    } else if (control === "SeekChange") {
+      setPlayed(parseFloat(state.target.value));
+      playerRef.current.seekTo(parseFloat(state.target.value));
+    } else if (control === "Mute") {
+      setMuted(!muted);
+    } else if (control === "VolumeChange") {
+      setVolume(parseFloat(state.target.value));
+    } else if (control === "ShowControls") {
+      setControlsVisible(true);
+    } else if (control === "HideControls") {
+      if (playing) setControlsVisible(false);
+    } else if (control === "handleProgress") {
+      setPlayed(state.played);
+    } else if (control === "changeVideo") {
+      setPlaying(false);
+      setControlsVisible(true);
+      setVideoUrl(state);
     }
-  }, [i18n.resolvedLanguage, state.lg, param_videoId, state.videoId, navigate]);
+  };
 
-  const videoHandler = useCallback(
-    (control, eventState) => {
-      switch (control) {
-        case "PlayPause":
-          setPlaying((prev) => {
-            if (!prev) setControlsVisible(false);
-            return !prev;
-          });
-          break;
-        case "SeekChange":
-          const seekTo = parseFloat(eventState.target.value);
-          setPlayed(seekTo);
-          playerRef.current.seekTo(seekTo);
-          break;
-        case "Mute":
-          setMuted((prev) => !prev);
-          break;
-        case "VolumeChange":
-          setVolume(parseFloat(eventState.target.value));
-          break;
-        case "ShowControls":
-          setControlsVisible(true);
-          break;
-        case "HideControls":
-          if (playing) setControlsVisible(false);
-          break;
-        case "handleProgress":
-          setPlayed(eventState.played);
-          break;
-        default:
-          break;
-      }
-    },
-    [playing]
-  );
-
-  const downloadFileHandler = useCallback(
-    async (fileUrl, fileName) => {
-      try {
-        await downloadFile(fileUrl, fileName);
-        Toast.info(`The file ${fileName} is downloaded`);
-      } catch (error) {
-        Toast.error(`The file ${fileName} is not available yet!`);
-      }
-    },
-    [Toast]
-  );
-
-  useEffect(() => {
-    if (state.items && settings.firstTime) {
-      setSettings({ ...settings, firstTime: false });
+  const downloadFileHandler = async (fileUrl, fileName) => {
+    try {
+      await downloadFile(fileUrl, fileName);
+      Toast.info(`The file ${fileName} is downloaded`);
+    } catch (error) {
+      Toast.error(`The file ${fileName} is not available yet!`);
     }
-  }, [state.items, settings, setSettings]);
+  };
 
-  const filteredItems = useMemo(() => state.items?.filter((item) => item.type && !/^\[.*\]$/.test(item.id)), [state.items]);
+  if (!state.items) return;
+  if (settings.firstTime) setSettings({ ...settings, firstTime: false });
 
   return (
     <>
       <section className={styles.navigation}>
-        {filteredItems?.map((item) => (
-          <Button
-            className={`button-outline button-small ${state.videoId === item.id ? "disabled" : ""}`}
-            key={item.id}
-            onClick={() => {
-              if (renderItemsTypes.includes(item.type)) {
-                if (/^\[.*\]$/.test(state.videoId)) {
-                  dispatch({ type: "init", payload: { param_lg, param_videoId: item.id, i18n, downloadUrls, settings } });
-                } else {
+        {state.items
+          .filter((item) => item.type && !/^\[.*\]$/.test(item.id))
+          .map((item) => (
+            <Button
+              className={`button-outline button-small ${state.videoId === item.id ? "disabled" : ""}`}
+              key={item.id}
+              onClick={() => {
+                if (renderItemsTypes.includes(item.type)) {
                   navigate(`/video/${state.lg}/${item.id}`, { replace: true });
-                }
-              } else if (item.type === "file") {
-                downloadFileHandler(`${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`, item.target.split("/").pop());
-              } else if (item.type === "url") {
-                window.open(item.url, "_blank", "noopener,noreferrer");
-              }
-            }}
-          >
-            {item.label}
-          </Button>
-        ))}
+                } else if (item.type === "file") {
+                  // window.location.href = `${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`;
+                  downloadFileHandler(`${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`, item.target.split("/").pop());
+                } else if (item.type === "url") window.open(item.url, "_blank", "noopener,noreferrer");
+              }}
+            >
+              {item.label}
+            </Button>
+          ))}
       </section>
       <section className={styles.container}>
         <Helmet>
@@ -179,26 +154,26 @@ const VideoPlayer = () => {
           <meta name="description" content="Learn more about the creator of this expense tracker and support the development of this application." />
           <meta name="keywords" content="expense tracker, track expenses, personal finance, finance management" />
         </Helmet>
-        <h2>{state.items?.find((item) => item.id === state.videoId)?.label}</h2>
+        <h2>{state.items.find((item) => item.id === state.videoId)?.label}</h2>
         {videoUrl && (
-          <div className={styles.videoWrapper} onMouseEnter={() => videoHandler("ShowControls")} onMouseLeave={() => videoHandler("HideControls")}>
+          <div className={styles.videoWrapper} onMouseEnter={videoHandler.bind(this, "ShowControls")} onMouseLeave={videoHandler.bind(this, "HideControls")}>
             <ReactPlayer
               ref={playerRef}
               url={`${videoUrl}#t=0`}
               playing={playing}
               muted={muted}
               volume={volume}
-              onProgress={(progress) => videoHandler("handleProgress", progress)}
+              onProgress={videoHandler.bind(this, "handleProgress")}
               width="100%"
               height="calc(100% + 4px)"
               controls={false} // Hide default controls
               style={{ marginTop: "-2px", minHeight: "370px" }}
             />
             <div className={`${styles.controls} ${!controlsVisible && styles.hidden}`}>
-              <button onClick={() => videoHandler("PlayPause")}>{playing ? <FaPause /> : <FaPlay />}</button>
-              <input className={styles.slider} type="range" min={0} max={1} step="any" value={played} onChange={(e) => videoHandler("SeekChange", e)} style={{ width: "80%" }} />
-              <button onClick={() => videoHandler("Mute")}>{muted ? <FaVolumeMute /> : <FaVolumeUp />}</button>
-              <input className={styles.slider} type="range" min={0} max={1} step="any" value={volume} onChange={(e) => videoHandler("VolumeChange", e)} style={{ width: "10%" }} />
+              <button onClick={videoHandler.bind(this, "PlayPause")}>{playing ? <FaPause /> : <FaPlay />}</button>
+              <input className={styles.slider} type="range" min={0} max={1} step="any" value={played} onChange={videoHandler.bind(this, "SeekChange")} style={{ width: "80%" }} />
+              <button onClick={videoHandler.bind(this, "Mute")}>{muted ? <FaVolumeMute /> : <FaVolumeUp />}</button>
+              <input className={styles.slider} type="range" min={0} max={1} step="any" value={volume} onChange={videoHandler.bind(this, "VolumeChange")} style={{ width: "10%" }} />
             </div>
           </div>
         )}
