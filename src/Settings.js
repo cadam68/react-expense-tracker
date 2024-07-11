@@ -9,6 +9,10 @@ export const settings = {
   apiKey: process.env.REACT_APP_API_KEY || "apiKey",
   baseApiUrl: process.env.REACT_APP_API_URL || "http://localhost:5001",
   downloadReferences: [
+    { id: "welcome", lg: "fr", type: "card", target: "firebase://CyrilAdamWelcome-FR.card" },
+    { id: "welcome", lg: "de", type: "card", target: "firebase://CyrilAdamWelcome-DE.card" },
+    { id: "welcome", lg: "en", type: "card", target: "firebase://CyrilAdamWelcome-EN.card" },
+    { id: "welcome", lg: "es", type: "card", target: "firebase://CyrilAdamWelcome-ES.card" },
     { id: "about-me", lg: "fr", type: "video", target: "firebase://AdamCyrilMoiMesValeurs.mp4" },
     { id: "thierry-wagner", lg: "en", type: "video", target: "https://vimeo.com/953134033" },
     { id: "thierry-wagner", lg: "fr", type: "video", target: "https://vimeo.com/953131039" },
@@ -17,6 +21,8 @@ export const settings = {
     { id: "cv", lg: "en", type: "file", target: "firebase://CyrilAdamFullStack-EN.pdf" },
     { id: "cv", lg: "de", type: "file", target: "firebase://CyrilAdamFullStack-DE.pdf" },
     { id: "linkedin", lg: null, type: "url", target: "https://www.linkedin.com/in/cyril-adam" },
+    { id: "[firstime]", lg: null, type: "card", target: "firebase://CyrilAdamFirstTime.card" },
   ],
+
   availableLanguages: { fr: "🇫🇷", en: "🇺🇸", de: "🇩🇪", es: "🇪🇸" },
 };

@@ -1,11 +1,13 @@
 import { Log } from "./LogService";
 import i18next from "i18next";
+import { settings } from "../Settings";
 
 export const downloadFile = async (fileUrl, fileName) => {
   const response = await fetch(fileUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/octet-stream",
+      "X-API-Key": settings.apiKey,
     },
   });
 
