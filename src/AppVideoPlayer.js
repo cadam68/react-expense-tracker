@@ -5,6 +5,7 @@ import { useAppContext } from "./contexts/AppContext";
 import ToastContainer from "./components/ToastContainer";
 import { useDebugContext } from "./contexts/DebugContext";
 import Logo from "./components/LogoVideoPlayer";
+import RotationMessage from "./components/RotationMessage";
 
 const AppVidePlayer = () => {
   const { debug } = useDebugContext();
@@ -14,6 +15,7 @@ const AppVidePlayer = () => {
     <BrowserRouter>
       <div className={"video-container" + (debug ? " debug" : "")}>
         <ToastContainer />
+        <RotationMessage />
         <Logo />
         {isLoading ? (
           <SpinnerFullPage />
