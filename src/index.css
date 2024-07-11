@@ -485,3 +485,18 @@ div.popup {
 .popup div {
   text-align: left;
 }
+
+@media screen and (max-width: 768px) {
+  .video-header {
+    font-size: 2.4rem;
+  }
+
+  .video-header h6 {
+    font-size: 0.9rem;
+  }
+
+  .video-container .button-small {
+    padding: 0.6rem 1.2rem;
+  }
+
+}
