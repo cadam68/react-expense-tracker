@@ -168,7 +168,7 @@ const VideoPlayer = () => {
               width="100%"
               height="calc(100% + 4px)"
               controls={false} // Hide default controls
-              style={{ marginTop: "-2px" /* minHeight: "370px" */ }}
+              style={{ marginTop: "-2px" minHeight: "370px" }}
             />
             <div className={`${styles.controls} ${!controlsVisible && styles.hidden}`}>
               <button onClick={videoHandler.bind(this, "PlayPause")}>{playing ? <FaPause /> : <FaPlay />}</button>
