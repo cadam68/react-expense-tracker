@@ -46,7 +46,8 @@ body {
 }
 
 .video-container {
-  min-width: 720px;
+  /* min-width: 720px; */
+  width: 100vw;
 }
 
 .video-container::before, .container::before {
@@ -85,7 +86,7 @@ body {
 }
 
 .video-header {
-  width: 100vw;
+  /* width: 100vw; */
   background-color: white;
   margin-bottom: 0;
   padding-bottom: 2rem;
