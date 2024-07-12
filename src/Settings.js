@@ -21,7 +21,8 @@ export const settings = {
     { id: "cv", lg: "en", type: "file", target: "firebase://CyrilAdamFullStack-EN.pdf" },
     { id: "cv", lg: "de", type: "file", target: "firebase://CyrilAdamFullStack-DE.pdf" },
     { id: "linkedin", lg: null, type: "url", target: "https://www.linkedin.com/in/cyril-adam" },
-    { id: "[firstime]", lg: null, type: "card", target: "firebase://CyrilAdamFirstTime.card" },
+    // { id: "[firstime]", lg: null, type: "card", target: "firebase://CyrilAdamFirstTime.card" },
+    { id: "[firstime]", lg: "fr", type: "video", target: "firebase://CyrilAdamFirstTime-FR.mp4" },
   ],
 
   availableLanguages: { fr: "🇫🇷", en: "🇺🇸", de: "🇩🇪", es: "🇪🇸" },
