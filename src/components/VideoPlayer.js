@@ -126,6 +126,7 @@ const VideoPlayer = () => {
 
   if (!state.items) return;
   if (settings.firstTime) setSettings({ ...settings, firstTime: false });
+  // console.log(state.items);
 
   return (
     <>
@@ -142,7 +143,7 @@ const VideoPlayer = () => {
                   else navigate(`/video/${state.lg}/${item.id}`, { replace: true });
                 } else if (item.type === "file") {
                   // window.location.href = `${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`;
-                  downloadFileHandler(`${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`, item.target.split("/").pop());
+                  downloadFileHandler(item.url, item.target.split("/").pop());
                 } else if (item.type === "url") window.open(item.url, "_blank", "noopener,noreferrer");
               }}
             >

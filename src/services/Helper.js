@@ -3,7 +3,7 @@ import i18next from "i18next";
 import { settings } from "../Settings";
 
 export const downloadFile = async (fileUrl, fileName) => {
-  const response = await fetch(fileUrl, {
+  const response = await fetch(`${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(fileUrl)}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/octet-stream",
