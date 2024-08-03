@@ -13,6 +13,7 @@ import Button from "./Button";
 import { downloadFile } from "../services/Helper";
 import MarkdownDisplay from "./MarkdownDisplay";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
+import Carousel from "./Carousel";
 
 const logger = Log("VideoPlayer");
 
@@ -28,6 +29,7 @@ const VideoPlayer = () => {
 
   const [videoUrl, setVideoUrl] = useState();
   const [cardUrl, setCardUrl] = useState();
+  const [carousel, setCarousel] = useState();
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(0.8);
@@ -36,7 +38,7 @@ const VideoPlayer = () => {
   const [controlsVisible, setControlsVisible] = useState(true);
   const [settings, setSettings] = UseLocalStorageState("video-player-settings", { firstTime: true });
 
-  const renderItemsTypes = ["video", "card"];
+  const renderItemsTypes = ["video", "card", "carousel"];
 
   const initialState = { lg: null, videoId: null, items: null };
   const reducer = (state, { type, payload }) => {
@@ -83,6 +85,7 @@ const VideoPlayer = () => {
     const selectedItem = state.items.find((item) => item.id === state.videoId);
     setVideoUrl(selectedItem?.type === "video" ? selectedItem.url : null);
     setCardUrl(selectedItem?.type === "card" ? selectedItem.url : null);
+    setCarousel(selectedItem?.type === "carousel" ? selectedItem.data : null);
   }, [state.videoId, state.lg]);
 
   useEffect(() => {
@@ -126,7 +129,6 @@ const VideoPlayer = () => {
 
   if (!state.items) return;
   if (settings.firstTime) setSettings({ ...settings, firstTime: false });
-  // console.log(state.items);
 
   return (
     <>
@@ -181,6 +183,7 @@ const VideoPlayer = () => {
           </div>
         )}
         {cardUrl && <MarkdownDisplay filePath={cardUrl} />}
+        {carousel && <Carousel images={carousel} showButtons={false} speed={4} />}
       </section>
     </>
   );

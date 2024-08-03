@@ -30,6 +30,7 @@ export const settings = {
     { id: "work-experience", lg: "de", type: "video", target: "firebase://Adam68ExperienceDe.mp4" },
     { id: "work-experience", lg: "en", type: "video", target: "firebase://Adam68ExperienceEn.mp4" },
     { id: "my-values", lg: "fr", type: "video", target: "firebase://AdamCyrilMoiMesValeurs.mp4" },
+    { id: "hobbies", lg: null, type: "carousel", target: "firebase://CyrilAdamHobbies.carousel.json" },
     { id: "cv", lg: "en", type: "file", target: "firebase://CyrilAdamFullStack-EN.pdf" },
     { id: "cv", lg: "de", type: "file", target: "firebase://CyrilAdamFullStack-DE.pdf" },
     { id: "certificats", lg: null, type: "file", target: "firebase://CyrilAdamCertificats.pdf" },
@@ -38,5 +39,6 @@ export const settings = {
     { id: "[firstime]", lg: "de", type: "video", target: "firebase://Adam68WelcomeDe.mp4" },
     { id: "[firstime]", lg: "en", type: "video", target: "firebase://Adam68WelcomeEn.mp4" },
   ],
+  downloadTypes: ["card", "video", "carousel", "file", "url"],
   availableLanguages: { fr: "🇫🇷", en: "🇺🇸", de: "🇩🇪", es: "🇪🇸" },
 };

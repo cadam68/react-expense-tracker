@@ -161,7 +161,7 @@ const AppContextProvider = ({ children }) => {
   const [{ expenses, categories }, dispatch] = useLocalStorageReducer("expense-tracker-data", initialState, reducer, converter);
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
   const { shortcuts, addShortcut, delShortcut, updateShortcut } = ShortcutService();
-  const { fetchDownloadUrl } = DownloadUrlService();
+  const { fetchDownloadUrl, fetchDownloadJson } = DownloadUrlService();
   const [downloadUrls, setDownloadUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -175,18 +175,30 @@ const AppContextProvider = ({ children }) => {
   // load basicData(s)
   useEffect(() => {
     const abortCtrl = new AbortController();
+    const firebaseBaseUrl = "firebase://";
 
     const fetchAllDownloadUrls = async () => {
       const values = await Promise.all(
-        settings.downloadReferences.map(async (item) => {
-          try {
-            let downloadUrl = item.target;
-            if (item.target.startsWith("firebase://")) downloadUrl = await fetchDownloadUrl(item.target.substring(11), abortCtrl);
-            return { ...item, url: downloadUrl };
-          } catch (err) {
-            logger.error(`Error fetching download url for file : ${item.fileName}`);
-          }
-        })
+        settings.downloadReferences
+          .filter((item) => settings.downloadTypes.includes(item.type))
+          .map(async (item) => {
+            try {
+              let downloadUrl = item.target;
+              let data;
+              if (item.target.startsWith(firebaseBaseUrl)) {
+                downloadUrl = await fetchDownloadUrl(item.target.substring(firebaseBaseUrl.length), abortCtrl);
+                if (!downloadUrl) return undefined;
+
+                if (["carousel"].includes(item.type)) {
+                  data = await fetchDownloadJson(downloadUrl, abortCtrl);
+                  if (!data) return undefined;
+                }
+              }
+              return { ...item, url: downloadUrl, data };
+            } catch (err) {
+              logger.error(`Error fetching download url for file : ${item.fileName}`);
+            }
+          })
       );
       setDownloadUrls(values.filter((item) => item != undefined));
     };
