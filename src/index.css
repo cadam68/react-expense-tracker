@@ -12,6 +12,9 @@
   --color-light--1: #aaa;
   --color-light--2: #ececec;
   --color-light--3: #d6dee0;
+
+  --color-anchor-hover: #0056b3;
+  --color-anchor: #007bff;
 }
 
 /* Global Styles */
@@ -32,6 +35,28 @@ body {
   display: flex;
   justify-content: center;
 }
+
+/* Styling links */
+a:link,
+a:visited {
+  color: var(--color-anchor);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  color: var(--color-anchor-hover);
+  text-decoration: underline var(--color-anchor);
+}
+
+a:active {
+}
+
+em {
+  font-weight: 600;
+  font-style: normal;
+}
+
 
 /* Effects */
 .selected {

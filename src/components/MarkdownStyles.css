@@ -12,6 +12,8 @@
 .markdown-content .card-image {
     flex: 1;
     max-width: 150px;
+    align-self: start;
+    margin-top: 2rem;
 }
 
 .markdown-content .card-image img {
@@ -25,7 +27,7 @@
 .markdown-content .card-content {
     flex: 2;
     padding: 16px;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.4;
 }
 
