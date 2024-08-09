@@ -70,12 +70,12 @@ em {
   max-width: 90vw;
 }
 
-.video-container {
+.portfolio-container {
   /* min-width: 720px; */
   width: 100vw;
 }
 
-.video-container::before, .container::before {
+.portfolio-container::before, .container::before {
   content: "";
   background-image: url("../public/expenses.jpg");
   /* filter: hue-rotate(180deg) saturate(1.5); */
@@ -89,7 +89,7 @@ em {
   z-index: -1;
 }
 
-.video-container::before {
+.portfolio-container::before {
   background-image:none;
   background-color: var(--color-lightest);  /* iici - var(--color-lightest)   */
 }
@@ -125,7 +125,7 @@ em {
 .floatingBanner {
   position: absolute;
   top: 1rem;
-  right: 0rem;
+  right: 0;
   display: flex;
   gap: 0.5rem;
   align-items: baseline;
@@ -520,7 +520,7 @@ div.popup {
     font-size: 0.9rem;
   }
 
-  .video-container .button-small {
+  .portfolio-container .button-small {
     padding: 0.6rem 1.2rem;
   }
 

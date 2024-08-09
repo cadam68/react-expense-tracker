@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./common.css";
 import App from "./App";
-import AppVideoPlayer from "./AppVideoPlayer";
+import AppPortfolio from "./AppPortfolio";
 import { DebugContextProvider } from "./contexts/DebugContext";
 import { SettingsContextProvider } from "./contexts/SettingsContext";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const AppRouter = () => {
   const currentPath = window.location.pathname;
-  if (currentPath.startsWith("/video")) return <AppVideoPlayer />;
+  if (currentPath.startsWith("/portfolio")) return <AppPortfolio />;
   else return <App />;
 };
 

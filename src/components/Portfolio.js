@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import { Log } from "../services/LogService";
 import { useToast } from "../contexts/ToastContext";
-import styles from "./VideoPlayer.module.css";
+import styles from "./Portfolio.module.css";
 import ReactPlayer from "react-player";
 import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { Helmet } from "react-helmet";
@@ -15,12 +15,12 @@ import MarkdownDisplay from "./MarkdownDisplay";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 import Carousel from "./Carousel";
 
-const logger = Log("VideoPlayer");
+const logger = Log("Portfolio");
 
-const VideoPlayer = () => {
+const Portfolio = () => {
   const navigate = useNavigate();
-  const { i18n, t } = useComponentTranslation("VideoPlayer");
-  const { lg: param_lg, videoId: param_videoId } = useParams();
+  const { i18n, t } = useComponentTranslation("Portfolio");
+  const { userId, lg: param_lg, itemId: param_itemId } = useParams();
 
   const {
     basicDataService: { downloadUrls },
@@ -40,14 +40,14 @@ const VideoPlayer = () => {
 
   const renderItemsTypes = ["video", "card", "carousel"];
 
-  const initialState = { lg: null, videoId: null, items: null };
+  const initialState = { lg: null, itemId: null, items: null };
   const reducer = (state, { type, payload }) => {
     // console.log(`reducer type=${type} + state=${JSON.stringify(state)} + payload=${JSON.stringify(payload)}`);
     switch (type) {
       case "init": {
-        let { param_lg, param_videoId } = payload;
-        let lg = param_videoId ? param_lg : i18n.resolvedLanguage;
-        let videoId = param_videoId ? param_videoId : param_lg;
+        let { param_lg, param_itemId } = payload;
+        let lg = param_itemId ? param_lg : i18n.resolvedLanguage;
+        let itemId = param_itemId ? param_itemId : param_lg;
         const uniqueIds = [...new Set(downloadUrls.map((item) => item.id))];
         let items = uniqueIds.map((id) => {
           const entries = downloadUrls.filter((item) => item.id === id);
@@ -57,10 +57,10 @@ const VideoPlayer = () => {
           return entry;
         });
 
-        if (settings.firstTime) videoId = "[firstime]";
-        if (!uniqueIds.includes(videoId) || !items.find((item) => item.id === videoId && renderItemsTypes.includes(item.type)))
-          videoId = items.find((item) => renderItemsTypes.includes(item.type))?.id;
-        return { ...initialState, lg, videoId, items };
+        if (settings.firstTime) itemId = "[firstime]";
+        if (!uniqueIds.includes(itemId) || !items.find((item) => item.id === itemId && renderItemsTypes.includes(item.type)))
+          itemId = items.find((item) => renderItemsTypes.includes(item.type))?.id;
+        return { ...initialState, lg, itemId, items };
       }
 
       default:
@@ -71,8 +71,8 @@ const VideoPlayer = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    dispatch({ type: "init", payload: { param_lg, param_videoId } });
-  }, [param_lg, param_videoId]);
+    dispatch({ type: "init", payload: { param_lg, param_itemId } });
+  }, [param_lg, param_itemId]);
 
   useEffect(() => {
     if (!state.lg) return;
@@ -82,16 +82,16 @@ const VideoPlayer = () => {
 
   useEffect(() => {
     if (!state.items) return;
-    const selectedItem = state.items.find((item) => item.id === state.videoId);
+    const selectedItem = state.items.find((item) => item.id === state.itemId);
     setVideoUrl(selectedItem?.type === "video" ? selectedItem.url : null);
     setCardUrl(selectedItem?.type === "card" ? selectedItem.url : null);
     setCarousel(selectedItem?.type === "carousel" ? selectedItem.data : null);
-  }, [state.videoId, state.lg]);
+  }, [state.itemId, state.lg]);
 
   useEffect(() => {
     // console.log(`i18n.resolvedLanguage=${i18n.resolvedLanguage}`, state);
     if (!state.lg) return;
-    navigate(`/video/${i18n.resolvedLanguage}/${param_videoId ? param_videoId : state.videoId}`, { replace: true });
+    navigate(`/portfolio/${userId}/${i18n.resolvedLanguage}/${param_itemId ? param_itemId : state.itemId}`, { replace: true });
   }, [i18n.resolvedLanguage]);
 
   const videoHandler = (control, state) => {
@@ -137,12 +137,12 @@ const VideoPlayer = () => {
           .filter((item) => item.type && !/^\[.*\]$/.test(item.id))
           .map((item) => (
             <Button
-              className={`button-outline button-small ${state.videoId === item.id ? "disabled" : ""}`}
+              className={`button-outline button-small ${state.itemId === item.id ? "disabled" : ""}`}
               key={item.id}
               onClick={() => {
                 if (renderItemsTypes.includes(item.type)) {
-                  if (/^\[.*\]$/.test(state.videoId)) dispatch({ type: "init", payload: { param_lg, param_videoId: item.id } });
-                  else navigate(`/video/${state.lg}/${item.id}`, { replace: true });
+                  if (/^\[.*\]$/.test(state.itemId)) dispatch({ type: "init", payload: { param_lg, param_itemId: item.id } });
+                  else navigate(`/portfolio/${userId}/${state.lg}/${item.id}`, { replace: true });
                 } else if (item.type === "file") {
                   // window.location.href = `${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(item.url)}`;
                   downloadFileHandler(item.url, item.target.split("/").pop());
@@ -159,7 +159,7 @@ const VideoPlayer = () => {
           <meta name="description" content="Learn more about the creator of this expense tracker and support the development of this application." />
           <meta name="keywords" content="expense tracker, track expenses, personal finance, finance management" />
         </Helmet>
-        <h2>{state.items.find((item) => item.id === state.videoId)?.label}</h2>
+        <h2>{state.items.find((item) => item.id === state.itemId)?.label}</h2>
         {videoUrl && (
           <div className={styles.videoWrapper} onMouseEnter={videoHandler.bind(this, "ShowControls")} onMouseLeave={videoHandler.bind(this, "HideControls")}>
             <ReactPlayer
@@ -183,10 +183,10 @@ const VideoPlayer = () => {
           </div>
         )}
         {cardUrl && <MarkdownDisplay filePath={cardUrl} />}
-        {carousel && <Carousel images={carousel} showButtons={false} speed={4} />}
+        {carousel && <Carousel images={carousel} showButtons={false} speed={3} />}
       </section>
     </>
   );
 };
 
-export default VideoPlayer;
+export default Portfolio;

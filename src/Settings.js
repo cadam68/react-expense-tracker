@@ -45,4 +45,5 @@ export const settings = {
   ],
   downloadTypes: ["card", "video", "carousel", "file", "url"],
   availableLanguages: { fr: "🇫🇷", en: "🇺🇸", de: "🇩🇪", es: "🇪🇸" },
+  appName: "expenses",
 };
