@@ -4,7 +4,7 @@ import SpinnerFullPage from "./components/SpinnerFullPage";
 import { useAppContext } from "./contexts/AppContext";
 import ToastContainer from "./components/ToastContainer";
 import { useDebugContext } from "./contexts/DebugContext";
-import Logo from "./components/LogoVideoPlayer";
+import HeaderPortfolio from "./components/HeaderPortfolio";
 import RotationMessage from "./components/RotationMessage";
 
 const AppPortfolio = () => {
@@ -16,7 +16,7 @@ const AppPortfolio = () => {
       <div className={"portfolio-container" + (debug ? " debug" : "")}>
         <ToastContainer />
         <RotationMessage />
-        <Logo />
+        <HeaderPortfolio />
         {isLoading ? (
           <SpinnerFullPage />
         ) : (

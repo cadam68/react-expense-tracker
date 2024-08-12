@@ -5,7 +5,7 @@ import { useDebugContext } from "../contexts/DebugContext";
 import { settings } from "../Settings";
 import useComponentTranslation from "../hooks/useComponentTranslation";
 
-const Logo = () => {
+const HeaderPortfolio = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { admin } = useDebugContext();
@@ -36,4 +36,4 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default HeaderPortfolio;
