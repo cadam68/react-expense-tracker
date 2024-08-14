@@ -5,6 +5,7 @@
   --color-light: #ffe8cc;
   --color-medium: #ffa94d;
   --color-dark: #ff922b;
+  --color-background: "white";
 
   --color-dark--0: #242a2e;
   --color-dark--1: #2d3439;
@@ -112,14 +113,10 @@ em {
 
 .video-header {
   /* width: 100vw; */
-  background-color: white;
+  background-color: var(--color-background);
   margin-bottom: 0;
   padding-bottom: 2rem;
-  /*
-
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
-
-   */
+  /* box-shadow: 0 0 2px rgba(0, 0, 0, 0.06); */
 }
 
 .floatingBanner {

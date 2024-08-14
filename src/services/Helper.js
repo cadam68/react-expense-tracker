@@ -81,6 +81,7 @@ export const changeTheme = (newTheme) => {
   root.style.setProperty("--color-light", newTheme ? newTheme.colorLight : randomPalette[1]);
   root.style.setProperty("--color-medium", newTheme ? newTheme.colorMedium : randomPalette[2]);
   root.style.setProperty("--color-dark", newTheme ? newTheme.colorDark : randomPalette[3]);
+  root.style.setProperty("--color-background", newTheme?.colorBackground ? newTheme.colorBackground : "white");
 };
 
 export const generateColorPalette = (nbColors = 4) => {
@@ -116,18 +117,21 @@ export const themes = {
     colorLight: "#ffe8cc",
     colorMedium: "#ffa94d",
     colorDark: "#ff922b",
+    colorBackground: "white",
   },
   dark: {
     colorLightest: "#f8f9fa",
     colorLight: "#e9ecef",
     colorMedium: "#ced4da",
     colorDark: "#adb5bd",
+    colorBackground: "white",
   },
   sun: {
     colorLightest: "#f4f4f8",
     colorLight: "#e6e6ea",
     colorMedium: "#fed766",
     colorDark: "#2ab7ca",
+    colorBackground: "white",
   },
   random: null,
 };
