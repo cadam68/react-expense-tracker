@@ -10,10 +10,11 @@ import { Helmet } from "react-helmet";
 import useComponentTranslation from "../hooks/useComponentTranslation";
 import S from "string";
 import Button from "./Button";
-import { downloadFile } from "../services/Helper";
+import { FetchService } from "../services/FetchService";
 import MarkdownDisplay from "./MarkdownDisplay";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 import Carousel from "./Carousel";
+import { changeTheme } from "../services/Helper";
 
 const logger = Log("Portfolio");
 
@@ -24,6 +25,8 @@ const Portfolio = () => {
 
   const {
     basicDataService: { downloadUrls },
+    portfolioService,
+    isLoading,
   } = useAppContext();
   const { Toast } = useToast();
 
@@ -71,8 +74,21 @@ const Portfolio = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    portfolioService.setPortfolioId(userId);
+  }, [userId]);
+
+  useEffect(() => {
+    if (!downloadUrls) {
+      // window.location.replace("/app/expenses");
+      // navigate("/app/expenses", { replace: true });  // http://localhost:3000/portfolio/lagomez/de/welcome
+      navigate("/portfolio", { replace: true });
+      return;
+    }
+    if (!downloadUrls?.length) return;
     dispatch({ type: "init", payload: { param_lg, param_itemId } });
-  }, [param_lg, param_itemId]);
+    changeTheme();
+    // changeTheme({ colorLightest: "white", colorLight: "#f0f0f0", colorMedium: "blue", colorDark: "gray"});
+  }, [downloadUrls, param_lg, param_itemId]);
 
   useEffect(() => {
     if (!state.lg) return;
@@ -120,7 +136,7 @@ const Portfolio = () => {
 
   const downloadFileHandler = async (fileUrl, fileName) => {
     try {
-      await downloadFile(fileUrl, fileName);
+      await FetchService().downloadFile(fileUrl, fileName);
       Toast.info(`The file ${fileName} is downloaded`);
     } catch (error) {
       Toast.error(`The file ${fileName} is not available yet!`);

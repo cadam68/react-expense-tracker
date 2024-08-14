@@ -1,6 +1,7 @@
 import { Log } from "./LogService";
 import { settings } from "../Settings";
 import { useEffect, useReducer } from "react";
+import { FetchService } from "./FetchService";
 
 const logger = Log("BuyMeACafeService");
 const initialState = { supporters: [], isLoading: false, error: "" };
@@ -31,9 +32,7 @@ const BuyMeACafeService = () => {
     const signal = controller.signal;
     try {
       dispatch({ type: "loading" });
-      const res = await fetch(`${settings.baseApiUrl}/supporters`, { signal: signal });
-      if (!res.ok) throw new Error("Something went wrong with fetching supporters");
-      const data = await res.json();
+      const data = await FetchService().fetchSupporters();
       logger.debug(`fetchSupporters : ${JSON.stringify(data)}`);
       dispatch({ type: "supporters/loaded", payload: data });
     } catch (err) {
@@ -46,9 +45,11 @@ const BuyMeACafeService = () => {
     const controller = new AbortController();
     let isFetching = true;
 
-    fetchSupporters(controller).finally(() => {
-      isFetching = false;
-    });
+    FetchService()
+      .fetchSupporters(controller, dispatch)
+      .finally(() => {
+        isFetching = false;
+      });
 
     // Cleanup function to abort fetch when `query` changes
     return () => {

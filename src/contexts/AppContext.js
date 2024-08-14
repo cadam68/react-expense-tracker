@@ -7,7 +7,7 @@ import useConfirm from "../hooks/useConfirm";
 import styles from "../App.module.css";
 import { Log } from "../services/LogService";
 import { ShortcutService } from "../services/ShortCutService";
-import { DownloadUrlService } from "../services/DownloadUrlService";
+import { FetchService } from "../services/FetchService";
 import useComponentTranslation from "../hooks/useComponentTranslation";
 
 const logger = Log("AppContext");
@@ -27,6 +27,10 @@ const AppContext = createContext({
   shortcutService: { shortcuts: {} },
   basicDataService: { downloadUrls: [] },
   isLoading: true,
+  portfolioService: {
+    portfolioId: undefined,
+    setPortfolioId: () => {},
+  },
 });
 
 const currentDate = new Date();
@@ -60,6 +64,33 @@ const refreshCategories = (categories, expenses, categoryName) => {
       : category
   );
   return updatedCategories;
+};
+
+const fetchAllDownloadUrls = async (downloadReferences, abortCtrl) => {
+  const firebaseBaseUrl = "firebase://";
+  const values = await Promise.all(
+    downloadReferences
+      .filter((item) => settings.downloadTypes.includes(item.type))
+      .map(async (item) => {
+        try {
+          let downloadUrl = item.target;
+          let data;
+          if (item.target.startsWith(firebaseBaseUrl)) {
+            downloadUrl = await FetchService().fetchDownloadUrl(item.target.substring(firebaseBaseUrl.length), abortCtrl);
+            if (!downloadUrl) return undefined;
+
+            if (["carousel"].includes(item.type)) {
+              data = await FetchService().fetchDownloadJson(downloadUrl, abortCtrl);
+              if (!data) return undefined;
+            }
+          }
+          return { ...item, url: downloadUrl, data };
+        } catch (err) {
+          logger.error(`Error fetching download url for file : ${item.fileName}`);
+        }
+      })
+  );
+  return values.filter((item) => item != undefined);
 };
 
 const reducer = (state, { type, payload }) => {
@@ -161,9 +192,9 @@ const AppContextProvider = ({ children }) => {
   const [{ expenses, categories }, dispatch] = useLocalStorageReducer("expense-tracker-data", initialState, reducer, converter);
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
   const { shortcuts, addShortcut, delShortcut, updateShortcut } = ShortcutService();
-  const { fetchDownloadUrl, fetchDownloadJson } = DownloadUrlService();
   const [downloadUrls, setDownloadUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [portfolioId, setPortfolioId] = useState();
 
   useEffect(() => {
     dispatch({ type: "categories/refresh" });
@@ -175,36 +206,11 @@ const AppContextProvider = ({ children }) => {
   // load basicData(s)
   useEffect(() => {
     const abortCtrl = new AbortController();
-    const firebaseBaseUrl = "firebase://";
-
-    const fetchAllDownloadUrls = async () => {
-      const values = await Promise.all(
-        settings.downloadReferences
-          .filter((item) => settings.downloadTypes.includes(item.type))
-          .map(async (item) => {
-            try {
-              let downloadUrl = item.target;
-              let data;
-              if (item.target.startsWith(firebaseBaseUrl)) {
-                downloadUrl = await fetchDownloadUrl(item.target.substring(firebaseBaseUrl.length), abortCtrl);
-                if (!downloadUrl) return undefined;
-
-                if (["carousel"].includes(item.type)) {
-                  data = await fetchDownloadJson(downloadUrl, abortCtrl);
-                  if (!data) return undefined;
-                }
-              }
-              return { ...item, url: downloadUrl, data };
-            } catch (err) {
-              logger.error(`Error fetching download url for file : ${item.fileName}`);
-            }
-          })
-      );
-      setDownloadUrls(values.filter((item) => item != undefined));
-    };
 
     const fetchData = async () => {
-      await fetchAllDownloadUrls();
+      setIsLoading(true);
+      let downloadUrl = await fetchAllDownloadUrls(settings.downloadReferences, abortCtrl);
+      setDownloadUrls(downloadUrl);
       setIsLoading(false);
     };
 
@@ -214,6 +220,36 @@ const AppContextProvider = ({ children }) => {
       abortCtrl.abort();
     };
   }, []);
+
+  useEffect(() => {
+    const abortCtrl = new AbortController();
+
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        console.log(`loading portfolio for userId ${portfolioId}`);
+        let downloadUrlProfile = await FetchService().fetchDownloadUrl(`${portfolioId}.profile.json`, abortCtrl);
+        console.log("downloadUrlProfile", downloadUrlProfile);
+        let portfolio = await FetchService().fetchDownloadJson(downloadUrlProfile, abortCtrl);
+        console.log("portfolio", portfolio);
+        let downloadUrl = await fetchAllDownloadUrls(portfolio.downloadReferences, abortCtrl);
+        setDownloadUrls(downloadUrl);
+      } catch (e) {
+        // console.log(e);
+        setDownloadUrls(); // if(undefined) will be redirected to HomePage
+      }
+      setIsLoading(false);
+    };
+
+    console.log(`iici portfolioId=[${portfolioId}]`);
+    if (!portfolioId) return;
+    console.log("fetchData...");
+    fetchData();
+
+    return () => {
+      abortCtrl.abort();
+    };
+  }, [portfolioId]);
 
   const clearExpensesByMonth = (dateRef) => {
     dispatch({ type: "expenses/clearByMonth", payload: { dateRef } });
@@ -334,8 +370,9 @@ const AppContextProvider = ({ children }) => {
       shortcutService: { shortcuts },
       basicDataService: { downloadUrls },
       isLoading,
+      portfolioService: { portfolioId, setPortfolioId },
     }),
-    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading]
+    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading, portfolioId]
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;

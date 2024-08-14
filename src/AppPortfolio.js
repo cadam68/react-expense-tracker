@@ -6,6 +6,7 @@ import ToastContainer from "./components/ToastContainer";
 import { useDebugContext } from "./contexts/DebugContext";
 import HeaderPortfolio from "./components/HeaderPortfolio";
 import RotationMessage from "./components/RotationMessage";
+import PortfolioHome from "./components/PortfolioHome";
 
 const AppPortfolio = () => {
   const { debug } = useDebugContext();
@@ -21,6 +22,7 @@ const AppPortfolio = () => {
           <SpinnerFullPage />
         ) : (
           <Routes>
+            <Route path="/portfolio" element={<PortfolioHome />} />
             <Route path="/portfolio/:userId/:lg?/:itemId?" element={<Portfolio key={window.location.pathname} />} />
             <Route path="*" element={<Navigate to="/portfolio" />} />
           </Routes>

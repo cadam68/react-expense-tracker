@@ -30,6 +30,25 @@ const setLogOn = (status = false) => {
   // log(`logLevel is ${isLogOn ? `enabled on ${getLogLevelText(currentLogLevel)} level` : "disabled"}`);
 };
 
+const fetchLog = async (logLevel, module, text) => {
+  //try {
+  const logInfo = { logLevel, module, text };
+
+  const response = await fetch(`${settings.baseApiUrl}/log`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-Key": settings.apiKey,
+    },
+    body: JSON.stringify(logInfo),
+  });
+  return response.status;
+  // } catch (err) {
+  //   log(err.message, -1, "fetchLog");
+  //   return 500;
+  // }
+};
+
 const log = (message, level = -1, module) => {
   if ((isLogOn && level >= currentLogLevel) || level === -1 || level === LogLevel.FATAL) {
     const moduleText = module ? `[${module}]` : "";
@@ -66,25 +85,6 @@ const log = (message, level = -1, module) => {
         break;
     }
   }
-};
-
-const fetchLog = async (logLevel, module, text) => {
-  //try {
-  const logInfo = { logLevel, module, text };
-
-  const response = await fetch(`${settings.baseApiUrl}/log`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-Key": settings.apiKey,
-    },
-    body: JSON.stringify(logInfo),
-  });
-  return response.status;
-  // } catch (err) {
-  //   log(err.message, -1, "fetchLog");
-  //   return 500;
-  // }
 };
 
 const Log = (module) => ({
