@@ -4,18 +4,22 @@ import Button from "./Button";
 import { useDebugContext } from "../contexts/DebugContext";
 import { settings } from "../Settings";
 import useComponentTranslation from "../hooks/useComponentTranslation";
+import { useAppContext } from "../contexts/AppContext";
 
 const HeaderPortfolio = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { admin } = useDebugContext();
   const { i18n, t } = useComponentTranslation("Logo");
+  const {
+    portfolioService: { portfolio },
+  } = useAppContext();
 
   return (
     <header className={"video-header"}>
       <div>
-        <h2>@yril Portfolio</h2>
-        <h6>— Innovator. Problem Solver. Team Player —</h6>
+        <h2>{portfolio?.title}</h2>
+        <h6>{portfolio?.subTitle}</h6>
       </div>
 
       <div className={"floatingBanner"}>

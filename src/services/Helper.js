@@ -81,7 +81,13 @@ export const changeTheme = (newTheme) => {
   root.style.setProperty("--color-light", newTheme ? newTheme.colorLight : randomPalette[1]);
   root.style.setProperty("--color-medium", newTheme ? newTheme.colorMedium : randomPalette[2]);
   root.style.setProperty("--color-dark", newTheme ? newTheme.colorDark : randomPalette[3]);
-  root.style.setProperty("--color-background", newTheme?.colorBackground ? newTheme.colorBackground : "white");
+  root.style.setProperty("--color-background", newTheme?.colorBackground ? newTheme.colorBackground : themes.light.colorBackground);
+  root.style.setProperty("--font-family", newTheme?.fontFamily ? newTheme?.fontFamily : themes.light.fontFamily);
+};
+
+export const changeFontFamily = (newFontFamily) => {
+  const root = document.documentElement;
+  root.style.setProperty("--font-family", newFontFamily ? newFontFamily : "white");
 };
 
 export const generateColorPalette = (nbColors = 4) => {
@@ -118,6 +124,7 @@ export const themes = {
     colorMedium: "#ffa94d",
     colorDark: "#ff922b",
     colorBackground: "white",
+    fontFamily: "Poppins, Sans-serif",
   },
   dark: {
     colorLightest: "#f8f9fa",
@@ -125,6 +132,7 @@ export const themes = {
     colorMedium: "#ced4da",
     colorDark: "#adb5bd",
     colorBackground: "white",
+    fontFamily: "Poppins, Sans-serif",
   },
   sun: {
     colorLightest: "#f4f4f8",
@@ -132,6 +140,7 @@ export const themes = {
     colorMedium: "#fed766",
     colorDark: "#2ab7ca",
     colorBackground: "white",
+    fontFamily: "Poppins, Sans-serif",
   },
   random: null,
 };

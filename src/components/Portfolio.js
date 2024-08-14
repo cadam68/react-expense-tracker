@@ -14,7 +14,7 @@ import { FetchService } from "../services/FetchService";
 import MarkdownDisplay from "./MarkdownDisplay";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 import Carousel from "./Carousel";
-import { changeTheme } from "../services/Helper";
+import { changeTheme, themes } from "../services/Helper";
 
 const logger = Log("Portfolio");
 
@@ -24,8 +24,8 @@ const Portfolio = () => {
   const { userId, lg: param_lg, itemId: param_itemId } = useParams();
 
   const {
-    basicDataService: { downloadUrls },
-    portfolioService,
+    basicDataService: { basicData },
+    portfolioService: { portfolio, setPortfolioId },
     isLoading,
   } = useAppContext();
   const { Toast } = useToast();
@@ -51,9 +51,9 @@ const Portfolio = () => {
         let { param_lg, param_itemId } = payload;
         let lg = param_itemId ? param_lg : i18n.resolvedLanguage;
         let itemId = param_itemId ? param_itemId : param_lg;
-        const uniqueIds = [...new Set(downloadUrls.map((item) => item.id))];
+        const uniqueIds = [...new Set(portfolio?.downloadUrls.map((item) => item.id))];
         let items = uniqueIds.map((id) => {
-          const entries = downloadUrls.filter((item) => item.id === id);
+          const entries = portfolio?.downloadUrls.filter((item) => item.id === id);
           // return entries.find((item) => item.lg === lg) || entries[0];
           let entry = entries.find((item) => item.lg === lg) || entries[0];
           entry.label = i18n.t(`title_${entry.id}`, { lng: lg, defaultValue: S(entry.id.replace(/[^a-zA-Z0-9]/g, " ")).titleCase().s });
@@ -74,21 +74,26 @@ const Portfolio = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    portfolioService.setPortfolioId(userId);
+    setPortfolioId(userId);
   }, [userId]);
 
   useEffect(() => {
-    if (!downloadUrls) {
-      // window.location.replace("/app/expenses");
-      // navigate("/app/expenses", { replace: true });  // http://localhost:3000/portfolio/lagomez/de/welcome
+    if (!portfolio) return;
+    if (!portfolio.downloadUrls) {
       navigate("/portfolio", { replace: true });
       return;
     }
-    if (!downloadUrls?.length) return;
+    if (!portfolio.downloadUrls.length) return;
     dispatch({ type: "init", payload: { param_lg, param_itemId } });
-    changeTheme();
-    // changeTheme({ colorLightest: "white", colorLight: "#f0f0f0", colorMedium: "blue", colorDark: "gray"});
-  }, [downloadUrls, param_lg, param_itemId]);
+    changeTheme({
+      colorLightest: portfolio?.palette?.colorLightest || themes.light.colorLightest,
+      colorLight: portfolio?.palette?.colorLight || themes.light.colorLight,
+      colorMedium: portfolio?.palette?.colorMedium || themes.light.colorMedium,
+      colorDark: portfolio?.palette?.colorDark || themes.light.colorDark,
+      colorBackground: portfolio?.palette?.colorBackground || themes.light.colorBackground,
+      fontFamily: portfolio?.palette?.fontFamily || themes.light.fontFamily,
+    });
+  }, [portfolio, param_lg, param_itemId]);
 
   useEffect(() => {
     if (!state.lg) return;

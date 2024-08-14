@@ -25,9 +25,10 @@ const AppContext = createContext({
   categoriesService: { categories: [], clearCategories: () => {}, delCategory: () => {}, addCategory: () => {}, updateCategory: () => {}, sortCategoryBy: () => {} },
   confirmService: { requestConfirm: () => {}, ConfirmModalComponent: () => {} },
   shortcutService: { shortcuts: {} },
-  basicDataService: { downloadUrls: [] },
+  basicDataService: { basicData: {} },
   isLoading: true,
   portfolioService: {
+    portfolio: undefined,
     portfolioId: undefined,
     setPortfolioId: () => {},
   },
@@ -192,7 +193,8 @@ const AppContextProvider = ({ children }) => {
   const [{ expenses, categories }, dispatch] = useLocalStorageReducer("expense-tracker-data", initialState, reducer, converter);
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
   const { shortcuts, addShortcut, delShortcut, updateShortcut } = ShortcutService();
-  const [downloadUrls, setDownloadUrls] = useState([]);
+  const [basicData, setBasicData] = useState();
+  const [portfolio, setPortfolio] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [portfolioId, setPortfolioId] = useState();
 
@@ -201,50 +203,53 @@ const AppContextProvider = ({ children }) => {
     categories.forEach((category) => addShortcut({ id: category.id, name: category.name }));
   }, [dispatch]);
 
-  // useEffect(() => { logger.debug(downloadUrls); }, [downloadUrls]);
-
   // load basicData(s)
   useEffect(() => {
     const abortCtrl = new AbortController();
 
-    const fetchData = async () => {
+    const fetchBasicData = async () => {
+      let data;
       setIsLoading(true);
-      let downloadUrl = await fetchAllDownloadUrls(settings.downloadReferences, abortCtrl);
-      setDownloadUrls(downloadUrl);
+      // data = await fetchAllDownloadUrls(settings.downloadReferences, abortCtrl); // example
+      logger.debug(`initialise basicData : ${JSON.stringify(data)}`);
+      setBasicData(data);
       setIsLoading(false);
     };
 
-    fetchData();
+    fetchBasicData();
 
     return () => {
       abortCtrl.abort();
     };
   }, []);
 
+  // load portfolio
   useEffect(() => {
     const abortCtrl = new AbortController();
 
-    const fetchData = async () => {
+    const fetchPortfolio = async () => {
       setIsLoading(true);
       try {
-        console.log(`loading portfolio for userId ${portfolioId}`);
-        let downloadUrlProfile = await FetchService().fetchDownloadUrl(`${portfolioId}.profile.json`, abortCtrl);
-        console.log("downloadUrlProfile", downloadUrlProfile);
-        let portfolio = await FetchService().fetchDownloadJson(downloadUrlProfile, abortCtrl);
-        console.log("portfolio", portfolio);
-        let downloadUrl = await fetchAllDownloadUrls(portfolio.downloadReferences, abortCtrl);
-        setDownloadUrls(downloadUrl);
+        logger.info(`loading portfolio for userId ${portfolioId}`);
+        let urlProfile = await FetchService().fetchDownloadUrl(`${portfolioId}.profile.json`, abortCtrl);
+        logger.info("urlProfile", urlProfile);
+        let portfolioData = await FetchService().fetchDownloadJson(urlProfile, abortCtrl);
+        console.log("iici-1 / portfolio", portfolioData);
+        let downloadUrls = await fetchAllDownloadUrls(portfolioData.downloadReferences, abortCtrl);
+        portfolioData.downloadUrls = downloadUrls;
+        console.log("iici-2 / portfolio", portfolioData);
+        setPortfolio(portfolioData);
       } catch (e) {
         // console.log(e);
-        setDownloadUrls(); // if(undefined) will be redirected to HomePage
+        setPortfolio({}); // if(empty) will be redirected to HomePage
       }
       setIsLoading(false);
     };
 
-    console.log(`iici portfolioId=[${portfolioId}]`);
+    console.log(`iici / portfolioId=[${portfolioId}]`);
     if (!portfolioId) return;
-    console.log("fetchData...");
-    fetchData();
+    console.log("fetch portfolio...");
+    fetchPortfolio();
 
     return () => {
       abortCtrl.abort();
@@ -368,11 +373,11 @@ const AppContextProvider = ({ children }) => {
       categoriesService: { categories, clearCategories, delCategory, addCategory, updateCategory, sortCategoryBy },
       confirmService: { requestConfirm, ConfirmModalComponent },
       shortcutService: { shortcuts },
-      basicDataService: { downloadUrls },
+      basicDataService: { basicData },
       isLoading,
-      portfolioService: { portfolioId, setPortfolioId },
+      portfolioService: { portfolio, portfolioId, setPortfolioId },
     }),
-    [expenses, categories, ConfirmModalComponent, shortcuts, downloadUrls, isLoading, portfolioId]
+    [expenses, categories, ConfirmModalComponent, shortcuts, basicData, isLoading, portfolioId, portfolio]
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;
