@@ -25,8 +25,9 @@ const AppContext = createContext({
   categoriesService: { categories: [], clearCategories: () => {}, delCategory: () => {}, addCategory: () => {}, updateCategory: () => {}, sortCategoryBy: () => {} },
   confirmService: { requestConfirm: () => {}, ConfirmModalComponent: () => {} },
   shortcutService: { shortcuts: {} },
-  basicDataService: { basicData: {} },
+  basicDataService: { basicData: undefined },
   isLoading: true,
+  isReady: true,
   portfolioService: {
     portfolio: undefined,
     portfolioId: undefined,
@@ -196,6 +197,7 @@ const AppContextProvider = ({ children }) => {
   const [basicData, setBasicData] = useState();
   const [portfolio, setPortfolio] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const [portfolioId, setPortfolioId] = useState();
 
   useEffect(() => {
@@ -208,12 +210,13 @@ const AppContextProvider = ({ children }) => {
     const abortCtrl = new AbortController();
 
     const fetchBasicData = async () => {
-      let data;
+      let data = {};
       setIsLoading(true);
-      // data = await fetchAllDownloadUrls(settings.downloadReferences, abortCtrl); // example
+      // data = await fetchBasicData(settings.basicDataReferences, abortCtrl); // example of implementation
       logger.debug(`initialise basicData : ${JSON.stringify(data)}`);
       setBasicData(data);
       setIsLoading(false);
+      setIsReady(true);
     };
 
     fetchBasicData();
@@ -227,17 +230,15 @@ const AppContextProvider = ({ children }) => {
   useEffect(() => {
     const abortCtrl = new AbortController();
 
-    const fetchPortfolio = async () => {
+    const fetchPortfolio = async (pid) => {
       setIsLoading(true);
       try {
-        logger.info(`loading portfolio for userId ${portfolioId}`);
-        let urlProfile = await FetchService().fetchDownloadUrl(`${portfolioId}.profile.json`, abortCtrl);
+        logger.info(`loading portfolio for userId ${pid}`);
+        let urlProfile = await FetchService().fetchDownloadUrl(`${pid}.profile.json`, abortCtrl);
         logger.info("urlProfile", urlProfile);
         let portfolioData = await FetchService().fetchDownloadJson(urlProfile, abortCtrl);
-        console.log("iici-1 / portfolio", portfolioData);
         let downloadUrls = await fetchAllDownloadUrls(portfolioData.downloadReferences, abortCtrl);
         portfolioData.downloadUrls = downloadUrls;
-        console.log("iici-2 / portfolio", portfolioData);
         setPortfolio(portfolioData);
       } catch (e) {
         // console.log(e);
@@ -246,10 +247,9 @@ const AppContextProvider = ({ children }) => {
       setIsLoading(false);
     };
 
-    console.log(`iici / portfolioId=[${portfolioId}]`);
     if (!portfolioId) return;
-    console.log("fetch portfolio...");
-    fetchPortfolio();
+    logger.debug(`fetch portfolio(portfolioId=[${portfolioId}])...`);
+    fetchPortfolio(portfolioId);
 
     return () => {
       abortCtrl.abort();
@@ -375,9 +375,10 @@ const AppContextProvider = ({ children }) => {
       shortcutService: { shortcuts },
       basicDataService: { basicData },
       isLoading,
+      isReady,
       portfolioService: { portfolio, portfolioId, setPortfolioId },
     }),
-    [expenses, categories, ConfirmModalComponent, shortcuts, basicData, isLoading, portfolioId, portfolio]
+    [expenses, categories, ConfirmModalComponent, shortcuts, basicData, isLoading, isReady, portfolioId, portfolio]
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;

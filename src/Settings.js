@@ -8,54 +8,8 @@ export const settings = {
   passphrase: process.env.REACT_APP_PASSPHRASE || "passphrase",
   apiKey: process.env.REACT_APP_API_KEY || "apiKey",
   baseApiUrl: process.env.REACT_APP_API_URL || "http://localhost:5001",
-  // downloadReferences: [
-  //   { id: "welcome", lg: "fr", type: "card", target: "firebase://CyrilAdamWelcome-FR.card" },
-  //   { id: "welcome", lg: "de", type: "card", target: "firebase://CyrilAdamWelcome-DE.card" },
-  //   { id: "welcome", lg: "en", type: "card", target: "firebase://CyrilAdamWelcome-EN.card" },
-  //   { id: "welcome", lg: "es", type: "card", target: "firebase://CyrilAdamWelcome-ES.card" },
-  //   { id: "about-me", lg: "fr", type: "video", target: "firebase://AdamCyrilMoiMesValeurs.mp4" },
-  //   { id: "thierry-wagner", lg: "en", type: "video", target: "https://vimeo.com/953134033" },
-  //   { id: "thierry-wagner", lg: "fr", type: "video", target: "https://vimeo.com/953131039" },
-  //   { id: "thierry-wagner", lg: "de", type: "video", target: "https://vimeo.com/953132280" },
-  //   { id: "hobby", lg: null, type: "video", target: "https://youtu.be/9MaqsyzG2W0" },
-  //   { id: "cv", lg: "en", type: "file", target: "firebase://CyrilAdamFullStack-EN.pdf" },
-  //   { id: "cv", lg: "de", type: "file", target: "firebase://CyrilAdamFullStack-DE.pdf" },
-  //   { id: "linkedin", lg: null, type: "url", target: "https://www.linkedin.com/in/cyril-adam" },
-  //   // { id: "[firstime]", lg: null, type: "card", target: "firebase://CyrilAdamFirstTime.card" },
-  //   { id: "[firstime]", lg: "fr", type: "video", target: "firebase://CyrilAdamFirstTime-FR.mp4" },
-  // ],
-  downloadReferences: [
-    // { id: "welcome", lg: "en", type: "card", target: "firebase://CyrilAdamWelcomeEn.card" },
-    // { id: "welcome", lg: "fr", type: "card", target: "firebase://CyrilAdamWelcomeFr.card" },
-    // { id: "welcome", lg: "de", type: "card", target: "firebase://CyrilAdamWelcomeDe.card" },
-    // { id: "work-experience", lg: "en", type: "video", target: "firebase://Adam68ExperienceEn.mp4" },
-    // { id: "work-experience", lg: "fr", type: "video", target: "firebase://Adam68ExperienceFr.mp4" },
-    // { id: "work-experience", lg: "de", type: "video", target: "firebase://Adam68ExperienceDe.mp4" },
-    // { id: "my-values", lg: "en", type: "video", target: "firebase://Adam68MyValuesEn.mp4" },
-    // { id: "my-values", lg: "fr", type: "video", target: "firebase://Adam68MyValuesFr.mp4" },
-    // { id: "my-values", lg: "de", type: "video", target: "firebase://Adam68MyValuesDe.mp4" },
-    // { id: "hobbies", lg: null, type: "carousel", target: "firebase://CyrilAdamHobbies.carousel.json" },
-    // { id: "cv", lg: "en", type: "file", target: "firebase://CyrilAdamFullStack-EN.pdf" },
-    // { id: "cv", lg: "de", type: "file", target: "firebase://CyrilAdamFullStack-DE.pdf" },
-    // { id: "certificats", lg: null, type: "file", target: "firebase://CyrilAdamCertificats.pdf" },
-    // { id: "linkedin", lg: null, type: "url", target: "https://www.linkedin.com/in/cyril-adam" },
-    // { id: "[firstime]", lg: "en", type: "video", target: "firebase://Adam68WelcomeEn.mp4" },
-    // { id: "[firstime]", lg: "fr", type: "video", target: "firebase://Adam68WelcomeFr.mp4" },
-    // { id: "[firstime]", lg: "de", type: "video", target: "firebase://Adam68WelcomeDe.mp4" },
-  ],
-  // uniqueLgValues: this.downloadReferences.reduce((acc, item) => {
-  //   if (item.lg && !acc.includes(item.lg)) {
-  //     acc.push(item.lg);
-  //   }
-  //   return acc;
-  // }, []),
+  basicDataReferences: ["users", "countries", "products"], // exemple of implementation
   downloadTypes: ["card", "video", "carousel", "file", "url"],
   availableLanguages: { fr: "🇫🇷", en: "🇺🇸", de: "🇩🇪", es: "🇪🇸" },
-  // filteredLanguages: Object.keys(this.availableLanguages)
-  //   .filter((key) => this.uniqueLgValues.includes(key))
-  //   .reduce((obj, key) => {
-  //     obj[key] = this.availableLanguages[key];
-  //     return obj;
-  //   }, {}),
   appName: "expenses",
 };

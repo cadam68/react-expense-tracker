@@ -105,7 +105,7 @@ em {
 }
 
 /* Header */
-.video-header, .header {
+.portfolio-header, .header {
   color: var(--color-dark);
   text-align: center;
   font-size: 3.6rem;
@@ -113,7 +113,7 @@ em {
   position: relative;
 }
 
-.video-header {
+.portfolio-header {
   /* width: 100vw; */
   background-color: var(--color-background);
   margin-bottom: 0;
@@ -130,15 +130,15 @@ em {
   align-items: baseline;
 }
 
-.video-header .floatingBanner {
+.portfolio-header .floatingBanner {
   right: 5rem;
 }
 
-.video-header h1, .header h1 {
+.portfolio-header h1, .header h1 {
   font-size: 1.6em;
 }
 
-.video-header h6, .header h6 {
+.portfolio-header h6, .header h6 {
   font-size: 1.3rem;
   text-transform: uppercase;
   letter-spacing: 5px;
@@ -511,11 +511,11 @@ div.popup {
 }
 
 @media screen and (max-width: 768px) {
-  .video-header {
+  .portfolio-header {
     font-size: 2.4rem;
   }
 
-  .video-header h6 {
+  .portfolio-header h6 {
     font-size: 0.9rem;
   }
 

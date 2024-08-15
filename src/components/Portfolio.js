@@ -15,6 +15,8 @@ import MarkdownDisplay from "./MarkdownDisplay";
 import UseLocalStorageState from "../hooks/UseLocalStorageState";
 import Carousel from "./Carousel";
 import { changeTheme, themes } from "../services/Helper";
+import PortfolioHeader from "./PortfolioHeader";
+import SpinnerFullPage from "./SpinnerFullPage";
 
 const logger = Log("Portfolio");
 
@@ -151,8 +153,11 @@ const Portfolio = () => {
   if (!state.items) return;
   if (settings.firstTime) setSettings({ ...settings, firstTime: false });
 
+  // if (isLoading) return <SpinnerFullPage />;
+
   return (
     <>
+      <PortfolioHeader />
       <section className={styles.navigation}>
         {state.items
           .filter((item) => item.type && !/^\[.*\]$/.test(item.id))

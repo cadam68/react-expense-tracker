@@ -1,5 +1,6 @@
 import { Log } from "./LogService";
 import i18next from "i18next";
+import { settings } from "../Settings";
 
 export const t = (key, params) => {
   return i18next.t(key, params);
@@ -246,3 +247,20 @@ export class Queue {
     this.items = [];
   }
 }
+
+export const getFilteredLanguages = (downloadReferences) => {
+  if (!downloadReferences) return;
+  const uniqueLgValues = downloadReferences.reduce((acc, item) => {
+    if (item.lg && !acc.includes(item.lg)) {
+      acc.push(item.lg);
+    }
+    return acc;
+  }, []);
+  const filteredLanguages = Object.keys(settings.availableLanguages)
+    .filter((key) => uniqueLgValues.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = settings.availableLanguages[key];
+      return obj;
+    }, {});
+  return filteredLanguages;
+};
