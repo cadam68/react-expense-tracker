@@ -181,9 +181,9 @@ const Portfolio = () => {
       </section>
       <section className={styles.container}>
         <Helmet>
-          <title>Cyril Adam - Professional Portfolio</title>
-          <meta name="description" content="Learn more about the creator of this expense tracker and support the development of this application." />
-          <meta name="keywords" content="expense tracker, track expenses, personal finance, finance management" />
+          <title>{portfolio.name} Portfolio</title>
+          <meta name="description" content={`Learn more about ${portfolio.name}`} />
+          <meta name="keywords" content={`${portfolio.name}, ${portfolio.subTitle}`} />
         </Helmet>
         <h2>{state.items.find((item) => item.id === state.itemId)?.label}</h2>
         {videoUrl && (
