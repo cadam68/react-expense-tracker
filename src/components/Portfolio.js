@@ -41,7 +41,7 @@ const Portfolio = () => {
   const [played, setPlayed] = useState(0);
   const playerRef = useRef(null);
   const [controlsVisible, setControlsVisible] = useState(true);
-  const [settings, setSettings] = UseLocalStorageState("video-player-settings", { firstTime: true });
+  const [settings, setSettings] = UseLocalStorageState("portfolio-settings", { visited: [] });
 
   const renderItemsTypes = ["video", "card", "carousel"];
 
@@ -62,7 +62,7 @@ const Portfolio = () => {
           return entry;
         });
 
-        if (settings.firstTime) itemId = "[firstime]";
+        if (!settings?.visited?.includes(userId)) itemId = "[firstTime]";
         if (!uniqueIds.includes(itemId) || !items.find((item) => item.id === itemId && renderItemsTypes.includes(item.type)))
           itemId = items.find((item) => renderItemsTypes.includes(item.type))?.id;
         return { ...initialState, lg, itemId, items };
@@ -151,7 +151,7 @@ const Portfolio = () => {
   };
 
   if (!state.items) return;
-  if (settings.firstTime) setSettings({ ...settings, firstTime: false });
+  if (!settings?.visited?.includes(userId)) setSettings({ ...settings, visited: [...settings.visited, userId] });
 
   // if (isLoading) return <SpinnerFullPage />;
 
