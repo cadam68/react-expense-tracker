@@ -7,6 +7,10 @@ import ContactDetail from "./ContactDetail";
 const ContactUs = () => {
   return (
     <div className={styles.contactUs}>
+      <div className={styles.banner}>
+        <img src="/images/BannerContactUs.jpg" alt="About Us Banner" className={styles.bannerImage} />
+        <h1 className="slide-in">Contact Us</h1>
+      </div>
       <div className={styles.contactContent}>
         <div className={styles.contactInfo}>
           <h2>Lets connect to get more offer</h2>

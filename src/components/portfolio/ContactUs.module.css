@@ -1,5 +1,28 @@
 /* src/components/ContactUs.module.css */
 
+.banner {
+    position: relative;
+    text-align: center;
+    color: var(--color-dark--1);
+}
+
+.bannerImage {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.banner h1 {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translate(0, -50%);
+    font-size: 4.4rem;
+    margin: 0;
+    color: var(--color-dark--2);
+}
+
 .contactUs {
     font-family: Poppins, sans-serif;
     color: #333;

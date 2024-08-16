@@ -8,7 +8,7 @@ const AboutUs = () => {
   return (
     <div className={styles.aboutUs}>
       <div className={styles.banner}>
-        <img src="/images/About-Us.webp" alt="About Us Banner" className={styles.bannerImage} />
+        <img src="/images/BannerAboutUs.jpg" alt="About Us Banner" className={styles.bannerImage} />
         <h1 class="slide-in">About Us</h1>
       </div>
       <div className={styles.content}>
