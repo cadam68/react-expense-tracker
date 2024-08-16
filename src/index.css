@@ -10,6 +10,7 @@
   --color-dark--0: #242a2e;
   --color-dark--1: #2d3439;
   --color-dark--2: #495057;
+  --color-dark--3: #6c6c6c;
   --color-light--1: #aaa;
   --color-light--2: #ececec;
   --color-light--3: #d6dee0;
@@ -75,7 +76,7 @@ em {
 
 .portfolio-container {
   /* min-width: 720px; */
-  width: 100vw;
+  /* width: 100vw; */
 }
 
 .portfolio-container::before, .container::before {
@@ -114,7 +115,8 @@ em {
 }
 
 .portfolio-header {
-  /* width: 100vw; */
+  padding-top: 2rem;
+  width: 100vw;
   background-color: var(--color-background);
   margin-bottom: 0;
   padding-bottom: 2rem;
@@ -509,6 +511,23 @@ div.popup {
 .popup div {
   text-align: left;
 }
+
+/* effect */
+
+.slide-in {
+  animation: slideIn 1s ease-out forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%) translate(0, -50%);; /* Start completely off-screen to the left */
+  }
+  100% {
+    transform: translateX(0) translate(0, -50%);; /* Move to its original position */
+  }
+}
+
+/* Responsive */
 
 @media screen and (max-width: 768px) {
   .portfolio-header {

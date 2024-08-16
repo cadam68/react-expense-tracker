@@ -8,6 +8,7 @@
     /* border: 1px solid black; */
     border-radius: 16px;
     box-shadow: 0 4px 8px #0003;
+    background-color: var(--color-dark--2);
 }
 
 .carouselImage {
