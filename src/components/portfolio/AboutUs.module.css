@@ -37,6 +37,11 @@
     color: black;
 }
 
+.mission:hover .icon,
+.vision:hover .icon {
+    color: var(--color-dark);
+}
+
 .content {
     padding: 40px;
 }
