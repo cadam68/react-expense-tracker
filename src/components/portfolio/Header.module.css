@@ -40,5 +40,12 @@
 }
 
 .nav ul li a:hover {
+    border-bottom: 2px solid var(--color-dark);
+}
+
+.nav ul li a:global(.active) {
     color: var(--color-dark);
+    border-bottom: 2px solid var(--color-dark);
+    cursor: default;
+    pointer-events: none;
 }

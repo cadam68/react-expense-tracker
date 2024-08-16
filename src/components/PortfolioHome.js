@@ -2,9 +2,8 @@ import React, { memo } from "react";
 import styles from "./Portfolio.module.css";
 import { Helmet } from "react-helmet";
 import Header from "./portfolio/Header";
-import AboutUs from "./portfolio/AboutUs";
-import ContactUs from "./portfolio/ContactUs";
 import Footer from "./portfolio/Footer";
+import { Outlet } from "react-router-dom";
 
 const PortfolioHome = () => {
   return (
@@ -19,7 +18,7 @@ const PortfolioHome = () => {
           />
           <meta name="keywords" content="Innovative technology, Customer-focused, High-quality products, Global tech solutions" />
         </Helmet>
-        <AboutUs />
+        <Outlet />
       </section>
       <Footer />
     </>

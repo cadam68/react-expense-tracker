@@ -2,6 +2,7 @@
 
 import React from "react";
 import styles from "./Footer.module.css";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -17,13 +18,10 @@ const Footer = () => {
           <h4>Quick Links</h4>
           <ul>
             <li>
-              <a href="#">Home</a>
+              <NavLink to={"/portfolio/aboutUs"}>About Us</NavLink>
             </li>
             <li>
-              <a href="#">About Us</a>
-            </li>
-            <li>
-              <a href="#">Contact Us</a>
+              <NavLink to={"/portfolio/contactUs"}>Contact Us</NavLink>
             </li>
           </ul>
         </div>
