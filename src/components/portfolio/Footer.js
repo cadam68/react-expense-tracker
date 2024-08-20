@@ -18,6 +18,9 @@ const Footer = () => {
           <h4>Quick Links</h4>
           <ul>
             <li>
+              <NavLink to={"/portfolio/home"}>Home</NavLink>
+            </li>
+            <li>
               <NavLink to={"/portfolio/aboutUs"}>About Us</NavLink>
             </li>
             <li>

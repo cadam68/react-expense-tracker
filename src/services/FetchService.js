@@ -88,7 +88,22 @@ const FetchService = () => {
     return data;
   };
 
-  return { downloadFile, fetchDownloadUrl, fetchDownloadJson, fetchMarkdownFile, fetchSupporters };
+  const fetchPortfolio = async (abortCtrl) => {
+    const signal = abortCtrl.signal;
+    const res = await fetch(`${settings.baseApiUrl}/portfolio`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/octet-stream",
+        "X-API-Key": settings.apiKey,
+      },
+      signal: signal,
+    });
+    if (!res.ok) throw new Error("Something went wrong with fetching portfolio");
+    const data = await res.json();
+    return data;
+  };
+
+  return { downloadFile, fetchDownloadUrl, fetchDownloadJson, fetchMarkdownFile, fetchSupporters, fetchPortfolio };
 };
 
 export { FetchService };

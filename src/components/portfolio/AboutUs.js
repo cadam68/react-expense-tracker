@@ -9,7 +9,7 @@ const AboutUs = () => {
     <div className={styles.aboutUs}>
       <div className={styles.banner}>
         <img src="/images/BannerAboutUs.jpg" alt="About Us Banner" className={styles.bannerImage} />
-        <h1 class="slide-in">About Us</h1>
+        <h1 className="slide-in">About Us</h1>
       </div>
       <div className={styles.content}>
         <h2>Who We Are</h2>

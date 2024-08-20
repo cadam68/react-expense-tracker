@@ -8,6 +8,7 @@ import RotationMessage from "./components/RotationMessage";
 import PortfolioHome from "./components/PortfolioHome";
 import AboutUs from "./components/portfolio/AboutUs";
 import ContactUs from "./components/portfolio/ContactUs";
+import Home from "./components/portfolio/Home";
 
 const AppPortfolio = () => {
   const { debug } = useDebugContext();
@@ -23,8 +24,8 @@ const AppPortfolio = () => {
         ) : (
           <Routes>
             <Route path="/portfolio" element={<PortfolioHome />}>
-              <Route index element={<Navigate replace to="aboutUs" />} />
-              <Route path={"home"} element={<p>List of Portfolio</p>} />
+              <Route index element={<Navigate replace to="home" />} />
+              <Route path={"home"} element={<Home />} />
               <Route path={"aboutUs"} element={<AboutUs />} />
               <Route path={"contactUs"} element={<ContactUs />} />
             </Route>

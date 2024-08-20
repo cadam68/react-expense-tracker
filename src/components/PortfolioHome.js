@@ -1,11 +1,23 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import styles from "./Portfolio.module.css";
 import { Helmet } from "react-helmet";
 import Header from "./portfolio/Header";
 import Footer from "./portfolio/Footer";
 import { Outlet } from "react-router-dom";
+import { changeTheme, themes } from "../services/Helper";
 
 const PortfolioHome = () => {
+  useEffect(() => {
+    changeTheme({
+      colorLightest: themes.light.colorLightest,
+      colorLight: themes.light.colorLight,
+      colorMedium: themes.light.colorMedium,
+      colorDark: themes.light.colorDark,
+      colorBackground: themes.light.colorBackground,
+      fontFamily: themes.light.fontFamily,
+    });
+  }, []);
+
   return (
     <>
       <Header />
