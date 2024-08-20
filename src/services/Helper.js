@@ -264,3 +264,30 @@ export const getFilteredLanguages = (downloadReferences) => {
     }, {});
   return filteredLanguages;
 };
+
+export const sortAndLimitPortfolioItems = (items, limit = 100) => {
+  // Shuffle both VIP and non-VIP items
+  const shuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  };
+  // Separate VIP and non-VIP items
+  const vipItems = items.filter((item) => item.vip);
+  const nonVipItems = items.filter((item) => !item.vip);
+  shuffle(nonVipItems);
+
+  // Insert all VIP items within the first 100 positions
+  const insertionLimit = Math.min(limit - vipItems.length, nonVipItems.length);
+  const combinedItems = nonVipItems.slice(0, insertionLimit);
+
+  // Merge VIP items into the selected portion of non-VIP items
+  combinedItems.push(...vipItems);
+  shuffle(combinedItems);
+
+  // Combine the shuffled part with the rest of the non-VIP items
+  const result = combinedItems.concat(nonVipItems.slice(insertionLimit));
+
+  return result;
+};
