@@ -68,7 +68,7 @@ const refreshCategories = (categories, expenses, categoryName) => {
   return updatedCategories;
 };
 
-const fetchAllDownloadUrls = async (downloadReferences, abortCtrl) => {
+const fetchAllDownloadUrls = async (downloadReferences, pid, abortCtrl) => {
   const firebaseBaseUrl = "firebase://";
   const values = await Promise.all(
     downloadReferences
@@ -78,7 +78,7 @@ const fetchAllDownloadUrls = async (downloadReferences, abortCtrl) => {
           let downloadUrl = item.target;
           let data;
           if (item.target.startsWith(firebaseBaseUrl)) {
-            downloadUrl = await FetchService().fetchDownloadUrl(item.target.substring(firebaseBaseUrl.length), abortCtrl);
+            downloadUrl = await FetchService().fetchDownloadUrl(item.target.substring(firebaseBaseUrl.length), pid, abortCtrl);
             if (!downloadUrl) return undefined;
 
             if (["carousel"].includes(item.type)) {
@@ -234,10 +234,10 @@ const AppContextProvider = ({ children }) => {
       setIsLoading(true);
       try {
         logger.info(`loading portfolio for userId ${pid}`);
-        let urlProfile = await FetchService().fetchDownloadUrl(`${pid}.profile.json`, abortCtrl);
+        let urlProfile = await FetchService().fetchDownloadUrl(`${pid}.profile.json`, pid, abortCtrl);
         logger.info("urlProfile", urlProfile);
         let portfolioData = await FetchService().fetchDownloadJson(urlProfile, abortCtrl);
-        let downloadUrls = await fetchAllDownloadUrls(portfolioData.downloadReferences, abortCtrl);
+        let downloadUrls = await fetchAllDownloadUrls(portfolioData.downloadReferences, pid, abortCtrl);
         portfolioData.downloadUrls = downloadUrls;
         setPortfolio(portfolioData);
       } catch (e) {

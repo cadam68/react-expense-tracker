@@ -26,10 +26,10 @@ const FetchService = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  const fetchDownloadUrl = async (ref, abortCtrl = new AbortController()) => {
+  const fetchDownloadUrl = async (ref, userid, abortCtrl = new AbortController()) => {
     const signal = abortCtrl.signal;
     try {
-      const res = await fetch(`${settings.baseApiUrl}/firebase/downloadUrl?ref=${ref}`, {
+      const res = await fetch(`${settings.baseApiUrl}/firebase/downloadUrl?ref=${ref}&userid=${encodeURI(userid)}`, {
         signal: signal,
         method: "GET",
         headers: {
