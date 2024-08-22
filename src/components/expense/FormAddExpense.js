@@ -52,21 +52,24 @@ const FormAddExpense = () => {
   };
 
   // Validation function
-  const validate = useCallback((values) => {
-    logger.debug(`values : ${JSON.stringify(values)}`);
-    const errors = {};
-    const categoryNames = categories.map((item) => item.name);
-    if (!categoryNames.includes(values.category)) values.category = undefined;
-    if (!values.category) errors.category = i18n.t("lb_chooseOption");
-    if (!values.description || values.description.trim().length <= 3) errors.description = i18n.t("lb_isRequiered", { name: "description" });
-    if (!values.amount || +values.amount <= 0) errors.amount = i18n.t("lb_mustBeMoreThan", { value: 0 });
-    if (Object.keys(errors).length !== 0) {
-      const fieldName = Object.keys(errors)[0];
-      if (fieldRefs.current[fieldName]) fieldRefs.current[fieldName].focus();
-      logger.debug(`errors : ${JSON.stringify(errors)}`);
-    }
-    return errors;
-  }, []);
+  const validate = useCallback(
+    (values) => {
+      logger.debug(`values : ${JSON.stringify(values)}`);
+      const errors = {};
+      const categoryNames = categories.map((item) => item.name);
+      if (!categoryNames.includes(values.category)) values.category = undefined;
+      if (!values.category) errors.category = i18n.t("lb_chooseOption");
+      if (!values.description || values.description.trim().length <= 3) errors.description = i18n.t("lb_isRequiered", { name: "description" });
+      if (!values.amount || +values.amount <= 0) errors.amount = i18n.t("lb_mustBeMoreThan", { value: 0 });
+      if (Object.keys(errors).length !== 0) {
+        const fieldName = Object.keys(errors)[0];
+        if (fieldRefs.current[fieldName]) fieldRefs.current[fieldName].focus();
+        logger.debug(`errors : ${JSON.stringify(errors)}`);
+      }
+      return errors;
+    },
+    [categories]
+  );
 
   const handleSubmit = useCallback(
     (values, { resetForm }) => {
