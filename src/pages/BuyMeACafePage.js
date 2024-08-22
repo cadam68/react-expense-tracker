@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { changeTheme, themes } from "../services/Helper";
 import { useSettingsContext } from "../contexts/SettingsContext";
 import BuyMeACafeService from "../services/BuyMeACafeService";
-import Button from "../components/Button";
+import Button from "../components/divers/Button";
 import { useToast } from "../contexts/ToastContext";
 import styles from "./BuyMeACafePage.module.css";
 import { useDebugContext } from "../contexts/DebugContext";

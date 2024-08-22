@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import ConfirmModal from "./../components/ConfirmModal";
+import ConfirmModal from "./../components/modal/ConfirmModal";
 import useComponentTranslation from "./useComponentTranslation";
 
 const useConfirm = (className) => {

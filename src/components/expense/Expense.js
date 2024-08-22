@@ -1,11 +1,11 @@
-import { useDebugContext } from "../contexts/DebugContext";
+import { useDebugContext } from "../../contexts/DebugContext";
 import { format } from "date-fns";
-import Button from "./Button";
+import Button from "../divers/Button";
 import PropTypes from "prop-types";
-import Category from "./Category";
+import Category from "../category/Category";
 import { sprintf } from "sprintf-js";
 import S from "string";
-import { settings } from "../Settings";
+import { settings } from "../../Settings";
 import { useDrag } from "react-dnd";
 import { memo } from "react";
 

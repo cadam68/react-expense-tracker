@@ -1,10 +1,10 @@
-import Button from "./Button";
+import Button from "../divers/Button";
 import PropTypes from "prop-types";
 import S from "string";
 import { sprintf } from "sprintf-js";
-import Hover from "./Hover";
+import Hover from "../divers/Hover";
 import { useDrop } from "react-dnd";
-import useComponentTranslation from "../hooks/useComponentTranslation";
+import useComponentTranslation from "../../hooks/useComponentTranslation";
 
 const Category = ({ num, category, onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
   const { i18n, t } = useComponentTranslation("Category");

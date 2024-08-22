@@ -1,8 +1,8 @@
-import Hover from "../components/Hover";
-import Button from "../components/Button";
-import CategoryList from "../components/CategoryList";
-import FormAddCategory from "../components/FormAddCategory";
-import ExpenseList from "../components/ExpenseList";
+import Hover from "../components/divers/Hover";
+import Button from "../components/divers/Button";
+import CategoryList from "../components/category/CategoryList";
+import FormAddCategory from "../components/category/FormAddCategory";
+import ExpenseList from "../components/expense/ExpenseList";
 import { useDebugContext } from "../contexts/DebugContext";
 import { settings } from "../Settings";
 import { useState } from "react";
@@ -38,7 +38,7 @@ const ExpensesPage = () => {
 
   const handleAddCategory = (id, name, budget) => {
     if (id == null) {
-      Toast.info(t("msg_categoryAdded"), { name });
+      Toast.info(t("msg_categoryAdded", { name }));
       addCategory(name, budget);
     } else if (updatedCategory.name !== name || updatedCategory.budget !== budget) {
       const res = updateCategory(updatedCategory.id, name, budget);

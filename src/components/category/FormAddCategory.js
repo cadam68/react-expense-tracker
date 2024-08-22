@@ -1,15 +1,15 @@
 import { useRef } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDebugContext } from "../contexts/DebugContext";
-import { Log } from "../services/LogService";
-import { handleFormikFieldChange, handleFormikFieldBlur } from "../services/Helper";
+import { useDebugContext } from "../../contexts/DebugContext";
+import { Log } from "../../services/LogService";
+import { handleFormikFieldChange, handleFormikFieldBlur } from "../../services/Helper";
 import S from "string";
 import PropTypes from "prop-types";
-import Button from "./Button";
-import Hover from "./Hover";
-import { useAppContext } from "../contexts/AppContext";
-import useShortcut from "../hooks/UseShortcut";
-import useComponentTranslation from "../hooks/useComponentTranslation";
+import Button from "./../divers/Button";
+import Hover from "./../divers/Hover";
+import { useAppContext } from "../../contexts/AppContext";
+import useShortcut from "../../hooks/UseShortcut";
+import useComponentTranslation from "../../hooks/useComponentTranslation";
 
 const logger = Log("FormAddCategory");
 

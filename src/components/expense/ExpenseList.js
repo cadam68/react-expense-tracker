@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import Expense from "./Expense";
 import { memo, useEffect, useState } from "react";
 import S from "string";
-import Hover from "./Hover";
-import { useAppContext } from "../contexts/AppContext";
-import useComponentTranslation from "../hooks/useComponentTranslation";
+import Hover from "../divers/Hover";
+import { useAppContext } from "../../contexts/AppContext";
+import useComponentTranslation from "../../hooks/useComponentTranslation";
 
 const ExpenseList = ({ selectedCategory }) => {
   const { t } = useComponentTranslation("ExpenseList");

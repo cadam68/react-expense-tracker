@@ -1,4 +1,4 @@
-import ExpensesChart from "../components/ExpensesChart";
+import ExpensesChart from "../components/expense/ExpensesChart";
 import { useDebugContext } from "../contexts/DebugContext";
 import { Helmet } from "react-helmet";
 import useComponentTranslation from "../hooks/useComponentTranslation";

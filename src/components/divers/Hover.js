@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import "./Hover.css";
 import PropTypes from "prop-types";
-import { useSettingsContext } from "../contexts/SettingsContext";
+import { useSettingsContext } from "../../contexts/SettingsContext";
 
 const Hover = ({ caption, enable, visible, children }) => {
   const { firstTime } = useSettingsContext();

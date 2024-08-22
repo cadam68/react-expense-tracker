@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./common.css";
 import App from "./App";
-import AppPortfolio from "./AppPortfolio";
 import { DebugContextProvider } from "./contexts/DebugContext";
 import { SettingsContextProvider } from "./contexts/SettingsContext";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -14,11 +13,12 @@ import "./i18n";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const AppRouter = () => {
-  const currentPath = window.location.pathname;
-  if (currentPath.startsWith("/portfolio")) return <AppPortfolio />;
-  else return <App />;
-};
+// ### Example of Router implementation ###
+// const AppRouter = () => {
+//   const currentPath = window.location.pathname;
+//   if (currentPath.startsWith("/portfolio")) return <AppPortfolio />;
+//   else return <App />;
+// };
 
 root.render(
   <DebugContextProvider>
@@ -26,7 +26,7 @@ root.render(
       <AppContextProvider>
         <ToastProvider>
           <DndProvider backend={HTML5Backend}>
-            <AppRouter />
+            <App />
           </DndProvider>
         </ToastProvider>
       </AppContextProvider>

@@ -74,14 +74,10 @@ em {
   max-width: 90vw;
 }
 
-.portfolio-container {
-  /* min-width: 720px; */
-  /* width: 100vw; */
-}
 
-.portfolio-container::before, .container::before {
+.container::before {
   content: "";
-  background-image: url("../public/expenses.jpg");
+  background-image: url("../public/images/expenses.jpg");
   /* filter: hue-rotate(180deg) saturate(1.5); */
   background-size: cover;
   position: absolute;
@@ -89,14 +85,11 @@ em {
   right: 0;
   bottom: 0;
   left: 0;
-  opacity: 0.15;
+  opacity: 0.1;
   z-index: -1;
 }
 
-.portfolio-container::before {
-  background-image:none;
-  background-color: var(--color-lightest);  /* iici - var(--color-lightest)   */
-}
+
 
 .card {
   padding: 1.2rem;
@@ -106,7 +99,7 @@ em {
 }
 
 /* Header */
-.portfolio-header, .header {
+.header {
   color: var(--color-dark);
   text-align: center;
   font-size: 3.6rem;
@@ -114,14 +107,7 @@ em {
   position: relative;
 }
 
-.portfolio-header {
-  padding-top: 2rem;
-  width: 100vw;
-  background-color: var(--color-background);
-  margin-bottom: 0;
-  padding-bottom: 2rem;
-  /* box-shadow: 0 0 2px rgba(0, 0, 0, 0.06); */
-}
+
 
 .floatingBanner {
   position: absolute;
@@ -132,15 +118,13 @@ em {
   align-items: baseline;
 }
 
-.portfolio-header .floatingBanner {
-  right: 5rem;
-}
 
-.portfolio-header h1, .header h1 {
+
+.header h1 {
   font-size: 1.6em;
 }
 
-.portfolio-header h6, .header h6 {
+.header h6 {
   font-size: 1.3rem;
   text-transform: uppercase;
   letter-spacing: 5px;
@@ -528,18 +512,5 @@ div.popup {
 }
 
 /* Responsive */
-
 @media screen and (max-width: 768px) {
-  .portfolio-header {
-    font-size: 2.4rem;
-  }
-
-  .portfolio-header h6 {
-    font-size: 0.9rem;
-  }
-
-  .portfolio-container .button-small {
-    padding: 0.6rem 1.2rem;
-  }
-
 }

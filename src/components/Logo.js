@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Hover from "./Hover";
-import Button from "./Button";
+import Hover from "./divers/Hover";
+import Button from "./divers/Button";
 import { useDebugContext } from "../contexts/DebugContext";
 import { settings } from "../Settings";
 import useComponentTranslation from "../hooks/useComponentTranslation";

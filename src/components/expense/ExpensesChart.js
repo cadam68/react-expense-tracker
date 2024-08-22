@@ -2,9 +2,9 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler } from "chart.js";
 import "chartjs-adapter-moment";
 import { format, startOfWeek, addDays } from "date-fns";
-import { hsl2Rgba } from "../services/Helper";
-import { sortExpensesBy } from "../services/ExpensesService";
-import { useAppContext } from "../contexts/AppContext";
+import { hsl2Rgba } from "../../services/Helper";
+import { sortExpensesBy } from "../../services/ExpensesService";
+import { useAppContext } from "../../contexts/AppContext";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale, Filler);
 
@@ -111,7 +111,12 @@ const ExpensesChart = () => {
     expensesService: { expenses },
     categoriesService: { categories },
   } = useAppContext();
-  const chartData = transformData(expenses, categories);
+
+  // clean expenses
+  const categoryNames = categories.map((item) => item.name);
+  const cleanExpenses = expenses.filter((item) => categoryNames.includes(item.category));
+
+  const chartData = transformData(cleanExpenses, categories);
   const options = {
     scales: {
       x: {

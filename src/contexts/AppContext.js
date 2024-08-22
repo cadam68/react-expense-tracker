@@ -28,11 +28,6 @@ const AppContext = createContext({
   basicDataService: { basicData: undefined },
   isLoading: true,
   isReady: true,
-  portfolioService: {
-    portfolio: undefined,
-    portfolioId: undefined,
-    setPortfolioId: () => {},
-  },
 });
 
 const currentDate = new Date();
@@ -195,10 +190,8 @@ const AppContextProvider = ({ children }) => {
   const { requestConfirm, ConfirmModalComponent } = useConfirm(styles);
   const { shortcuts, addShortcut, delShortcut, updateShortcut } = ShortcutService();
   const [basicData, setBasicData] = useState();
-  const [portfolio, setPortfolio] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isReady, setIsReady] = useState(false);
-  const [portfolioId, setPortfolioId] = useState();
 
   useEffect(() => {
     dispatch({ type: "categories/refresh" });
@@ -225,36 +218,6 @@ const AppContextProvider = ({ children }) => {
       abortCtrl.abort();
     };
   }, []);
-
-  // load portfolio
-  useEffect(() => {
-    const abortCtrl = new AbortController();
-
-    const fetchPortfolio = async (pid) => {
-      setIsLoading(true);
-      try {
-        logger.info(`loading portfolio for userId ${pid}`);
-        let urlProfile = await FetchService().fetchDownloadUrl(`${pid}.profile.json`, pid, abortCtrl);
-        logger.info("urlProfile", urlProfile);
-        let portfolioData = await FetchService().fetchDownloadJson(urlProfile, abortCtrl);
-        let downloadUrls = await fetchAllDownloadUrls(portfolioData.downloadReferences, pid, abortCtrl);
-        portfolioData.downloadUrls = downloadUrls;
-        setPortfolio(portfolioData);
-      } catch (e) {
-        // console.log(e);
-        setPortfolio({}); // if(empty) will be redirected to HomePage
-      }
-      setIsLoading(false);
-    };
-
-    if (!portfolioId) return;
-    logger.debug(`fetch portfolio(portfolioId=[${portfolioId}])...`);
-    fetchPortfolio(portfolioId);
-
-    return () => {
-      abortCtrl.abort();
-    };
-  }, [portfolioId]);
 
   const clearExpensesByMonth = (dateRef) => {
     dispatch({ type: "expenses/clearByMonth", payload: { dateRef } });
@@ -376,9 +339,8 @@ const AppContextProvider = ({ children }) => {
       basicDataService: { basicData },
       isLoading,
       isReady,
-      portfolioService: { portfolio, portfolioId, setPortfolioId },
     }),
-    [expenses, categories, ConfirmModalComponent, shortcuts, basicData, isLoading, isReady, portfolioId, portfolio]
+    [expenses, categories, ConfirmModalComponent, shortcuts, basicData, isLoading, isReady]
   ); // value is cached by useMemo
 
   return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;

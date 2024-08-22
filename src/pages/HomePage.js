@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import { useDebugContext } from "../contexts/DebugContext";
 
-import FormAddExpense from "../components/FormAddExpense";
+import FormAddExpense from "../components/expense/FormAddExpense";
 import Header from "../components/Header";
 import { Outlet } from "react-router-dom";
 

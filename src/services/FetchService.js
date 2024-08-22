@@ -4,28 +4,6 @@ import { Log } from "./LogService";
 const logger = Log("FetchService");
 
 const FetchService = () => {
-  const downloadFile = async (fileUrl, fileName) => {
-    const response = await fetch(`${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(fileUrl)}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/octet-stream",
-        "X-API-Key": settings.apiKey,
-      },
-    });
-
-    if (!response.ok) throw new Error(`Could not retrieve the ${fileName} file`);
-
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", fileName);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  };
-
   const fetchDownloadUrl = async (ref, userid, abortCtrl = new AbortController()) => {
     const signal = abortCtrl.signal;
     try {
@@ -64,22 +42,6 @@ const FetchService = () => {
     }
   };
 
-  const fetchMarkdownFile = async (filePath) => {
-    let fileUrl = `${settings.baseApiUrl}/firebase/download?url=${encodeURIComponent(filePath)}`;
-
-    const response = await fetch(fileUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/octet-stream",
-        "X-API-Key": settings.apiKey,
-      },
-    });
-
-    if (!response.ok) throw new Error(`Could not retrieve the file`);
-    const text = await response.text();
-    return text;
-  };
-
   const fetchSupporters = async (abortCtrl) => {
     const signal = abortCtrl.signal;
     const res = await fetch(`${settings.baseApiUrl}/supporters`, { signal: signal });
@@ -88,22 +50,7 @@ const FetchService = () => {
     return data;
   };
 
-  const fetchPortfolio = async (abortCtrl) => {
-    const signal = abortCtrl.signal;
-    const res = await fetch(`${settings.baseApiUrl}/portfolio`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/octet-stream",
-        "X-API-Key": settings.apiKey,
-      },
-      signal: signal,
-    });
-    if (!res.ok) throw new Error("Something went wrong with fetching portfolio");
-    const data = await res.json();
-    return data;
-  };
-
-  return { downloadFile, fetchDownloadUrl, fetchDownloadJson, fetchMarkdownFile, fetchSupporters, fetchPortfolio };
+  return { fetchDownloadUrl, fetchDownloadJson, fetchSupporters };
 };
 
 export { FetchService };

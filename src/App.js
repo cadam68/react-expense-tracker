@@ -4,13 +4,13 @@ import { useSettingsContext } from "./contexts/SettingsContext";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useAppContext } from "./contexts/AppContext";
 import { setLogLevel, setLogOn } from "./services/LogService";
-import SpinnerFullPage from "./components/SpinnerFullPage";
+import SpinnerFullPage from "./components/divers/SpinnerFullPage";
 import ExpensesPage from "./pages/ExpensesPage";
 import ChartsPage from "./pages/ChartsPage";
 import Footer from "./components/Footer";
 import Logo from "./components/Logo";
 import HomePage from "./pages/HomePage";
-import ToastContainer from "./components/ToastContainer";
+import ToastContainer from "./components/toast/ToastContainer";
 import useComponentTranslation from "./hooks/useComponentTranslation";
 // import BuyMeACafePage from "./pages/BuyMeACafePage";
 

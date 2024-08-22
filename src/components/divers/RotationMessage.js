@@ -1,5 +1,5 @@
 import React from "react";
-import useOrientation from "../hooks/useOrientation";
+import useOrientation from "../../hooks/useOrientation";
 import "./RotationMessage.css";
 
 const RotationMessage = () => {

@@ -1,17 +1,17 @@
-import { useDebugContext } from "../contexts/DebugContext";
-import { Log } from "../services/LogService";
+import { useDebugContext } from "../../contexts/DebugContext";
+import { Log } from "../../services/LogService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod, setFieldRefValue } from "../services/Helper";
-import FieldDatePicker from "./FieldDatePicker";
+import { handleFormikFieldChange, handleFormikFieldBlur, capitalizeAfterPeriod, setFieldRefValue } from "../../services/Helper";
+import FieldDatePicker from "./../divers/FieldDatePicker";
 import S from "string";
 import { memo, useCallback, useRef } from "react";
-import Button from "./Button";
-import Hover from "./Hover";
-import { useAppContext } from "../contexts/AppContext";
-import { useToast } from "../contexts/ToastContext";
-import useShortcutContext from "../hooks/UseShortcutContext";
-import useShortcut from "../hooks/UseShortcut";
-import useComponentTranslation from "../hooks/useComponentTranslation";
+import Button from "./../divers/Button";
+import Hover from "./../divers/Hover";
+import { useAppContext } from "../../contexts/AppContext";
+import { useToast } from "../../contexts/ToastContext";
+import useShortcutContext from "../../hooks/UseShortcutContext";
+import useShortcut from "../../hooks/UseShortcut";
+import useComponentTranslation from "../../hooks/useComponentTranslation";
 
 const logger = Log("FormAddExpense");
 
@@ -55,6 +55,8 @@ const FormAddExpense = () => {
   const validate = useCallback((values) => {
     logger.debug(`values : ${JSON.stringify(values)}`);
     const errors = {};
+    const categoryNames = categories.map((item) => item.name);
+    if (!categoryNames.includes(values.category)) values.category = undefined;
     if (!values.category) errors.category = i18n.t("lb_chooseOption");
     if (!values.description || values.description.trim().length <= 3) errors.description = i18n.t("lb_isRequiered", { name: "description" });
     if (!values.amount || +values.amount <= 0) errors.amount = i18n.t("lb_mustBeMoreThan", { value: 0 });

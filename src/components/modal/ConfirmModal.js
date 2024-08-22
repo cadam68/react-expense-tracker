@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styles from "./ConfirmModal.module.css";
-import Button from "./Button";
+import Button from "./../divers/Button";
 import PropTypes from "prop-types";
 
 const ConfirmModal = ({ isOpen, content, buttons, handleResponse, className }) => {

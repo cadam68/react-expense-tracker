@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { styleTable } from "./ExpensesPdfDocumentStyles";
 import S from "string";
 import { sprintf } from "sprintf-js";
-import { getLastExpenseDate } from "../services/Helper";
+import { getLastExpenseDate } from "../../services/Helper";
 
 // Create styles
 const styles = StyleSheet.create(styleTable);
@@ -38,8 +38,7 @@ const ExpensesPdfDocument = ({ categories, expenses }) => (
                 marginLeft: 12,
               }}
             >
-              - {S(category.name).capitalize().s} : {sprintf("%.2f", category.totalExpenses)}{" "}
-              {category.budget ? `/ ${sprintf("%.2f", category.budget)}` : ""} €
+              - {S(category.name).capitalize().s} : {sprintf("%.2f", category.totalExpenses)} {category.budget ? `/ ${sprintf("%.2f", category.budget)}` : ""} €
             </Text>
           ))}
         <Text
@@ -52,7 +51,7 @@ const ExpensesPdfDocument = ({ categories, expenses }) => (
           - Total :{" "}
           {sprintf(
             "%.2f €",
-            categories.reduce((acc, curr) => acc + curr.totalExpenses, 0),
+            categories.reduce((acc, curr) => acc + curr.totalExpenses, 0)
           )}
         </Text>
       </View>

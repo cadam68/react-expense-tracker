@@ -1,6 +1,6 @@
 import Category from "./Category";
 import PropTypes from "prop-types";
-import { useAppContext } from "../contexts/AppContext";
+import { useAppContext } from "../../contexts/AppContext";
 
 const CategoryList = ({ onSelection, onDelete, onUpdate, onExpenseDrop, selectedCategory }) => {
   const {
