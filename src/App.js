@@ -32,7 +32,7 @@ const App = () => {
     window.setLogLevel = setLogLevel;
     window.setLogOn = setLogOn;
     console.clear();
-    console.log("Thanks for using my webapp :)\n\nLooking for a Full Stack Developer ?\nFell free to contact me!\n\ncyril.adam@yahoo.fr");
+    console.log("Thanks for using my webapp :)\n\nLooking for a Full Stack Developer ?\nFell free to contact me!\n\ncyril.adam@in-line.fr");
 
     if (firstTime)
       (async () => {
