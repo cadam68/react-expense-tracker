@@ -1,6 +1,9 @@
 {
   "name": "section8-eat-n-split",
   "version": "0.1.0",
+  "engines": {
+    "node": "18.x"
+  },
   "private": true,
   "dependencies": {
     "@react-pdf/renderer": "^3.1.14",
