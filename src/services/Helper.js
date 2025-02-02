@@ -1,9 +1,9 @@
 import { Log } from "./LogService";
-import i18next from "i18next";
+import i18n from "i18next";
 import { settings } from "../Settings";
 
 export const t = (key, params) => {
-  return i18next.t(key, params);
+  return i18n.t(key, params);
 };
 
 export const handleFormikFieldChange = (formikProps, format = null, e) => {
@@ -39,7 +39,7 @@ export const handleFormikFieldChange = (formikProps, format = null, e) => {
       if (e.target.value === "" || (value >= minValue && value <= maxValue)) {
         formikProps.setFieldValue(e.target.name, e.target.value === "" ? "" : value, false);
         clearError(e.target.name);
-      } else formikProps.setFieldError(e.target.name, t("mustBeBetween", { min: minValue, max: maxValue }));
+      } else formikProps.setFieldError(e.target.name, t("lb_mustBeBetween", { min: minValue, max: maxValue }));
     }
   } else if (e.target.localName === "select") {
     formikProps.setFieldValue(e.target.name, value, false);

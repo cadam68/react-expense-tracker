@@ -38,6 +38,7 @@
     "validator": "^13.11.0"
   },
   "scripts": {
+    "start-local": "react-scripts start",
     "start": "serve -s build",
     "build": "react-scripts build",
     "heroku-postbuild": "npm run build"
