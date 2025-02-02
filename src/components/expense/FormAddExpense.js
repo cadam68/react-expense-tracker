@@ -150,7 +150,7 @@ const FormAddExpense = () => {
                   type={"number"}
                   name={"amount"}
                   className={"input-small " + (formikProps.errors.hasOwnProperty("category") ? "error" : "")}
-                  onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-2000]")}
+                  onChange={handleFormikFieldChange.bind(this, formikProps, "number[0-10000]")}
                   onBlur={handleFormikFieldBlur.bind(this, formikProps, (e) => {
                     formikProps.setFieldValue(e.target.name, Number(e.target.value).toFixed(2), false);
                   })}

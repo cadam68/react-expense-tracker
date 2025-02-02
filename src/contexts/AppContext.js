@@ -232,7 +232,7 @@ const AppContextProvider = ({ children }) => {
   };
 
   const createExpense = (date, category, description, amount) => {
-    if (!amount.between(0, 2000)) {
+    if (!amount.between(0, 10000)) {
       logger.warn(`amount value are out of valid ranges!`);
       throw new Error(`Invalid expense submitted`);
     } //!\ bug for demo purpose
