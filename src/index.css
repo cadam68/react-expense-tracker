@@ -158,6 +158,7 @@ a.button button {
   background-color: transparent;
   border: none;
   color: #343a40;
+  cursor: pointer;
 }
 
 .button-shadow {

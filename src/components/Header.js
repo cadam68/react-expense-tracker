@@ -18,6 +18,7 @@ import { settings } from "../Settings";
 import { useLocation, useNavigate } from "react-router-dom";
 import useShortcut from "../hooks/UseShortcut";
 import useComponentTranslation from "../hooks/useComponentTranslation";
+import CurrentExpensesPdfDocument from "./expense/CurrentExpensesPdfDocument";
 
 const logger = Log("Header");
 
@@ -211,10 +212,21 @@ const Header = ({ setSelectedCategory }) => {
         )}
       </p>
       <p>
+        {false && (
+          <Hover caption={t("caption_print")}>
+            <PDFDownloadLink
+              className={"button button-small"}
+              document={<ExpensesPdfDocument categories={categories} expenses={sortExpensesBy(expenses, "date-category")} />}
+              fileName={`expenses-${format(new Date(), "yyyyMMdd")}.pdf`}
+            >
+              {({ blob, url, loading, error }) => (loading ? t("text_loading") : <Button className={"button-small"}>{i18n.t("lb_Print")}</Button>)}
+            </PDFDownloadLink>
+          </Hover>
+        )}
         <Hover caption={t("caption_print")}>
           <PDFDownloadLink
             className={"button button-small"}
-            document={<ExpensesPdfDocument categories={categories} expenses={sortExpensesBy(expenses, "date-category")} />}
+            document={<CurrentExpensesPdfDocument categories={categories} expenses={expenses} />}
             fileName={`expenses-${format(new Date(), "yyyyMMdd")}.pdf`}
           >
             {({ blob, url, loading, error }) => (loading ? t("text_loading") : <Button className={"button-small"}>{i18n.t("lb_Print")}</Button>)}
